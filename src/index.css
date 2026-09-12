@@ -1,0 +1,74 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@theme {
+  --color-brand-primary: #166D3B;
+  --color-brand-accent: #7CBE4D;
+  --color-surface-light: #F5F5F5;
+  --color-text-main: #222222;
+  --color-bg-base: #FFFFFF;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ==========================================================================
+   Typography: Self-hosted Plus Jakarta Sans
+   Dilarang menggunakan Google Fonts CDN (menggunakan font lokal di /fonts/)
+   ========================================================================== */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/PlusJakartaSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/PlusJakartaSans-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/PlusJakartaSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/PlusJakartaSans-ExtraBold.ttf') format('truetype');
+}
+
+/* ==========================================================================
+   Global Smooth Scroll & Base Reset
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  background-color: #FFFFFF;
+  color: #222222;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: inherit;
+  color: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
