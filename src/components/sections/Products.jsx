@@ -5,7 +5,18 @@ import Button from '../ui/Button';
 import { PRODUCTS } from '../../constants/data';
 
 /**
+ * SB7 Element 5 — Products Catalog Section
+ * Fokus pada benefit bagi pelanggan, bukan sekadar fitur produk.
+ * Setiap kartu menampilkan: nama, deskripsi, benefit statement, dan CTA WhatsApp.
+ */
+
+/**
  * Ikon placeholder unik per produk
+ *
+ * 📸 CATATAN PLACEHOLDER:
+ * Ikon di bawah ini adalah pengganti sementara sebelum foto produk asli tersedia.
+ * Setiap kartu produk memiliki saran foto spesifik — lihat komentar di dalam masing-masing kartu.
+ * Setelah foto tersedia, simpan di folder /public/images/ dengan format .webp.
  */
 const productIcons = {
   'sabun-batang': Droplets,
@@ -14,10 +25,6 @@ const productIcons = {
   'pembersih-kamar-mandi': FlaskConical,
 };
 
-/**
- * Products Catalog Section — Gaya "Organic Warmth"
- * Card bertona krem hangat dengan bayangan berpendar brand-accent yang sangat lembut
- */
 export default function Products() {
   const handleOrderClick = (url) => {
     if (url) {
@@ -26,18 +33,20 @@ export default function Products() {
   };
 
   return (
-    <SectionWrapper id="produk" className="bg-[#FDFBF7]">
+    <SectionWrapper id="produk" className="bg-white">
       {/* Header Seksi */}
       <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-4">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-main tracking-tight">
-          Pilihan Pembersih Alami Anda
+          Pilih yang Paling{' '}
+          <span className="text-brand-primary">Kamu Butuhkan.</span>
         </h2>
         <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-          Dukung kemandirian ekonomi lokal dengan menggunakan produk ramah lingkungan untuk kebutuhan sehari-hari.
+          Setiap produk dibuat dengan satu tujuan: membuat rumahmu bersih
+          tanpa kamu harus khawatir.
         </p>
       </div>
 
-      {/* Grid Katalog Produk (1 col mobile, 2 col tablet, 4 col desktop) */}
+      {/* Grid Katalog Produk */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {PRODUCTS.map((product) => {
           const IconComponent = productIcons[product.id] || Droplets;
@@ -65,7 +74,20 @@ export default function Products() {
                     </div>
                   )}
 
-                  {/* Ikon Unik per Produk */}
+                  {/*
+                   * 📸 PLACEHOLDER FOTO — ganti <div> ikon di bawah ini dengan <img> saat foto tersedia.
+                   *
+                   * Saran foto per produk (semua: rasio 1:1, background putih/krem, min. 600×600px):
+                   *   sabun-batang        → 2–3 batang sabun di handuk linen, tampak busa tipis di tepi
+                   *   pembersih-lantai    → botol berdiri di lantai kayu/keramik mengkilap, latar tanaman hias
+                   *   pembersih-kaca      → botol spray dekat jendela, pantulan cahaya matahari pagi
+                   *   pembersih-kamar-mandi → botol di rak kamar mandi minimalis + spons/sikat kayu
+                   *
+                   * Contoh implementasi (ganti <div> ikon + <div> di bawah ini):
+                   *   <img src={`/images/${product.id}.webp`} alt={product.name} className="w-full h-full object-cover" />
+                   */}
+
+                  {/* Ikon Unik per Produk — hapus div ini saat foto sudah ada */}
                   <div className="w-20 h-20 rounded-2xl bg-white/80 border border-brand-accent/20 flex items-center justify-center text-brand-primary shadow-sm group-hover:scale-110 transition-transform duration-300">
                     <IconComponent className="w-10 h-10 text-brand-primary" />
                   </div>
@@ -78,6 +100,24 @@ export default function Products() {
                 <p className="text-sm text-gray-500 mt-1 leading-relaxed">
                   {product.description}
                 </p>
+
+                {/* Benefit Statement — fokus pada dampak ke pelanggan */}
+                {product.benefit && (
+                  <p className="text-xs text-brand-primary font-semibold mt-2 flex items-start gap-1">
+                    <span className="mt-0.5">✓</span>
+                    <span>{product.benefit}</span>
+                  </p>
+                )}
+
+                {/* Indikator Harga Terjangkau Komunitas */}
+                {product.price && (
+                  <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
+                    <span className="text-xs text-gray-500 font-medium">Harga Komunitas</span>
+                    <span className="text-sm sm:text-base font-extrabold text-brand-primary">
+                      {product.price}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Contextual WhatsApp Checkout Button */}

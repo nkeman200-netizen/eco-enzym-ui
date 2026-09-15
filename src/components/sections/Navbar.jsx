@@ -9,8 +9,9 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Beranda', href: '#hero' },
-    { name: 'Tentang', href: '#tentang' },
+    { name: 'Tentang Kami', href: '#tentang' },
     { name: 'Produk', href: '#produk' },
+    { name: 'Cara Pesan', href: '#cara-pesan' },
     { name: 'Kontak', href: '#kontak' },
   ];
 
@@ -21,10 +22,16 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-16 sm:h-20 flex items-center justify-between">
-        {/* Brand Logo */}
+        {/*
+         * 🏷️ BRAND LOGO:
+         * Saat logo resmi (.svg / .webp / .png) sudah siap:
+         * 1. Simpan file logo di: /public/logo.svg atau /public/logo.png
+         * 2. Ganti blok <div> berisi <Leaf /> di bawah dengan:
+         *    <img src="/logo.svg" alt="Logo Eco-Enzyme Jeruklegi" className="h-9 sm:h-10 w-auto object-contain" />
+         */}
         <a
           href="#hero"
-          className="flex items-center gap-2 group"
+          className="flex items-center gap-2.5 group"
           aria-label="Eco-Enzyme Beranda"
         >
           <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all duration-200">

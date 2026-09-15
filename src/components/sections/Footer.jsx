@@ -22,10 +22,11 @@ export default function Footer() {
         {/* Header Kontak */}
         <div className="space-y-4 mb-10">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-            Terhubung Bersama Kami
+            Ada Pertanyaan? Kami Siap Membantu.
           </h2>
           <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-2xl mx-auto">
-            Tertarik berkolaborasi, belajar membuat Eco-Enzyme, atau ingin melihat langsung riset ekonomi sirkular ini? Jangan ragu untuk menghubungi panitia pengabdian.
+            Ingin tahu lebih banyak tentang produk, cara pembuatan, atau peluang kolaborasi?
+            Jangan ragu untuk menghubungi kami.
           </p>
         </div>
 
