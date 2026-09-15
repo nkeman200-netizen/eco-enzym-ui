@@ -6,13 +6,18 @@
 - **Weights:** Regular (400), Medium (500), SemiBold (600), Bold (700), ExtraBold (800).
 
 ## 2. Color Palette (Semantic Configuration)
-AI Agent wajib mengonfigurasi `tailwind.config.js` dengan struktur semantic variabel berikut, BUKAN menggunakan hex mentah di dalam class HTML:
+Konfigurasi menggunakan `@theme` di `src/index.css` (Tailwind CSS v4) dengan semantic variables berikut:
 
-- `brand-primary`: `#166D3B` (Deep Forest Green - untuk tombol utama, header footer)
-- `brand-accent`: `#7CBE4D` (Vibrant Green - untuk badge, elemen dekoratif)
-- `surface-light`: `#F5F5F5` (Light Neutral - untuk background card, input area)
-- `text-main`: `#222222` (Dark Charcoal - untuk teks utama dan heading)
-- `bg-base`: `#FFFFFF` (Pure White - untuk background utama halaman)
+- `brand-primary`: `#166D3B` (Deep Forest Green - tombol utama, header dark, teks aksen kuat)
+- `brand-accent`: `#7CBE4D` (Vibrant Green - badge, ikon, border aksen)
+- `surface-light`: `#F5F5F5` (Light Neutral - latar tombol dan input sekunder)
+- `text-main`: `#222222` (Dark Charcoal - teks utama dan judul dengan kontras tinggi)
+- `bg-base`: `#FFFFFF` (Pure White - latar belakang seksi genap: Problem, Products, Testimonials)
+- `bg-warm`: `#FDFBF7` (Warm Organic Off-White - latar belakang seksi ganjil: Hero, About, Plan, SuccessVision untuk memberikan nuansa hangat alami dan menghilangkan kesan klinik dingin)
+
+### Aturan Aksesibilitas Kontras (WCAG AA):
+- Gunakan `brand-primary` (`#166D3B`) untuk teks di atas background terang (rasio kontras 5.9:1, lolos WCAG AA).
+- Hindari penggunaan `brand-accent` (`#7CBE4D`) untuk teks kecil berukuran < 18px di atas background putih karena rasio kontrasnya hanya 2.1:1. Gunakan warna ini khusus untuk ikon, background badge, atau border dekoratif.
 
 ## 3. UI Components & Shapes (Atomic Design)
 Sebelum membangun halaman, buat komponen reusable dasar ini di folder `src/components/ui/`:

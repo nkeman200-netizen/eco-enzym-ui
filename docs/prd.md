@@ -14,12 +14,19 @@
 - **Conversion:** Tingkat klik (Click-Through Rate) yang tinggi pada tombol "Pesan via WhatsApp" di setiap kartu produk.
 - **Performance:** Waktu muat halaman (LCP) di bawah 2.5 detik pada koneksi 3G/4G seluler (mewajibkan optimasi font lokal dan ukuran gambar).
 
-## 4. Functional Requirements (User Flow)
-- Pengguna mendarat di Hero Section dan melihat visi utama (solusi limbah).
-- Pengguna menggulir ke bawah membaca alur edukasi (3 langkah pengolahan).
-- Pengguna melihat katalog produk (Sabun Batang, Pembersih Lantai, dll).
-- Pengguna menekan tombol "Pesan via WhatsApp" pada produk spesifik.
-- Sistem membuka tab/aplikasi WhatsApp dengan pesan yang sudah diformat otomatis (Contextual Checkout).
+## 4. Functional Requirements (StoryBrand 7 User Flow)
+Halaman dirancang linear memandu psikologi pengguna melalui 10 seksi StoryBrand 7:
+1. **Hero**: Pengguna menangkap proposisi nilai ("Sisa dapur bisa jadi lebih") dan opsi CTA ganda (Direct WhatsApp & Transitional Masalah).
+2. **Problem**: Pengguna tervalidasi secara emosional melalui 3 lapis masalah (External, Internal guilt, Philosophical).
+3. **The Guide (About)**: Pengguna mengenal komunitas Jeruklegi sebagai pemandu ramah berbekal empati dan bukti pendampingan akademis/mutu higienis.
+4. **Products Catalog**: Pengguna melihat wujud produk solusi konkret lengkap dengan benefit statement dan transparansi *Harga Komunitas*.
+5. **The Plan**: Pengguna memahami betapa mudahnya transaksi melalui 3 langkah tanpa registrasi akun.
+6. **The Stakes**: Pengguna diingatkan urgensi menghindari kebiasaan lama (penumpukan limbah TPA & bahaya residu kimia).
+7. **Success Vision**: Pengguna memvisualisasikan kehidupan rumah tangga yang bersih alami dan aman.
+8. **Testimonials**: Pengguna melihat bukti sosial dan metrik dampak lingkungan nyata.
+9. **Final CTA**: Pengguna diajak mengambil komitmen akhir via WhatsApp.
+10. **Footer**: Pengguna dapat mengakses kontak resmi dan informasi tim pengabdian masyarakat.
+- **Contextual Checkout**: Sistem membuka WhatsApp dengan template pesan kontekstual otomatis saat tombol pesanan ditekan.
 
 ## 5. Non-Functional Requirements
 - **Styling:** Menggunakan Semantic Variables Tailwind yang sudah dikonfigurasi secara kustom (misal: `bg-brand-primary`, bukan `bg-green-700`).
