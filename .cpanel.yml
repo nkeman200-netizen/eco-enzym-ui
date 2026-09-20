@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/sanitas1/public_html/
+    - npm install
+    - npm run build
+    - /bin/cp -R dist/* $DEPLOYPATH
