@@ -1,0 +1,36 @@
+name: Deploy Frontend to cPanel (Push to Deploy)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cpanel-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to cPanel Remote via Password
+        env:
+          SSH_PASS: ${{ secrets.CPANEL_SSH_PASSWORD }}
+          CPANEL_REMOTE: "ssh://sanitas1@cipressa.id.rapidplex.com:64000/home/sanitas1/.local/apps/gitdeploy/repos/5da2fa5c.git"
+        run: |
+          # 1. Daftarkan host key server cPanel
+          mkdir -p ~/.ssh
+          ssh-keyscan -p 64000 -H cipressa.id.rapidplex.com >> ~/.ssh/known_hosts 2>/dev/null || true
+
+          # 2. Pasang utility sshpass
+          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
+
+          # 3. Paksa SSH langsung menggunakan autentikasi password
+          export GIT_SSH_COMMAND="sshpass -p '$SSH_PASS' ssh -p 64000 -o StrictHostKeyChecking=no -o PubkeyAuthentication=no"
+
+          # 4. Daftarkan remote cPanel dan dorong commit
+          git remote remove cpanel 2>/dev/null || true
+          git remote add cpanel "$CPANEL_REMOTE"
+          git push cpanel main --force
