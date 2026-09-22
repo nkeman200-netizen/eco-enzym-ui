@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Sesuaikan dengan versi Node.js yang Anda gunakan
+          node-version: '20' 
           cache: 'npm'
 
       - name: Install Dependencies
@@ -31,12 +31,12 @@ jobs:
       - name: Deploy to cPanel via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: "cipressa.id.rapidplex.com"
-          username: "sanitas1"
+          host: ${{ secrets.CPANEL_SSH_HOST }}
+          username: ${{ secrets.CPANEL_SSH_USER }}
           password: ${{ secrets.CPANEL_SSH_PASSWORD }}
-          port: 64000
+          port: ${{ secrets.CPANEL_SSH_PORT }}
           source: "dist/"
-          target: "/home/sanitas1/public_html"
+          target: ${{ secrets.CPANEL_TARGET_PATH }}
           strip_components: 1
           
       - name: Deployment Success
