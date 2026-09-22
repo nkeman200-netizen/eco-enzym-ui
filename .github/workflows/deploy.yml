@@ -1,4 +1,4 @@
-name: Deploy Frontend to cPanel (Push to Deploy)
+name: Deploy Frontend to cPanel (Build & Transfer)
 
 on:
   push:
@@ -6,31 +6,41 @@ on:
       - main
 
 jobs:
-  cpanel-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Push to cPanel Remote via Password
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Sesuaikan dengan versi Node.js yang Anda gunakan
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci || npm install
+
+      - name: Build Project
+        run: npm run build
+        # Jika besok butuh VITE_API_URL, bisa ditambahkan di sini:
+        # env:
+        #   VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
+      - name: Deploy to cPanel via SSH/Rsync
         env:
           SSH_PASS: ${{ secrets.CPANEL_SSH_PASSWORD }}
-          CPANEL_REMOTE: "ssh://sanitas1@cipressa.id.rapidplex.com:64000/home/sanitas1/.local/apps/gitdeploy/repos/5da2fa5c.git"
+          SSH_HOST: "cipressa.id.rapidplex.com"
+          SSH_PORT: "64000"
+          SSH_USER: "sanitas1"
+          TARGET_DIR: "/home/sanitas1/public_html"
         run: |
-          # 1. Daftarkan host key server cPanel
-          mkdir -p ~/.ssh
-          ssh-keyscan -p 64000 -H cipressa.id.rapidplex.com >> ~/.ssh/known_hosts 2>/dev/null || true
+          # 1. Pasang utility sshpass & rsync di GitHub Runner
+          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass rsync
 
-          # 2. Pasang utility sshpass
-          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
-
-          # 3. Paksa SSH langsung menggunakan autentikasi password
-          export GIT_SSH_COMMAND="sshpass -p '$SSH_PASS' ssh -p 64000 -o StrictHostKeyChecking=no -o PubkeyAuthentication=no"
-
-          # 4. Daftarkan remote cPanel dan dorong commit
-          git remote remove cpanel 2>/dev/null || true
-          git remote add cpanel "$CPANEL_REMOTE"
-          git push cpanel main --force
+          # 2. Transfer isi folder dist ke public_html menggunakan rsync
+          # Catatan: Kita TIDAK menggunakan bendera --delete agar folder /backend tidak ikut terhapus
+          sshpass -p "$SSH_PASS" rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" ./dist/ ${SSH_USER}@${SSH_HOST}:${TARGET_DIR}/
+          
+          echo "Deployment Frontend Berhasil!"
