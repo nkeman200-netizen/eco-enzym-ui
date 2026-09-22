@@ -28,19 +28,16 @@ jobs:
         # env:
         #   VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      - name: Deploy to cPanel via SSH/Rsync
-        env:
-          SSH_PASS: ${{ secrets.CPANEL_SSH_PASSWORD }}
-          SSH_HOST: "cipressa.id.rapidplex.com"
-          SSH_PORT: "64000"
-          SSH_USER: "sanitas1"
-          TARGET_DIR: "/home/sanitas1/public_html"
-        run: |
-          # 1. Pasang utility sshpass & rsync di GitHub Runner
-          sudo apt-get update -qq && sudo apt-get install -y -qq sshpass rsync
-
-          # 2. Transfer isi folder dist ke public_html menggunakan rsync
-          # Catatan: Kita TIDAK menggunakan bendera --delete agar folder /backend tidak ikut terhapus
-          sshpass -p "$SSH_PASS" rsync -avz -e "ssh -p $SSH_PORT -o StrictHostKeyChecking=no" ./dist/ ${SSH_USER}@${SSH_HOST}:${TARGET_DIR}/
+      - name: Deploy to cPanel via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: "cipressa.id.rapidplex.com"
+          username: "sanitas1"
+          password: ${{ secrets.CPANEL_SSH_PASSWORD }}
+          port: 64000
+          source: "dist/"
+          target: "/home/sanitas1/public_html"
+          strip_components: 1
           
-          echo "Deployment Frontend Berhasil!"
+      - name: Deployment Success
+        run: echo "Deployment Frontend Berhasil!"
