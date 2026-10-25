@@ -1,7 +1,8 @@
-import React from 'react';
-import { MessageCircle, Droplets, Wind, Sparkles, FlaskConical } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Droplets, Wind, Sparkles, FlaskConical, ChevronLeft, ChevronRight } from 'lucide-react';
 import SectionWrapper from '../ui/SectionWrapper';
-import Button from '../ui/Button';
+import ProductCard from '../ui/ProductCard';
+import ProductDetailModal from '../ui/ProductDetailModal';
 import { PRODUCTS } from '../../constants/data';
 
 /**
@@ -26,116 +27,104 @@ const productIcons = {
 };
 
 export default function Products() {
-  const handleOrderClick = (url) => {
-    if (url) {
-      window.open(url, '_blank', 'noopener,noreferrer');
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const scrollRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    return () => window.removeEventListener('resize', checkScroll);
+  }, []);
+
+  const handleScrollPrev = () => {
+    if (scrollRef.current) {
+      const cardWidth = scrollRef.current.firstElementChild?.clientWidth || 280;
+      scrollRef.current.scrollBy({ left: -(cardWidth + 24), behavior: 'smooth' });
+    }
+  };
+
+  const handleScrollNext = () => {
+    if (scrollRef.current) {
+      const cardWidth = scrollRef.current.firstElementChild?.clientWidth || 280;
+      scrollRef.current.scrollBy({ left: cardWidth + 24, behavior: 'smooth' });
     }
   };
 
   return (
     <SectionWrapper id="produk" className="bg-white">
-      {/* Header Seksi */}
-      <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 space-y-4">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-main tracking-tight">
-          Pilih yang Paling{' '}
-          <span className="text-brand-primary">Kamu Butuhkan.</span>
-        </h2>
-        <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-          Setiap produk dibuat dengan satu tujuan: membuat rumahmu bersih
-          tanpa kamu harus khawatir.
-        </p>
+      {/* Header Seksi dengan Navigasi Desktop Terintegrasi */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-12 gap-4">
+        <div className="max-w-2xl space-y-2">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-main tracking-tight">
+            Pilih yang Paling{' '}
+            <span className="text-brand-primary">Kamu Butuhkan.</span>
+          </h2>
+          <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+            Setiap produk dibuat dengan satu tujuan: membuat rumahmu bersih
+            tanpa kamu harus khawatir.
+          </p>
+        </div>
+
+        {/* Tombol Panah Navigasi Desktop (Hanya muncul jika item melebihi tampilan layar) */}
+        <div className="hidden sm:flex items-center gap-2 flex-shrink-0">
+          <button
+            type="button"
+            onClick={handleScrollPrev}
+            disabled={!canScrollLeft}
+            aria-label="Geser ke produk sebelumnya"
+            className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer hover:border-brand-primary/40 active:scale-95"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            onClick={handleScrollNext}
+            disabled={!canScrollRight}
+            aria-label="Geser ke produk berikutnya"
+            className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer hover:border-brand-primary/40 active:scale-95"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
       </div>
 
-      {/* Grid Katalog Produk */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {PRODUCTS.map((product) => {
-          const IconComponent = productIcons[product.id] || Droplets;
-
-          return (
-            <div
-              key={product.id}
-              className="bg-[#FDFBF7] rounded-3xl border border-brand-accent/20 p-5 sm:p-6 flex flex-col justify-between group
-                         shadow-[0_4px_20px_-4px_rgba(124,190,77,0.15)]
-                         hover:shadow-[0_8px_32px_-4px_rgba(124,190,77,0.28)]
-                         hover:-translate-y-1 transition-all duration-300"
-            >
-              <div>
-                {/* Placeholder Gambar Produk */}
-                <div className="w-full aspect-square rounded-2xl overflow-hidden relative flex flex-col items-center justify-center p-4
-                                bg-gradient-to-br from-brand-accent/10 to-[#F5F0E8]
-                                border border-brand-accent/15
-                                group-hover:from-brand-accent/15 group-hover:to-[#EDE8DC] transition-all duration-300">
-
-                  {/* Badge Produk */}
-                  {product.badge && (
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 text-[11px] font-semibold text-brand-primary border border-brand-accent/20 shadow-xs flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-brand-accent" />
-                      <span>{product.badge}</span>
-                    </div>
-                  )}
-
-                  {/*
-                   * 📸 PLACEHOLDER FOTO — ganti <div> ikon di bawah ini dengan <img> saat foto tersedia.
-                   *
-                   * Saran foto per produk (semua: rasio 1:1, background putih/krem, min. 600×600px):
-                   *   sabun-batang        → 2–3 batang sabun di handuk linen, tampak busa tipis di tepi
-                   *   pembersih-lantai    → botol berdiri di lantai kayu/keramik mengkilap, latar tanaman hias
-                   *   pembersih-kaca      → botol spray dekat jendela, pantulan cahaya matahari pagi
-                   *   pembersih-kamar-mandi → botol di rak kamar mandi minimalis + spons/sikat kayu
-                   *
-                   * Contoh implementasi (ganti <div> ikon + <div> di bawah ini):
-                   *   <img src={`/images/${product.id}.webp`} alt={product.name} className="w-full h-full object-cover" />
-                   */}
-
-                  {/* Ikon Unik per Produk — hapus div ini saat foto sudah ada */}
-                  <div className="w-20 h-20 rounded-2xl bg-white/80 border border-brand-accent/20 flex items-center justify-center text-brand-primary shadow-sm group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-10 h-10 text-brand-primary" />
-                  </div>
-                </div>
-
-                {/* Detail Produk */}
-                <h3 className="text-lg sm:text-xl font-bold text-text-main mt-4 tracking-tight">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-gray-500 mt-1 leading-relaxed">
-                  {product.description}
-                </p>
-
-                {/* Benefit Statement — fokus pada dampak ke pelanggan */}
-                {product.benefit && (
-                  <p className="text-xs text-brand-primary font-semibold mt-2 flex items-start gap-1">
-                    <span className="mt-0.5">✓</span>
-                    <span>{product.benefit}</span>
-                  </p>
-                )}
-
-                {/* Indikator Harga Terjangkau Komunitas */}
-                {product.price && (
-                  <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                    <span className="text-xs text-gray-500 font-medium">Harga Komunitas</span>
-                    <span className="text-sm sm:text-base font-extrabold text-brand-primary">
-                      {product.price}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Contextual WhatsApp Checkout Button */}
-              <div className="pt-5">
-                <Button
-                  variant="outline"
-                  onClick={() => handleOrderClick(product.whatsappUrl)}
-                  className="w-full text-sm font-semibold py-3 gap-2 border-brand-primary/60 hover:border-brand-primary"
-                  aria-label={`Pesan ${product.name} via WhatsApp`}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Pesan via WhatsApp</span>
-                </Button>
-              </div>
-            </div>
-          );
-        })}
+      {/* Carousel Track Horizontal: Mobile Peek Effect & Native CSS Scroll-Snap */}
+      <div
+        ref={scrollRef}
+        onScroll={checkScroll}
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-4 sm:gap-6 -mx-4 px-4 sm:mx-0 sm:px-0 py-3 scroll-smooth"
+      >
+        {PRODUCTS.map((product) => (
+          <div
+            key={product.id}
+            className="w-[78vw] sm:w-[280px] lg:w-[calc(25%-18px)] flex-shrink-0 snap-start"
+          >
+            <ProductCard
+              product={product}
+              fallbackIcon={productIcons[product.id] || Droplets}
+              onSelect={(prod) => setSelectedProduct(prod)}
+            />
+          </div>
+        ))}
       </div>
+
+      {/* Product Detail Modal Dialog */}
+      {selectedProduct && (
+        <ProductDetailModal
+          key={selectedProduct.id}
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </SectionWrapper>
   );
 }
