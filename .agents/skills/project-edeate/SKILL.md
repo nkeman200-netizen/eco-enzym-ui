@@ -2,8 +2,9 @@
 name: project-edeate
 description: >-
   Alat awal (Gerbang Hulu) untuk memecah ide/Epik di Roadmap menjadi spesifikasi tiket arsitektur Level 3 (GitHub Issue) yang siap dikerjakan di Gerbang Hilir.
-forge_version: "1.3.3"
+forge_version: "1.3.4"
 forged_at: "2026-10-25"
+updated_at: "2026-10-26"
 project_name: "Eco-Enzyme Jeruklegi Landing Page"
 ---
 # SOP IDEASI & PENEMUAN TIKET (`/edeate`)
@@ -81,25 +82,36 @@ Sebelum menjalankan `/edeate`, AI dan developer harus memahami target kematangan
 
 > 🚨 **PROTOKOL PEDAGOGI, ITERASI & INTEGRITAS GERBANG WAJIB:** 
 > - **Filosofi Kakak Tingkat & Edukasi Trade-Off (The Gentle Mentor Protocol):** AI BUKAN dosen penguji sidang yang menginterogasi, melainkan Kakak Senior / Lead Architect yang ramah. Setiap kali membahas topik teknis atau bisnis di Fase 1–3, AI **WAJIB MENGAJARKAN TIMBANGAN KONSEKUENSI (Trade-Off)**: tidak ada solusi sempurna tanpa kekurangan. Tunjukkan keuntungan vs "harga" yang harus dibayar, berikan rekomendasi terbaik beserta alasannya, dan sediakan *Safe Harbor* (hak pasrah "ikut saranmu" jika developer pemula masih ragu).
-> - **Anti-Strawman & Spektrum Pilihan Sah:** DILARANG KERAS menyajikan pilihan biner sempit (hanya Opsi A vs Opsi B) dan DILARANG KERAS membuat opsi boneka jerami (*strawman*) yang sengaja dibuat cacat. AI WAJIB menyajikan spektrum solusi arsitektur minimal 3 opsi yang **beragam dan relevan** dengan konteks masalah (misal: *In-Memory Batching vs Raw SQL vs Queue Job*). DILARANG memaksakan opsi ke dalam kategori kaku (seperti harus selalu ada opsi "Native" atau "High-Scale") jika memang tidak cocok dengan esensi masalah.
+> - **Anti-Strawman & Spektrum Pilihan Sah (2–3 Opsi Kontekstual):** AI menyajikan spektrum **2 hingga 3 opsi arsitektur yang sah (*legitimate*) dan relevan** dengan konteks masalah (misal: *In-Memory Batching vs Raw SQL vs Queue Job*). DILARANG KERAS membuat opsi boneka jerami (*strawman*) yang sengaja dibuat cacat hanya demi memenangkan rekomendasi AI. **Anti-Dogma Angka 3:** Jika masalah arsitektur secara alami bersifat dikotomi/pilihan biner industri yang kokoh (misal: *Client State vs URL Search Params*, atau *Standard Modal vs Dedicated Route*), AI **DILARANG KERAS** memaksakan mengarang opsi ke-3 yang artifisial, cacat, atau berlebihan (*over-engineered*) hanya demi memenuhi kuota angka.
 > - **Pacing Absolut 1 Isu Per Giliran & Protokol 2-Ketukan:** AI **DILARANG KERAS** memberondong beberapa nomor/pertanyaan sekaligus dalam satu respons. Bahas HANYA 1 topik per giliran. Jika developer bertanya penjelasan konsep teknis (misal: "Jelaskan Zod"), patuhi **Protokol 2-Ketukan**: maksimal 2 paragraf konsep santai + 1 analogi, lalu berhenti dan tanyakan apakah ingin melihat kodenya (DILARANG melempar wall-of-text atau kode masif sebelum diizinkan).
 > - **Hukum 1 Sesi = Tepat 1 Atomic Ticket Level 3:** AI **DILARANG KERAS** mencetak atau mematangkan lebih dari 1 tiket Level 3 dalam satu sesi `/edeate`. Jika ide yang dibawa developer adalah sebuah Epik besar, AI bertugas memetakan dekomposisi daftarnya, lalu menyepakati **HANYA SATU TIKET PRIORITAS** yang dituntaskan hingga Level 3 dalam sesi ini. Tiket lainnya tetap berada di backlog/roadmap untuk sesi `/edeate` berikutnya.
 > - **Gate Review Wajib Sebelum Tiket Dicetak:** Di akhir ideasi, AI **DILARANG LANGSUNG** mencetak tiket Level 3. AI **WAJIB** menjabarkan Rangkuman Konsensus Arsitektur & Scope Plan terlebih dahulu di Fase 4, lalu meminta ACC dari Tech Lead di Fase 5. Tiket Level 3 HANYA boleh dicetak setelah mendapatkan ACC resmi.
-> - **Larangan Mutlak Eksekusi Kode di Hulu (Gateway 1 is Code-Free):** AI **DIHARAMKAN KERAS** menulis kode produksi, membuat file skema/migrasi, atau menawarkan pembuatan Pull Request otomatis di dalam sesi `/edeate`. Output `/edeate` murni berupa spesifikasi tiket GitHub Issue. Seluruh eksekusi implementasi WAJIB menyeberang ke Gateway 2 melalui perintah `/grill-me`.
+> - **Hukum Anti-Implementasi Prematur (Code-Free Zone di Hulu):** Yang **DIHARAMKAN** di Hulu adalah menulis kode logika implementasi produksi, membuat skema migrasi penuh, memodifikasi file repositori, atau menawarkan pembuatan Pull Request otomatis di dalam sesi `/edeate`. Output `/edeate` murni berupa spesifikasi tiket GitHub Issue. Menyebutkan nama berkas konfigurasi fisik (seperti `astro.config.mjs`, `tailwind.config.ts`, `tsconfig.json`), paket dependensi, dan mekanik runtime secara eksplisit **DIIZINKAN dan DIWAJIBKAN** jika berkas tersebut adalah subjek arsitektural yang sedang dibahas. Seluruh eksekusi implementasi WAJIB menyeberang ke Gateway 2 melalui perintah `/grill-me`.
 > - **Larangan Mutlak Perintah Git di Sandbox Hulu (Git-Free Zone):** AI **DIHARAMKAN KERAS** mencetak perintah git (`git checkout`, `git pull`, `git checkout -b`) atau meminta nomor issue di dalam sesi `/edeate`. Sesi `/edeate` adalah *sandbox* ideasi murni yang bebas dari manipulasi git. Refleks pembuatan branch Git hanya berlaku di pintu masuk `/grill-me` dan `/debug`.
 
 ### FASE 0 — Penerimaan, Klasifikasi, & Orientasi Sesi
 
 Ketika developer mengetik `/edeate [deskripsi ide]`, AI **WAJIB** melakukan hal berikut **sebelum** mengajukan pertanyaan apa pun:
 
-**Langkah 0.1 — Klasifikasi Tiket Otomatis:**
-AI mengidentifikasi tipe tiket dan estimasi kompleksitas awal:
-- *"sync", "CSV", "import", "sinkronisasi"* → Tipe: **[FEAT] External I/O**
-- *"layout", "navbar", "footer", "arsitektur", "fondasi"* → Tipe: **[ARCH] System Foundation**
-- *"bug", "error", "gagal", "salah"* → Tipe: **[FIX]**
-- *"refactor", "standarisasi", "pisah", "bersihkan"* → Tipe: **[REFACTOR]**
-- *"test", "coverage", "uji"* → Tipe: **[TEST]**
+**Langkah 0.1 — Klasifikasi Tiket Otomatis & Dual-Track Routing:**
+AI mengidentifikasi tipe tiket, estimasi kompleksitas awal, dan menetapkan jalur pipeline:
+- *"sync", "CSV", "import", "sinkronisasi"* → Tipe: **[FEAT] External I/O** (Track A)
+- *"halaman", "tampilan", "form", "katalog", "modal", "ui"* → Tipe: **[FEAT] User-Facing UI** (Track A)
+- *"layout", "navbar", "footer", "arsitektur", "fondasi"* → Tipe: **[ARCH] System Foundation** (Track B)
+- *"bundler", "astro", "tailwind", "vite", "build", "config", "toolchain"* → Tipe: **[ARCH] Toolchain & Runtime** (Track B)
+- *"bug", "error", "gagal", "salah"* → Tipe: **[FIX]** (Track A jika menyangkut UI/alur bisnis, Track B jika bug internal/infrastruktur)
+- *"refactor", "standarisasi", "pisah", "bersihkan"* → Tipe: **[REFACTOR]** (Track B)
+- *"test", "coverage", "uji"* → Tipe: **[TEST]** (Track B)
 - *Estimasi Kompleksitas Awal:* **S** (< 3 berkas), **M** (3–6 berkas), **L** (> 6 berkas / modul baru), **XL** (fondasi multi-modul).
+
+#### 🔀 DUAL-TRACK ROUTING PIPELINE:
+- 🟢 **TRACK A — USER-FACING FEATURE (`[FEAT]`):**
+  Tiket yang berinteraksi langsung dengan pengguna/aktor manusia (mahasiswa, pengurus ormawa, pengunjung publik). Menjalani alur penuh: Fase 1 (Socratic Bisnis), Fase 2 (Arsitektur & Integrasi), Fase 3 (Keamanan & Invariant), Fase 4 (Plan), Fase 5 (Review Gate), Fase 6 (Tiket).
+- ⚡ **TRACK B — FOUNDATION & INFRASTRUCTURE (`[ARCH]` / `[REFACTOR]` / `[INFRA]` / `[TEST]`):**
+  Tiket pondasi teknis, migrasi bundler/framework, konfigurasi toolchain, refactoring internal, atau testing pipeline.
+  * **Hukum Anti-Kamuflase (No Fictional Personas):** DILARANG KERAS mengarang persona pengguna fiktif, analogi dongeng, atau cerita ormawa palsu untuk konsep mekanik runtime (seperti *bundling, hydration islands, memory allocation, compiler pipeline*).
+  * **NFR Fast-Track (Tepat 1 Ketukan):** Fase 1 diringkas menjadi 1 ketukan konfirmasi **Non-Functional Requirements (NFR)**: Target Performa Objektif (Lighthouse/CWV, runtime JS size), Batasan Kompatibilitas (komponen/dependensi lama wajib jalan), dan Dampak DX/Toolchain (build time, linter).
+  * **Topic Collapsing:** DILARANG memaksakan 3–4 sub-topik jika esensi NFR hanya 1 topik terarah. Begitu NFR dikonfirmasi developer, sesi **LANGSUNG MELOMPAT** ke Fase 2 (Arsitektur & Integrasi).
 
 **Langkah 0.2 — Pre-Flight Codebase & Roadmap Audit (WAJIB, Sebelum Giliran Pertanyaan):**
 AI **WAJIB** secara fisik memanggil tool eksplorasi (`view_file`, `search_files`, atau tool LSP) ke repositori terlebih dahulu:
@@ -133,23 +145,35 @@ Sebelum melangkah ke giliran wawancara pertama (Fase 1), AI **WAJIB** menyajikan
 * **Where We Are (Kilas Balik):** Berpijak pada Roadmap Induk `DEVELOPMENT_ROADMAP.md` di Epik [X] ([Nama Epik]), sub-poin `[Nama Sub-poin]`.
 * **The 'Why' & Deliverable:** Ideasi hulu (`/edeate`) bertujuan mematangkan ide kasar menjadi **1 Tiket GitHub Issue Level 3 (Ready for Dev)** yang memiliki batasan scope tegas, kontrak arsitektur kokoh, dan Invariant teruji agar eksekusi di `/grill-me` berjalan mulus tanpa re-work.
 * **Peta Agenda 5 Langkah (The Macro-Roadmap):**
-  - 📍 **Langkah 1 (Saat ini):** Pilar Bisnis & Kebutuhan Pengguna
-  - ⏳ **Langkah 2:** Pilar Integrasi & Arsitektur Teknis
-  - ⏳ **Langkah 3:** Pilar Keamanan & Invariant
-  - ⏳ **Langkah 4:** Rangkuman Konsensus Arsitektur & Scope Plan
-  - ⏳ **Langkah 5:** Penerbitan Draf Tiket Level 3 & Pembuatan GitHub Issue via MCP.
+  *(Disesuaikan otomatis berdasarkan Jalur Tiket):*
+  - **Jika Track A ([FEAT]):**
+    - 📍 **Langkah 1 (Saat ini):** Pilar Bisnis & Kebutuhan Pengguna (Alur kerja, persona, MVP).
+    - ⏳ **Langkah 2:** Pilar Integrasi & Arsitektur Teknis (Komponen, modul, data).
+    - ⏳ **Langkah 3:** Pilar Keamanan & Invariant (Proteksi, boundary, invariant).
+    - ⏳ **Langkah 4:** Rangkuman Konsensus Arsitektur & Scope Plan.
+    - ⏳ **Langkah 5:** Penerbitan Draf Tiket Level 3 & Pembuatan GitHub Issue via MCP.
+  - **Jika Track B ([ARCH] / [REFACTOR] / [INFRA] / [TEST]):**
+    - 📍 **Langkah 1 (Saat ini):** Penguncian Sasaran NFR & Batasan Kompatibilitas (1 Ketukan).
+    - ⏳ **Langkah 2:** Pilar Integrasi & Arsitektur Toolchain/Runtime.
+    - ⏳ **Langkah 3:** Pilar Invariant & Regression Protection.
+    - ⏳ **Langkah 4:** Rangkuman Konsensus Arsitektur & Scope Plan.
+    - ⏳ **Langkah 5:** Penerbitan Draf Tiket Level 3 & Pembuatan GitHub Issue via MCP.
 
 ---
 
-## 🏛️ FASE 1: PILAR BISNIS (The Business Grill)
-*(Murni Kebutuhan Pengguna & Organisasi — Bebas dari Sintaks/Folder Kode)*
+## 🏛️ FASE 1: PILAR BISNIS / PENGUNCIAN SASARAN NFR (The Problem & Requirements Grill)
+*(Track A: Kebutuhan Pengguna & Organisasi | Track B: Target NFR & Kompatibilitas Toolchain)*
 
 ### 🗺️ Peta Topik Fase 1 (In-Phase Mini-Roadmap Dinamis)
-*(AI merumuskan secara dinamis sejumlah topik terarah yang relevan dengan konteks dan kompleksitas tiket, bernomor 1.1, 1.2, dst. DILARANG meng-hardcode atau memaksakan 4 topik jika masalahnya sederhana, dan jangan batasi jika fiturnya membutuhkan eksplorasi lebih)*
-Di Fase 1 ini, kita akan membedah kebutuhan bisnis melalui [X] topik terarah:
-* 📌 **Topik 1.1:** [Nama Topik Relevan 1, misal: Akar Masalah & Dinamika Alur Kerja] — [Deskripsi ringkas fokus bahasan]
-* 📌 **Topik 1.2:** [Nama Topik Relevan 2, misal: Identifikasi Aktor & Hak Akses] — [Deskripsi ringkas fokus bahasan]
-* 📌 **Topik 1.[X]:** [Nama Topik Relevan berikutnya sesuai kebutuhan kontekstual tiket...]
+*(AI merumuskan secara dinamis topik terarah yang relevan. Pada Track B atau fitur kecil, cukup 1 topik terarah—DILARANG memaksakan 3-4 topik):*
+- **Untuk Track A ([FEAT]):**
+  Di Fase 1 ini, kita membedah kebutuhan bisnis melalui [X] topik terarah:
+  * 📌 **Topik 1.1:** [Nama Topik Relevan 1, misal: Akar Masalah & Dinamika Alur Kerja] — [Deskripsi ringkas fokus bahasan]
+  * 📌 **Topik 1.2:** [Nama Topik Relevan 2, misal: Identifikasi Aktor & Hak Akses] — [Deskripsi ringkas fokus bahasan]
+  * 📌 **Topik 1.[X]:** [Nama Topik Relevan berikutnya jika diperlukan...]
+- **Untuk Track B ([ARCH] / [REFACTOR] / [INFRA]):**
+  Di Fase 1 ini, kita mengunci sasaran non-fungsional melalui 1 topik terpadu:
+  * 📌 **Topik 1.1 (NFR Fast-Track):** Penguncian Target Objektif & Batasan Kompatibilitas Toolchain.
 
 ---
 
@@ -161,21 +185,30 @@ Apakah kamu siap kita mulai bedah dari **Topik 1.1**?
 
 ---
 
-### 🎙️ FORMULA A: WAWANCARA SOCRATIC PILAR BISNIS (Khusus Fase 1 — Business Elicitation)
+### 🎙️ FORMULA A: WAWANCARA PILAR BISNIS & SASARAN NFR (Khusus Fase 1)
 
-> 🚨 **HUKUM ANTI-SOLUSI PREMATUR (Code/Folder-Free Zone di Fase 1):**
-> AI **DIHARAMKAN KERAS** mendiskusikan struktur folder fisik (seperti folder `(public)` vs Root Layout di Next.js), nama file teknis, sintaks framework, atau opsi arsitektur kode di Fase 1! 
-> Fase 1 adalah ruang dengar untuk memahami kebutuhan organisasi ormawa dan pengguna nyata.
+> 🚨 **HUKUM SEGREGASI JALUR (Track-Aware Elicitation):**
+> - **Pada Track A ([FEAT]):** AI **DIHARAMKAN KERAS** mendiskusikan struktur folder fisik (seperti folder `(public)` vs Root Layout di Next.js), nama file teknis, sintaks framework, atau opsi arsitektur kode. Fase 1 adalah ruang dengar untuk memahami kebutuhan nyata pengguna dan organisasi.
+> - **Pada Track B ([ARCH] / [REFACTOR] / [INFRA]):** AI **DIHARAMKAN KERAS** mengarang cerita dongeng pengguna atau analogi ormawa palsu untuk hal-hal mekanik runtime (bundling, hydration, compiler). Gunakan **Formula Fast-Track NFR** di bawah.
 
-Di giliran wawancara pada Fase 1, AI **WAJIB** merender pesannya menggunakan struktur 3 langkah ini:
-
+**Alur Formula A — Varian Track A (User-Facing Feature):**
 1. **Analogi & Konteks Masalah Lapangan:** Jelaskan inti kebutuhan dengan bahasa santai dan perumpamaan dunia nyata/kampus agar developer merasakan urgensinya bagi organisasi.
 2. **Pertanyaan Pemantik Fokus (Maksimal 1–2 Pertanyaan Tajam per Respons):**
    - DILARANG melakukan *question bombing* (memberondong banyak pertanyaan besar sekaligus).
    - Tanyakan secara spesifik kebutuhan riil: *Pain point* yang dialami, siapa aktor yang berinteraksi, daftar elemen/menu wajib untuk MVP, atau apa indikator suksesnya bagi organisasi.
 3. **Pacing Absolut & Jaring Pengaman (Safe Harbor):**
-   AI **BERHENTI TOTAL** dan menunggu jawaban developer. Sertakan jaring pengaman ramah:
+   AI **BERHENTI TOTAL** dan menunggu jawaban developer:
    > *"Ceritakan saja poin-poin yang kamu bayangkan secara santai. Kalau ada bagian yang belum kamu tahu, ketik saja **'Bantu rekomendasikan'**, nanti kita diskusikan bersama!"*
+
+**Alur Formula A — Varian Track B (NFR Fast-Track — Tepat 1 Ketukan):**
+1. **Pernyataan Sasaran Objektif (The NFR Pitch):** Sajikan ringkasan objektif tanpa kamuflase:
+   - Target Kinerja: Skor Lighthouse, Core Web Vitals, eliminasi runtime JavaScript, batas ukuran bundle.
+   - Batasan Kompatibilitas: Modul/komponen eksisting yang wajib tetap jalan tanpa refactoring berlebihan.
+   - Dampak Toolchain/DX: Waktu build, stabilitas linter/formatter, kemudahan setup lokal.
+2. **Konfirmasi Penguncian (1-Beat Stop):**
+   AI **BERHENTI TOTAL** dan mengajukan konfirmasi:
+   > *"Untuk tiket fondasi/toolchain ini, apakah target performa dan batasan kompatibilitas di atas sudah sesuai dengan ekspektasi arsitektur kita, atau ada target teknis lain yang ingin kamu kunci sebelum kita masuk ke Fase 2 (Pilihan Arsitektur & Integrasi)?"*
+3. **Langsung Menyeberang ke Fase 2:** Setelah developer mengonfirmasi ("setuju/pas/lanjut"), AI **DILARANG** memperpanjang Fase 1 dan langsung menyajikan orientasi Fase 2.
 
 ---
 
@@ -185,7 +218,8 @@ Setelah kebutuhan bisnis di Fase 1 terkunci, barulah di Fase 2 dan 3 AI bertinda
 
 1. **Analogi & Makna bagi Entitas Sistem:** Jelaskan pilihan arsitektur dengan perumpamaan dunia nyata yang berfokus pada kestabilan dan kemudahan pemeliharaan jangka panjang.
 2. **⚖️ Spektrum Opsi Arsitektur Responsif (Format Kartu Vertikal & Anti-Strawman):**
-   - AI **WAJIB** menyajikan spektrum solusi arsitektur minimal 3 opsi yang **beragam dan relevan** dengan konteks masalah (misal: *Next.js Route Groups vs Single Root Layout vs Component Composition*, atau *In-Memory Batching vs Raw SQL vs Queue Job*). DILARANG memaksakan opsi kaku jika tidak nyambung dengan masalah.
+   - AI menyajikan spektrum solusi arsitektur **2 hingga 3 opsi** yang **beragam, sah (*legitimate*), dan relevan** dengan konteks masalah (misal: *Astro Islands Client-Visible vs Client-Load*, atau *In-Memory Batching vs Raw SQL vs Queue Job*). DILARANG memaksakan opsi kaku jika tidak nyambung dengan masalah.
+   - **Anti-Dogma Angka 3 & Anti-Strawman:** Jika masalah arsitektur secara alami bersifat dikotomi/pilihan biner industri yang kokoh (misal: *Client State vs URL Search Params*, atau *Standard Modal vs Dedicated Route*), AI **DILARANG KERAS** memaksakan mengarang opsi ke-3 yang artifisial, cacat (*strawman*), atau berlebihan (*over-engineered*) hanya demi memenuhi kuota angka. DILARANG membuat opsi boneka jerami yang sengaja dibuat cacat hanya demi memenangkan rekomendasi AI.
    - Parameter komparasi wajib **SECARA SPESIFIK RELEVAN** dengan isu yang sedang dibahas (contoh: *Beban Kueri*, *Memory Bloat*, *Integritas Data*, *Latensi Request*, atau *Separation of Concerns*).
    - Sajikan menggunakan **Format Kartu Vertikal** (DILARANG menggunakan tabel Markdown multi-kolom yang terbukti merusak keterbacaan pada panel chat IDE seperti Antigravity):
    ```markdown
@@ -202,7 +236,7 @@ Setelah kebutuhan bisnis di Fase 1 terkunci, barulah di Fase 2 dan 3 AI bertinda
    * **Spektrum Teknis:** ...
    * 💡 **Jembatan Logika Mahasiswa:** ...
 
-   #### 🏷️ Opsi 3: [Nama Pendekatan Arsitektur] *(Kategori Solusi)*
+   #### 🏷️ Opsi 3: [Nama Pendekatan Arsitektur] *(Kategori Solusi)* *(Opsional, jika ada spektrum alternatif ke-3)*
    * **Spektrum Teknis:** ...
    * 💡 **Jembatan Logika Mahasiswa:** ...
    ```
@@ -210,7 +244,7 @@ Setelah kebutuhan bisnis di Fase 1 terkunci, barulah di Fase 2 dan 3 AI bertinda
    Jelaskan mengapa Opsi Rekomendasi paling ideal untuk skala proyek saat ini, namun **WAJIB** sebutkan secara jujur konsekuensi biaya/effort yang harus ditanggung tim.
 4. **🤝 Pertanyaan Terpandu & Anti-Presumptive Closure (Safe Harbor Gate):**
    AI **DILARANG KERAS** memotong atau mendesak pengesahan sepihak (*"Jika sudah mantap, langsung lanjut ke Topik X"*). AI wajib memberi ruang refleksi dan menyertakan jaring pengaman:
-   > *"Menurutmu bagaimana pertimbangan trade-off di atas? Dari 3 opsi tadi, mana yang paling pas buat skala proyek dan kemampuan tim kita? (Kalau kamu belum yakin atau bingung, santai aja ya, ketik aja **'Ikut saranmu'**, nanti biar aku yang siapkan fondasi terbaiknya!)."*
+   > *"Menurutmu bagaimana pertimbangan trade-off di atas? Dari opsi tadi, mana yang paling pas buat skala proyek dan kemampuan tim kita? (Kalau kamu belum yakin atau bingung, santai aja ya, ketik aja **'Ikut saranmu'**, nanti biar aku yang siapkan fondasi terbaiknya!)."*
 5. **🔥 Protokol Pancingan Rasa Ingin Tahu (The Curiosity Hook - Formula Fakta Industri & Hak Menolak):**
    Sajikan fakta industri/bisnis nyata yang relevan dengan topik ini menggunakan formula santai, dan berikan hak menolak:
    > *"🔥 **Fakta Industri Nyata:** [Fakta Industri Nyata, misal: kasus Discord/Netflix/Tokopedia/Next.js layout shift]. Penasaran gak mengapa [Dampak Sistem/Bisnis] terhadap fakta tersebut? Kalau penasaran bisa kita bedah santai, tapi kalau mau fokus selesaikan tiket, kabari saja ya agar kita langsung gas ke langkah berikutnya!"*
@@ -242,13 +276,15 @@ Jika di tengah-tengah giliran developer mengajukan pertanyaan teknis pendukung (
 
 ---
 
-### FASE 1 — PILAR BISNIS (The Business Grill)
+### FASE 1 — PILAR BISNIS / PENGUNCIAN SASARAN NFR (The Problem & Requirements Grill)
 
-> *Tujuan: Memahami "MENGAPA" fitur ini ada, "SIAPA" yang terdampak, dan "APA" kebutuhan esensialnya.*
-> *Pacing: Bahas HANYA 1 topik per respons. Selesaikan satu per satu menggunakan FORMULA A.*
-> *Larangan Mutlak: DILARANG membahas struktur folder, kode, atau sintaks teknis di Fase ini!*
+> *Tujuan Track A ([FEAT]): Memahami "MENGAPA" fitur ini ada, "SIAPA" yang terdampak, dan "APA" kebutuhan esensialnya.*
+> *Tujuan Track B ([ARCH]/[REFACTOR]/[INFRA]): Mengunci target NFR objektif, batasan kompatibilitas modul eksisting, dan dampak toolchain/DX.*
+> *Pacing: Bahas HANYA 1 topik per respons. Selesaikan satu per satu menggunakan FORMULA A (Track A) atau FORMULA A-NFR (Track B).*
+> *Prinsip Topic Collapsing (Anti-Dogma Jumlah Topik): DILARANG memaksakan 3–4 sub-topik jika esensi masalahnya sederhana atau jika tiket bertipe Track B. 1 topik terpadu yang tuntas dan tajam jauh lebih unggul daripada bertele-tele.*
+> *Larangan Mutlak: Pada Track A, DILARANG membahas struktur folder, kode, atau sintaks teknis. Pada Track B, DILARANG mengarang persona atau analogi ormawa palsu untuk mekanik runtime.*
 
-#### 💡 Katalog Dimensi Panduan Perumusan Topik Bisnis (Inspiration & Diagnostic Angles):
+#### 💡 Katalog Dimensi Panduan Perumusan Topik Bisnis (Inspiration & Diagnostic Angles — Track A):
 *(AI memilih dan merumuskan topik-topik terarah bernomor 1.1, 1.2, dst. secara dinamis dari dimensi berikut yang benar-benar relevan dengan masalah tiket):*
 
 * **Dimensi Akar Masalah & Konteks Lapangan (The Real Pain):**
@@ -316,11 +352,10 @@ Saat melangkah masuk ke Fase 3 setelah Fase 2 selesai, AI **WAJIB** membuka deng
 *(Mendeteksi Risiko Laten, Kebocoran Otorisasi, & Mengunci Kontrak Absolut Sistem)*
 
 ### 🗺️ Peta Topik Fase 3 (In-Phase Mini-Roadmap Dinamis)
-*(AI merumuskan secara dinamis topik proteksi dan invariant yang relevan, bernomor 3.1, 3.2, dst.)*
+*(AI merumuskan secara dinamis topik proteksi dan invariant yang relevan, bernomor 3.1, 3.2, dst. Pada tiket tanpa otentikasi/mutasi data atau tiket Track B, terapkan Topic Collapsing: fokuskan HANYA pada Invariant & Rejection Criteria)*
 Arsitektur dan integrasi modul telah terkunci! Di Fase 3 ini, kita mengunci benteng pertahanan sistem melalui [X] topik:
-* 📌 **Topik 3.1:** [Nama Topik Proteksi Relevan 1, misal: Otorisasi & Pencegahan Akses Liar]
-* 📌 **Topik 3.2:** [Nama Topik Proteksi Relevan 2, misal: Proteksi Sesi, Concurrency, & State Integrity]
-* 📌 **Topik 3.3:** [Nama Topik Invariant & Rejection Criteria — Kontrak Absolut Level 3]
+* 📌 **Topik 3.1:** [Nama Topik Proteksi Relevan 1, misal: Otorisasi & Pencegahan Akses Liar ATAU Invariant Tampilan/Toolchain]
+* 📌 **Topik 3.2:** [Nama Topik Proteksi Relevan 2 jika relevan...]
 
 ---
 
@@ -331,17 +366,20 @@ Apakah kamu siap kita mulai bedah dari **Topik 3.1**?
 > AI **DILARANG KERAS** langsung mencetak materi Topik 3.1 di respons transisi ini! AI **WAJIB BERHENTI TOTAL** di pertanyaan *"Apakah kamu siap kita mulai bedah dari Topik 3.1?"* dan murni menunggu konfirmasi kesiapan dari developer.
 
 #### 💡 Katalog Dimensi Panduan Perumusan Topik Keamanan & Invariant:
-*(AI memilih dan merumuskan topik-topik proteksi bernomor 3.1, 3.2, dst. secara dinamis dari dimensi berikut yang relevan):*
+*(AI memilih topik secara adaptif sesuai jenis tiket):*
 
-* **Dimensi Otorisasi & Pencegahan Akses Liar:**
+* **Prinsip Topic Collapsing & Proteksi Kontekstual (Anti-Fiksi Keamanan):**
+  - **Untuk Tiket Backend / Data Mutation:** Bahas otorisasi akses (Middleware vs Policy), konkurensi (Race Condition, Double Submit), dan Business Invariant.
+  - **Untuk Tiket Frontend UI / Komponen Publik:** DILARANG mengarang ancaman otorisasi fiktif jika komponen bersifat publik murni tanpa mutasi data. Satukan topik menjadi **Invariant UI & State Resilience** (misal: Zero Layout Shift, Empty State Handling, Accessible Keyboard Navigation).
+  - **Untuk Tiket Track B (Infrastruktur / Toolchain):** Satukan topik menjadi **Toolchain Invariant & Regression Protection** (misal: Build CI wajib lolos tanpa bypass, backward-compatibility komponen lama, zero runtime JS leak).
+
+* **Dimensi Otorisasi & Pencegahan Akses Liar (Khusus Tiket dengan Akses Terbatas):**
   Siapa yang dilarang mengakses atau melihat data ini. Sajikan trade-off proteksi route middleware vs proteksi di level komponen/page.
-* **Dimensi Proteksi Sesi, Concurrency, & State Integrity:**
+* **Dimensi Proteksi Sesi, Concurrency, & State Integrity (Khusus Tiket Mutasi Data):**
   Skenario saat koneksi lambat, form disubmit ganda, atau navigasi cepat antar halaman. Sajikan opsi mitigasi seperti debouncing, transaction lock, atau loading boundary.
-* **Dimensi Invariant & Rejection Criteria — Kontrak Absolut Level 3 (WAJIB):**
-  Merumuskan minimal 2 Invariant absolut (kondisi yang HARUS SELALU BENAR) dan minimal 2 Rejection Criteria (kapan PR wajib ditolak saat review) bersama developer sebelum melangkah ke perumusan plan.
-Ajarkan konsep Invariant: kondisi data/sistem yang **HARUS SELALU BENAR** bahkan saat terjadi error, refresh tiba-tiba, atau misuse.
-*Contoh Analogi:* *"Invariant itu seperti hukum gravitasi di aplikasi kita—apapun yang terjadi, Navbar publik dilarang keras bocor ke area `/admin/*`, dan email user tidak boleh kembar."*
-AI **WAJIB** merumuskan minimal 2 Invariant absolut dan 2 Rejection Criteria (kapan PR wajib ditolak saat review) bersama developer sebelum melangkah ke perumusan plan.
+* **Dimensi Invariant & Rejection Criteria — Kontrak Absolut Level 3 (WAJIB di Seluruh Tiket):**
+  Merumuskan minimal 1–2 Invariant absolut (kondisi yang HARUS SELALU BENAR) dan minimal 1–2 Rejection Criteria (kapan PR wajib ditolak saat review) bersama developer sebelum melangkah ke perumusan plan.
+  *Contoh Analogi Invariant:* *"Invariant itu seperti hukum gravitasi di aplikasi kita—apapun yang terjadi, Navbar publik dilarang keras bocor ke area `/admin/*`, dan email user tidak boleh kembar."*
 
 ---
 
@@ -420,8 +458,10 @@ assignees: ""
 
 ---
 
-### 2. Matriks Otorisasi & Hak Akses (Policy Matrix)
-*Definisikan secara gamblang siapa yang berhak mengeksekusi setiap aksi untuk memandu pembuatan Policy / Access Control:*
+### 2. Matriks Spesifikasi Domain (Pilih Varian yang Sesuai Jenis Tiket)
+
+<!-- VARIAN A: KHUSUS TIKET BACKEND / DATA MUTATION -->
+*Definisikan siapa yang berhak mengeksekusi setiap aksi untuk memandu pembuatan Policy / Access Control:*
 
 | Aksi / Endpoint | Role Utama (Admin) | Hak Akses Kontekstual (Owner/Member) | Tamu / Publik |
 | :--- | :--- | :--- | :--- |
@@ -429,6 +469,21 @@ assignees: ""
 | **Create / Store** | Boleh | Khusus role terotorisasi (atau dilarang) | Ditolak (401/403) |
 | **Update / Edit** | Boleh | Khusus pemilik data (Owner) | Ditolak (401/403) |
 | **Delete / Destroy**| Boleh | Dilarang (Hanya Admin) | Ditolak (401/403) |
+
+<!-- VARIAN B: KHUSUS TIKET FRONTEND UI / KOMPONEN -->
+*Definisikan status interaktivitas, mode render/hidrasi, dan aksesibilitas antarmuka:*
+
+| Komponen / Halaman | Mode Hidrasi (`client:*` / Static) | Status UI (Empty / Loading / Error / Data) | Aksesibilitas & Responsivitas (A11y) |
+| :--- | :--- | :--- | :--- |
+| `[Nama Komponen]` | [Static HTML / visible / idle / load] | [Tampilan saat data kosong atau fetching] | [Keyboard focus, ARIA, Mobile viewport] |
+
+<!-- VARIAN C: KHUSUS TIKET TRACK B (FONDASI / TOOLCHAIN / RUNTIME / REFACTOR) -->
+*Definisikan target performa objektif dan batasan integrasi toolchain:*
+
+| Dimensi Rekayasa | Target Metrik Objektif | Batasan Kompatibilitas | Perintah Verifikasi Otomatis |
+| :--- | :--- | :--- | :--- |
+| **Performa / Bundle** | [Lighthouse > 95 / Zero JS leak] | [Komponen UI eksisting tidak regresi] | `npm run build` / CI check |
+| **Toolchain & Runtime** | [Config tervalidasi / Type-safe] | [Versi package & plugin harmonis] | `npx astro check` / `npm test` |
 
 ---
 
@@ -455,12 +510,26 @@ assignees: ""
 ---
 
 ### 5. Spesifikasi Teknis Defensif & Langkah Implementasi
-*(Instruksi teknis bernomor yang menyatukan aksi koding dengan alasan defensifnya)*
+*(Instruksi teknis bernomor yang disesuaikan dengan varian tiket)*
+
+<!-- VARIAN A: JIKA TIKET BACKEND / DATA MUTATION -->
 - [ ] 1. **Policy / Guard:** Buat aturan otorisasi sesuai Matriks Otorisasi di Bagian 2.
 - [ ] 2. **Request Validation:** Buat schema/FormRequest validasi input. Pastikan field anti-spoofing tidak diambil dari payload client.
 - [ ] 3. **Service Layer:** Ekstraksi logika bisnis ke Service terisolasi dengan transaksi atomik dan proteksi konkurensi jika ada mutasi kritis.
 - [ ] 4. **Controller / Handler Ramping:** Bersihkan controller dari validasi inline dan logika tebal; delegasikan ke Service.
 - [ ] 5. **Resource Serialization:** Transformasikan entitas ke DTO/Resource JSON dengan sanitasi field sensitif.
+
+<!-- VARIAN B: JIKA TIKET FRONTEND UI / KOMPONEN -->
+- [ ] 1. **Komposisi Markup & Layout:** Susun hirarki markup semantik dan integrasikan Tailwind CSS.
+- [ ] 2. **Boundary Interaktivitas & Hydration:** Isolasi komponen interaktif dengan direktif islands yang tepat (`client:visible` dsb) dan pastikan zero unnecessary client JS.
+- [ ] 3. **Handling Empty & Error State:** Terapkan fallback visual anggun saat data kosong (*empty state*) atau fetch gagal.
+- [ ] 4. **A11y & Kontrak Responsif:** Pastikan navigasi keyboard, kontras warna, dan tap-target mobile memenuhi standar.
+
+<!-- VARIAN C: JIKA TIKET TRACK B (FONDASI / TOOLCHAIN / REFACTOR) -->
+- [ ] 1. **Modifikasi Berkas Konfigurasi:** Update konfigurasi toolchain (misal: `astro.config.mjs`, `tailwind.config.ts`, `tsconfig.json`).
+- [ ] 2. **Integrasi Paket Dependensi:** Pasang dan konfigurasi integrasi resmi (misal: `@astrojs/react`, plugin Tailwind).
+- [ ] 3. **Audit Regresi Komponen Eksisting:** Uji render komponen eksisting untuk menjamin kompatibilitas runtime.
+- [ ] 4. **Verifikasi Kinerja Otomatis:** Eksekusi build, linter, dan cek skor NFR sesuai kriteria DoD.
 
 ---
 
@@ -518,9 +587,12 @@ AI **WAJIB** mengeksekusi 3 langkah penutupan gerbang ini secara berurutan:
 | **Hulu Code Execution / Auto-PR Offer** (Menawarkan eksekusi kode/PR di `/edeate`) | Melanggar batas gerbang, membypass TDD, Plan, dan Code Audit Hilir | AI DIHARAMKAN menulis kode atau menawarkan PR di Hulu. AI WAJIB menyerahkan tiket ke Gateway 2 via `/grill-me`. |
 | **Tiket Terlalu Luas** ("Bikin fitur manajemen event lengkap") | Scope tak terbatas, sprint berantakan | AI WAJIB meminta developer memecah menjadi tiket-tiket kecil yang independen |
 | **DoD Ambigu** ("Berhasil dijalankan") | Developer dan reviewer punya definisi sukses yang berbeda | AI WAJIB mendesak definisi yang terukur (angka, waktu, kondisi boolean, perintah test) |
+| **Triad Dogma / Strawman Bloat** (Memaksakan 3 opsi arsitektur saat problemnya secara alami biner) | Melahirkan opsi ke-3 yang konyol, membingungkan pemula, dan memicu *over-engineering* | AI WAJIB menyajikan spektrum 2–3 opsi sah dan DILARANG mengarang Opsi 3 jika pilihannya biner |
+| **Camouflage Trap** (Menyamarkan mekanik runtime/toolchain menjadi dongeng ormawa fiktif) | Diskusi terasa konyol, manipulatif, dan mengaburkan esensi teknis | AI WAJIB menggunakan Track B (NFR Fast-Track 1 ketukan) untuk tiket pondasi/toolchain |
+| **Backend-Only Ticket Template Bias** (Memaksakan Policy Matrix & Controller/Service pada tiket Frontend/Toolchain) | Struktur tiket tidak relevan, kolom diisi kosong atau fiktif | AI WAJIB mengadopsi format matriks dan langkah implementasi modular (Varian A, B, atau C) |
 | **Tiket Tanpa Blast Radius** | Developer/AI mengedit file liar di luar cakupan tugas | AI WAJIB memetakan daftar berkas entry point, service, schema, dan test |
-| **Tiket Tanpa Invariant** | Tidak ada kontrak yang bisa diuji → Feature Test menjadi formalitas dangkal | AI WAJIB menggali minimal 2-3 invariant sebelum draft disahkan |
+| **Tiket Tanpa Invariant** | Tidak ada kontrak yang bisa diuji → Feature Test menjadi formalitas dangkal | AI WAJIB menggali minimal 1-2 invariant absolut sebelum draft disahkan |
 | **Asumsi Tanpa Audit Kode** | AI berbicara dari imajinasi, bukan realita repositori | AI WAJIB menjalankan Pre-Flight Audit (Fase 0) sebelum sesi dimulai |
-| **Langsung Lompat ke Solusi** | Masalah bisnis inti tidak dipahami | AI WAJIB menyelesaikan Pilar Bisnis (Fase 1) terlebih dahulu |
+| **Langsung Lompat ke Solusi** | Masalah bisnis inti tidak dipahami | AI WAJIB menyelesaikan Pilar Bisnis (Track A) atau Sasaran NFR (Track B) terlebih dahulu |
 
 

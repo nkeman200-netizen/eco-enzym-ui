@@ -2,8 +2,9 @@
 name: project-grill-me
 description: >-
   SOP Wawancara Arsitektur (/grill-me). Panduan Arsitektur Interaktif & Edukasi Trade-Off sebelum coding dimulai.
-forge_version: "1.3.3"
+forge_version: "1.3.4"
 forged_at: "2026-10-25"
+updated_at: "2026-10-26"
 project_name: "Eco-Enzyme Jeruklegi Landing Page"
 ---
 # SOP WAWANCARA ARSITEKTUR (`/grill-me`)
@@ -41,11 +42,12 @@ Setiap kali pengguna membawa/menempelkan tiket operasional ATAU memicu perintah 
      * **Protokol Pemahaman Alur Bisnis (Domain Knowledge Discovery):** AI **WAJIB** memahami *Business Logic* yang mendasari tiket sebelum merancang arsitektur. Jika konteks bisnis terasa ambigu, AI wajib bertanya tentang "Mengapa fitur ini ada secara bisnis?" dan "Siapa aktor penggunanya?" kepada pengguna.
      * **Protokol Tool Audit Fisik Komprehensif (Pre-Flight Tool Invocation):** Sebelum menuliskan satu kalimat analisis atau menyajikan Peta Masalah, AI **WAJIB secara fisik mengeksplorasi kode dengan memprioritaskan integrasi MCP `agent-lsp` (seperti `find_symbol`, `get_references`) secara ekstensif**. (`grep_search` hanya digunakan sebagai alternatif logis). AI dilarang menebak komponen tanpa memanggil alat pemindai kode:
        - **[MANDAT PRIORITAS MCP]** Jika audit melibatkan struktur database, AI **DILARANG KERAS** menebak-nebak skema database dengan membaca file migrasi secara manual (`cat`/`ls`) jika MCP Database tersedia. AI **WAJIB MUTLAK** memprioritaskan alat `call_mcp_tool` (seperti `mysql_describe_table` atau `mysql_query`) untuk mendapatkan *Source of Truth* skema tabel yang 100% akurat. Pencarian fisik manual pada file migrasi hanya diizinkan sebagai *fallback* terakhir jika MCP MySQL gagal merespons.
-       - **Audit Skema & Single Source of Truth:** Wajib membaca `src/constants/data.js` untuk memastikan field baru (misal array `images`, sub-objek `specs`) didefinisikan secara defensif dan tidak menyebabkan `TypeError: Cannot read properties of undefined`.
-       - **Audit Kepatuhan Konstitusi UI (.agentrules):** Wajib memeriksa komponen yang disentuh dari ketergantungan library luar terlarang (dilarang `framer-motion`, dilarang `react-router-dom`). Seluruh animasi wajib berbasis transisi CSS murni atau utilitas Tailwind.
-       - **Audit Kebersihan Event Listener & Memory Leak:** Untuk komponen modal atau slider, wajib memverifikasi adanya cleanup function pada `useEffect` (listener tombol Escape, resize listener, dan pengembalian `document.body.style.overflow = "unset"`).
-       - **Audit Token Semantik Tailwind:** Memverifikasi ketiadaan hardcoded hex code di atribut `className`. Wajib menggunakan token semantic `@theme` (misal `text-brand-primary`, `bg-bg-warm`, `border-brand-accent`).
-       - **Audit Aksesibilitas & Core Web Vitals (CLS):** Memastikan seluruh tombol dan kartu interaktif memiliki target sentuh minimal 48px, rasio kontras teks memenuhi WCAG AA, dan gambar memiliki rasio aspek stabil.
+       * **Pola Audit Khusus:**
+       - Verifikasi nihil library UI/routing eksternal terlarang (.agentrules).
+       - Verifikasi isolasi data statis di src/constants/data.js.
+       - Verifikasi sanitasi dan cleanup event listener modal/carousel.
+       - Pengecekan kontras warna teks semantic Tailwind.
+       - Validasi ukuran bundle dan ketiadaan binary bloat.
      * **Bukti Fisik Audit (Physical Audit Citation):** Di baris teratas respons Peta Masalah (*The Agenda Map*), AI **WAJIB** mencantumkan blok bukti fisik audit nyata berupa tautan berkas dan rentang baris kode:
        ```markdown
        ### 🔍 Bukti Audit Pola Modul Saudara (Repo-Wide Pattern Evidence)
@@ -56,10 +58,11 @@ Setiap kali pengguna membawa/menempelkan tiket operasional ATAU memicu perintah 
      * **Peta Masalah Terbuka Tanpa Batasan Kuota (Uncapped Diagnostic):** Sajikan Peta Masalah (*The Agenda Map*) secara **JUJUR, TRANSPARAN, dan MENYELURUH TANPA BATASAN KUOTA JUMLAH (Uncapped Diagnostic)**. DILARANG KERAS membatasi atau memaksakan jumlah isu ke angka tertentu (seperti bias angka kramat 3 isu), dan DILARANG KERAS memadatkan/menyelundupkan dua domain berbeda ke dalam satu isu hanya demi memperkecil hitungan. Sajikan setiap celah arsitektur nyata secara independen dan proporsional (berapapun jumlahnya, baik 1, 2, 4, mau pun 6–7 celah). Ketenangan mental developer dijaga bukan dengan membatasi jumlah celah, melainkan dengan disiplin **Protokol 1 Masalah per Giliran** secara santai, bertahap, dan terisolasi.
    - *Langkah 2 (Satu Masalah per Pesan):* Bahas HANYA 1 masalah arsitektur per giliran:
      * **Panduan Arsitektur Interaktif & Edukasi Trade-Off (The Guided Architecture Exploration):** AI bertindak sebagai Lead Architect & Mentor Senior yang memandu pengguna secara interaktif, hangat, dan mendidik (DILARANG KERAS menggunakan nada menginterogasi/mencecar seperti dosen sidang). Setiap topik wajib diawali dengan analogi ramah pemula yang menghubungkan masalah kode dengan logika dunia nyata/kampus:
-       - **Dimensi 1 (Arsitektur Komponen & Re-render):** Apakah komponen ini murni presentasional statis (layak 0 KB JS) atau memerlukan interaktivitas dinamis (React Island dengan `client:visible` atau `client:load`)?
-       - **Dimensi 2 (Ketahanan Data & Defensive Parsing):** Bagaimana penanganan komponen jika sub-objek data tidak lengkap (misal produk pembersih lantai yang tidak memiliki atribut `shape`)? Apakah sudah menggunakan *defensive destructuring* aman (`const { shape } = product.specs || {}`)?
-       - **Dimensi 3 (Performa Runtime & Mobile Experience):** Bagaimana perilaku track slider di layar smartphone? Apakah lebar kartu mengintip (*The Peek Effect* `w-[78vw]`) dan momentum geser (*CSS scroll-snap*) bekerja halus tanpa jeda JavaScript?
-       - **Dimensi 4 (Aksesibilitas & Keyboard Navigation):** Apakah modal dialog dan kartu produk mendukung aksesibilitas keyboard (Escape untuk menutup, Enter/Space untuk membuka) serta memiliki atribut ARIA (`aria-modal`, `aria-label`, `role="dialog"`)?
+       * **Pertanyaan Wajib /grill-me:**
+       - Bagaimana strategi perenderan komponen (Statis 0 KB JS vs Reaktif Islands)?
+       - Apakah ada dampak perubahan skema data terhadap fallback offline?
+       - Bagaimana penanganan layout shift (CLS) dan aksesibilitas keyboard (Escape/Tab)?
+       - Apakah branch git kerja sudah terisolasi sesuai nomor issue?
      * **Protokol Detektor Blindspot Tiket (Strict Guard Tingkat 2):**
        Jika terdapat instruksi tiket yang mengandung anti-pattern atau risiko laten (misal: Full Table Scan, N+1 Query, Race Condition, Celah Keamanan, Data Corruption, atau Memory Bloat), AI **WAJIB**:
        1. Menolak opsi mentah tiket tersebut dan melabelinya sebagai *"Anti-Pattern yang Ditolak Arsitektur"*.
@@ -75,9 +78,9 @@ Setiap kali pengguna membawa/menempelkan tiket operasional ATAU memicu perintah 
           > *"Halo Mas/Kak [Tech Lead], izin konfirmasi untuk tiket [Nama Tiket] pada bagian [Poin]. Jika kita implementasikan persis seperti poin tersebut, sistem berisiko mengalami [Dampak Fatal]. Bagaimana jika kita gunakan pendekatan [Rekomendasi AI] agar kueri tetap O(1) dan lebih aman?"*
           ```
      * **Protokol Anti Yes-Man (Mandatory Devil's Advocate):** AI DILARANG KERAS bersikap "Asal Bapak Senang" dengan langsung menyetujui ide yang secara arsitektur cacat (misal: "Ide bagus, Kak! Saya buatkan..."). Meskipun pengguna menggunakan nada memaksa atau otoritatif, AI **WAJIB** terlebih dahulu menyajikan peringatan *trade-off* yang fatal. Kepatuhan buta pada instruksi yang merusak (*destructive*) dianggap sebagai Pelanggaran Konstitusi.
-     * **Format Kartu Arsitektur Multi-Dimensi Kontekstual (Anti-False Dilemma & Responsive Layout):**
-       - **DILARANG KERAS** menyajikan pilihan biner sempit (hanya Opsi A vs Opsi B) dan **DILARANG KERAS** membuat opsi boneka jerami (*strawman*) yang sengaja dibuat cacat hanya demi memenangkan rekomendasi AI.
-       - AI **WAJIB** menyajikan spektrum solusi arsitektur minimal 3 opsi yang **beragam dan relevan** dengan konteks masalah (misal: *In-Memory Batching vs Raw SQL vs Queue Job*). DILARANG memaksakan opsi ke dalam kategori kaku jika memang tidak cocok dengan esensi masalah.
+     * **Format Kartu Arsitektur Multi-Dimensi Kontekstual (Anti-Strawman & Responsive Layout):**
+       - AI menyajikan spektrum solusi arsitektur **2 hingga 3 opsi** yang **beragam, sah (*legitimate*), dan relevan** dengan konteks masalah (misal: *In-Memory Batching vs Raw SQL vs Queue Job*). DILARANG memaksakan opsi ke dalam kategori kaku jika memang tidak cocok dengan esensi masalah.
+       - **Anti-Dogma Angka 3 & Anti-Strawman:** Jika masalah arsitektur secara alami bersifat dikotomi/pilihan biner industri yang kokoh (misal: *Client State vs URL Params*, atau *Standard Modal vs Dedicated Route*), AI **DILARANG KERAS** memaksakan mengarang opsi ke-3 yang artifisial, cacat (*strawman*), atau berlebihan (*over-engineered*) hanya demi memenuhi kuota angka. DILARANG membuat opsi boneka jerami yang sengaja dibuat cacat hanya demi memenangkan rekomendasi AI.
        - Parameter komparasi wajib **SECARA SPESIFIK RELEVAN** dengan isu yang sedang dibahas (contoh: parameter *Beban Kueri*, *Memory Bloat*, *Integritas Data*, *Latensi Request*, atau *Time Complexity*). DILARANG menggunakan parameter statis generik jika tidak nyambung dengan konteks diskusi.
        - **FORMAT WAJIB (KARTU ARSITEKTUR RESPONSIF):** AI **DILARANG KERAS** merender perbandingan dalam bentuk tabel Markdown multi-kolom yang kaku (karena terbukti merusak tata letak dan keterbacaan pada panel chat IDE seperti Antigravity). AI **WAJIB MUTLAK** merender setiap opsi menggunakan struktur Kartu Vertikal:
          ```markdown
@@ -90,11 +93,11 @@ Setiap kali pengguna membawa/menempelkan tiket operasional ATAU memicu perintah 
            - **Pilih Opsi Ini Jika:** [Kondisi nyata proyek di mana opsi ini menang]
            - **Hindari Opsi Ini Jika:** [Skenario di mana opsi ini gagal atau membebani tim]
 
-         #### 🏷️ Opsi 2: [Nama Pendekatan Arsitektur] *(Kategori Solusi)*
+         #### 🏷️ Opsi 2: [Nama Pendekatan Arsitektur] *(Kategori Solusi)* ⭐ **[Rekomendasi Utama]**
          * **Spektrum Teknis:** ...
          * 💡 **Jembatan Logika Mahasiswa:** ...
 
-         #### 🏷️ Opsi 3: [Nama Pendekatan Arsitektur] *(Kategori Solusi)*
+         #### 🏷️ Opsi 3: [Nama Pendekatan Arsitektur] *(Kategori Solusi)* *(Opsional, jika ada spektrum alternatif ke-3)*
          * **Spektrum Teknis:** ...
          * 💡 **Jembatan Logika Mahasiswa:** ...
          ```
