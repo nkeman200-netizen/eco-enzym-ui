@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/sections/Navbar';
+import Hero from '../components/sections/Hero';
+import Problem from '../components/sections/Problem';
+import About from '../components/sections/About';
+import Products from '../components/sections/Products';
+import Plan from '../components/sections/Plan';
+import Stakes from '../components/sections/Stakes';
+import SuccessVision from '../components/sections/SuccessVision';
+import Testimonials from '../components/sections/Testimonials';
+import FinalCTA from '../components/sections/FinalCTA';
+import Footer from '../components/sections/Footer';
+---
+
+<BaseLayout>
+  <Navbar client:load />
+  <main>
+    <Hero />
+    <Problem />
+    <About />
+    <Products client:visible />
+    <Plan />
+    <Stakes />
+    <SuccessVision />
+    <Testimonials />
+    <FinalCTA />
+  </main>
+  <Footer />
+</BaseLayout>

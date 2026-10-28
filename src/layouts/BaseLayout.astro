@@ -1,0 +1,40 @@
+---
+import '../index.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Eco-Enzyme Jeruklegi — Pembersih Alami & Ramah Lingkungan",
+  description = "Eco-Enzyme Jeruklegi — Produk pembersih alami serbaguna hasil olahan limbah organik dapur warga komunitas desa Jeruklegi. Bersih, aman untuk keluarga, dan ramah lingkungan.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#166D3B" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="eco enzyme, pembersih alami, jeruklegi, sabun organik, ramah lingkungan, limbah dapur" />
+    <meta property="og:title" content="Eco-Enzyme Jeruklegi — Pembersih Alami dari Komunitas Lokal" />
+    <meta
+      property="og:description"
+      content="Ubah sisa dapur menjadi pembersih higienis serbaguna. Dibuat langsung dengan fermentasi alami oleh warga Jeruklegi."
+    />
+    <meta property="og:type" content="website" />
+
+    <!-- Preload Critical Fonts untuk Optimasi LCP & Eliminasi FOUT -->
+    <link rel="preload" href="/fonts/PlusJakartaSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/PlusJakartaSans-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-bg-base font-sans text-text-main font-normal relative">
+    <slot />
+  </body>
+</html>
