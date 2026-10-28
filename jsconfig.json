@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "esnext",
+    "module": "esnext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "allowJs": true,
-    "checkJs": false,
-    "baseUrl": "."
+    "checkJs": false
   },
   "include": ["src/**/*"]
 }
