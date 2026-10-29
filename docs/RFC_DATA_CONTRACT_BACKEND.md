@@ -76,6 +76,52 @@ Untuk menjamin efisiensi kerja tim pengembang, batasan berikut sengaja **TIDAK D
 
 ---
 
+### 1.5 Penjelasan Arsitektur Backend Eksisting (`eco-enzyme-be`) & Matriks Diferensial (Dipertahankan vs Diubah)
+
+Bagi rekan tim backend yang membaca dokumen ini, kabar baik utamanya adalah: **fondasi arsitektur Laravel yang telah Anda bangun di `eco-enzyme-be` sudah sangat solid dan 85% tetap dipertahankan tanpa perubahan!**
+
+#### A. Gambaran Kondisi Proyek Backend Saat Ini
+Repositori `eco-enzyme-be` saat ini dibangun menggunakan:
+* **Framework & Versi:** Laravel 11/12 berbasis PHP 8.2+ dan database MySQL 8.
+* **Standar API:** RESTful API v1 dengan dokumentasi OpenAPI/Swagger (`OpenApi\Attributes` PHP 8 attribute).
+* **Rute Publik Eksisting (`routes/api.php`):**
+  - `GET /api/v1/home` (`HomeSectionController`)
+  - `GET /api/v1/about` (`AboutSectionController`)
+  - `GET /api/v1/products` (`ProductSectionController`)
+  - `GET /api/v1/how-to-orders` (`HowToOrderController`)
+  - `GET /api/v1/testimonials` (`TestimonialController`)
+  - `GET /api/v1/contact` (`ContactController`)
+* **Struktur Database Eksisting:**
+  - `products`: memiliki kolom `name`, `description`, `benefit`, `detail`, `price`, `order`, `image`.
+  - `product_detail_images`: berelasi `hasMany` dari `Product` untuk foto sekunder (`image`, `order`).
+  - `testimonial_sections`, `testimonial_statistics`, `testimonial_items`: relasi seksi testimoni dan statistik.
+  - `contact_sections`, `contact_items`: relasi seksi kontak dan nomor WhatsApp.
+
+---
+
+#### B. Matriks Rekapitulasi: Mana yang Dipertahankan vs Mana yang Diubah
+
+| Entitas / Modul Backend | Status di Backend Eksisting | Tindakan Integrasi | Rincian Apa yang DIPERTAHANKAN (Zero-Change) | Rincian Apa yang DIUBAH / DITAMBAHKAN |
+|---|---|---|---|---|
+| **Rute API (`routes/api.php`)** | Sudah ada endpoint v1 lengkap | 🟢 **Dipertahankan 100%** | Tidak ada URL baru yang perlu dibuat. Rute `/products`, `/testimonials`, `/contact` tetap sama persis. | **Nol perubahan.** Tidak perlu menambah route baru. |
+| **Endpoint `/home`, `/about`, `/how-to-orders`** | Controller & Seeder sudah ada | ⚪ **Diistirahatkan (Dormant)** | **JANGAN DIHAPUS.** Biarkan kode controller dan tabelnya tetap ada di backend. | Backend tidak perlu merombak seeder atau menambah fitur baru di seksi-seksi ini. |
+| **Tabel `products`** | Berisi 7 kolom inti produk | 🟡 **Sedikit Penyesuaian** | Seluruh kolom lama (`name`, `description`, `benefit`, `detail`, `price`, `order`, `image`) tetap utuh 100%. | Tambahkan **1 kolom baru** tipe JSON biner: `$table->json('specs')->nullable();`. |
+| **Tabel `product_detail_images`** | Relasi `hasMany` foto sekunder | 🟢 **Dipertahankan 100%** | **JANGAN DIHAPUS.** Tabel ini tetap menjadi tempat penyimpanan foto galeri tambahan dari dashboard admin. | **Nol perubahan.** Skema tabel tetap seperti sedia kala. |
+| **Model `Product.php`** | Eloquent Model | 🟡 **Sedikit Penyesuaian** | Relasi `detailImages()` tetap utuh seperti sedia kala. | Tambahkan 1 baris di method `casts()`: `'specs' => 'array'`. |
+| **Resource `ProductResource.php`** | Output `image_url` & `detail_images` terpisah | 🟡 **Penyesuaian Output DTO** | Semua atribut teks (`name`, `description`, dll.) tetap dikembalikan. | Satukan foto cover dan detail menjadi array flat `images: string[]`, dan sertakan objek `'specs' => $this->specs ?? (object)[]`. |
+| **Modul Testimoni (`Testimonial*`)** | 3 Tabel (`sections`, `statistics`, `items`) | 🟢 **Dipertahankan 100%** | Seluruh kolom (`value`, `description`, `name`, `location`, `quote`) tetap utuh. Tidak butuh avatar atau relasi baru! | **Nol perubahan.** Frontend yang menyesuaikan membaca kolom `description` sebagai label metrik. |
+| **Modul Kontak (`Contact*`)** | 2 Tabel (`sections`, `items`) | 🟢 **Dipertahankan 100%** | Seluruh kolom (`location`, `email`, `whatsapp`, `whatsapp_number`) tetap utuh. | **Nol perubahan.** Frontend cukup mengonsumsi string `whatsapp_number`. |
+
+---
+
+#### C. Ringkasan Eksekusi bagi Developer Backend (The 3-Step Checklist)
+Rekan backend **TIDAK PERLU merombak ulang sistem**. Pekerjaan backend secara riil hanya mencakup **3 langkah sederhana**:
+1. Jalankan 1 file migration: `php artisan make:migration add_specs_to_products_table --table=products` (isi: `$table->json('specs')->nullable()`).
+2. Buka `app/Models/Product.php`, tambahkan `'specs' => 'array'` pada method `casts()`.
+3. Buka `app/Http/Resources/ProductResource.php`, sesuaikan perakitan array `images` dan kembalikan `specs` (kode siap salin tersedia di Bab 3).
+
+---
+
 ## 📦 BAB 2: SPESIFIKASI KONTRAK 3 DOMAIN OPERASIONAL
 
 ### 2.1 Konvensi Global API
