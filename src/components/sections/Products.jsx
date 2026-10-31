@@ -3,7 +3,7 @@ import { Droplets, Wind, Sparkles, FlaskConical, ChevronLeft, ChevronRight } fro
 import SectionWrapper from '../ui/SectionWrapper';
 import ProductCard from '../ui/ProductCard';
 import ProductDetailModal from '../ui/ProductDetailModal';
-import { PRODUCTS } from '../../constants/data';
+import { getProducts } from '../../services/productService';
 
 /**
  * SB7 Element 5 — Products Catalog Section
@@ -27,6 +27,8 @@ const productIcons = {
 };
 
 export default function Products() {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -39,11 +41,31 @@ export default function Products() {
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
   };
 
+  // Lifecycle Pemuatan Data Asinkron dengan Graceful Fallback
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadProducts() {
+      const data = await getProducts();
+      if (isMounted) {
+        setProducts(data);
+        setIsLoading(false);
+      }
+    }
+
+    loadProducts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Sinkronisasi Reaktif Sensor Navigasi Carousel Pasca-Render DOM
   useEffect(() => {
     checkScroll();
     window.addEventListener('resize', checkScroll);
     return () => window.removeEventListener('resize', checkScroll);
-  }, []);
+  }, [products, isLoading]);
 
   const handleScrollPrev = () => {
     if (scrollRef.current) {
@@ -103,18 +125,27 @@ export default function Products() {
         onScroll={checkScroll}
         className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none gap-4 sm:gap-6 -mx-4 px-4 sm:mx-0 sm:px-0 py-3 scroll-smooth"
       >
-        {PRODUCTS.map((product) => (
-          <div
-            key={product.id}
-            className="w-[78vw] sm:w-[280px] lg:w-[calc(25%-18px)] flex-shrink-0 snap-start"
-          >
-            <ProductCard
-              product={product}
-              fallbackIcon={productIcons[product.id] || Droplets}
-              onSelect={(prod) => setSelectedProduct(prod)}
-            />
-          </div>
-        ))}
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, idx) => (
+              <div
+                key={`skeleton-${idx}`}
+                className="w-[78vw] sm:w-[280px] lg:w-[calc(25%-18px)] flex-shrink-0 snap-start"
+              >
+                <ProductCard isLoading={true} />
+              </div>
+            ))
+          : products.map((product) => (
+              <div
+                key={product.id}
+                className="w-[78vw] sm:w-[280px] lg:w-[calc(25%-18px)] flex-shrink-0 snap-start"
+              >
+                <ProductCard
+                  product={product}
+                  fallbackIcon={productIcons[product.id] || Droplets}
+                  onSelect={(prod) => setSelectedProduct(prod)}
+                />
+              </div>
+            ))}
       </div>
 
       {/* Product Detail Modal Dialog */}
