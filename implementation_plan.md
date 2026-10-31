@@ -1,112 +1,109 @@
 <!-- RequestFeedback: false -->
-# [ARCH] Issue #5: Dokumen Spesifikasi Kontrak Data Backend (RFC / Payload Proposal eco-enzyme-be)
-- **Target GitHub Issue:** #5
-- **Branch Terkait:** `docs/issue-5-backend-data-contract-rfc`
+# [ARCH] Issue #7: Pembangunan Service API Client Layer & Graceful Offline Fallback Shield (0% White-Screen)
+- **Target GitHub Issue:** #7
+- **Branch Terkait:** `feature/issue-7-api-client-service-layer`
+- **Arsip Permanen:** `.docs/plan/issue-07-arch-api-client-service-layer.md`
 
 ---
 
 ## 🧭 Ringkasan Eksekutif & Intuisi Arsitektur
 
-> 💡 **Analogi Jembatan Penyeberangan Dua Repositori:**
-> Di sisi hulu, tim backend Laravel (`eco-enzyme-be`) bertindak sebagai **Dapur Pengolahan Data**. Di sisi hilir, antarmuka Astro (`eco-enzyme-landing`) bertindak sebagai **Etalase Restoran Bintang Lima**.
-> Jika dapur mengirimkan bahan mentah secara acak tanpa buku menu standar, etalase restoran akan kewalahan menata piring saji, bahkan bisa menyajikan piring kosong (*TypeError / White Screen*).
->
-> Dokumen **RFC (Request for Comments)** ini adalah **Buku Menu Standar Resmi** yang menyepakati:
-> 1. Piring apa saja yang diolah oleh dapur (Katalog Produk, Testimoni, dan Kontak).
-> 2. Piring apa saja yang sengaja dibuat di etalase restoran (7 seksi StoryBrand 7 statis demi mengunci konversi dan skor Lighthouse 100).
-> 3. Bagaimana bahan masakan disusun rapi dalam wadah biner (`$table->json('specs')` & `images: string[]`) agar dapur mudah memasak dan etalase langsung siap menyajikan ke tamu.
+> 💡 **Analogi Saklar Genset Otomatis (*Automatic Transfer Switch*):**
+> Komponen UI etalase katalog (`Products.jsx`) dan modal detail (`ProductDetailModal.jsx`) adalah perangkat medis di ruang operasi yang membutuhkan aliran listrik tanpa kedip (0% White-Screen).
+> 
+> Lapisan **Service Layer** yang kita bangun bertindak sebagai **Saklar Transfer Cerdas**:
+> 1. Saluran utama terhubung ke tiang listrik kota (API Backend Laravel `https://sanitasihijau.com/api/v1/products`).
+> 2. Di saklar tersebut dipasang sensor batas waktu (*Timeout 3000 ms*). Jika dalam 3 detik listrik tidak mengalir, atau kabel putus (*network error / server 500*), saklar secara otomatis dan senyap mengalihkan daya ke genset lokal (`src/constants/data.js`).
+> 3. Alur data menggunakan pola **Safe Result Tuple (`{ data, error }`)** tanpa lemparan exception (`throw`), sehingga komponen UI menerima data yang aman dan deterministik tanpa perlu takut crash.
 
 ---
 
 ## 🔍 Hasil Validasi Pra-Modifikasi AST (via agent-lsp)
 1. **`src/constants/data.js` (LSP Symbol Verified):**
-   - Mendefinisikan konstanta data statis `PRODUCTS` (dengan nested object `specs` dan array `images`), `TESTIMONIALS`, `IMPACT_STATS`, dan `CONTACT_INFO`.
-   - Mengonfirmasi seluruh penamaan properti di antarmuka frontend saat ini: `netto`, `packaging`, `shape`, `suitability`, `stock`, `certification`, `ingredients`, `usage`.
-2. **`src/components/ui/ProductDetailModal.jsx` (LSP Symbol Verified):**
-   - Mengonsumsi `images: string[]` secara langsung untuk galeri scroll-snap (Index 0 = cover card, Index 1+ = galeri modal).
-   - Mendestrukturisasi `specs` dengan aman dan merender 3 accordion bertingkat (*Spesifikasi*, *Komposisi*, *Cara Pakai*).
-3. **Repositori Backend (`eco-enzyme-be`):**
-   - Model `Product` memiliki relasi `hasMany` ke `ProductDetailImage`.
-   - Rute `routes/api.php` telah memiliki endpoint v1 publik: `/products`, `/testimonials`, `/contact`.
-   - Kesenjangan teridentifikasi: belum ada kolom `specs` (akan ditambahkan via JSON column), dan output resource `ProductResource` memisahkan `image_url` dengan `detail_images`.
+   - Berisi konstanta `PRODUCTS` yang saat ini menjadi *Single Source of Truth* data lokal dengan 4 item produk lengkap (`id`, `name`, `price`, `detail`, `images`, `specs`).
+   - Tidak ada error diagnostik (`0 diagnostics received`).
+2. **`src/components/sections/Products.jsx` (LSP Symbol Verified):**
+   - Mengimpor `PRODUCTS` secara langsung di baris ke-6.
+   - State lokal `selectedProduct` mengonsumsi objek produk untuk dioper ke `ProductDetailModal`.
+3. **Ketiadaan Lapisan Jaringan:**
+   - Belum ada folder `src/services/` di repositori frontend.
+   - Pembangunan lapisan ini murni modular baru (*Zero Blast Radius* ke komponen UI saat ini).
 
 ---
 
 ## 🌑 Sisi Gelap & Biaya Dependensi (Trade-Offs Analysis)
-- **Ketergantungan Eksekusi Tim Backend:**
-  - Frontend tidak bisa menyajikan data dinamis sebelum rekan tim backend menerapkan migrasi dan pembaruan `ProductResource.php`.
-  - *Mitigasi:* Dokumen RFC menyertakan potongan kode implementasi Laravel yang 100% siap salin (*copy-pasteable snippets*) sehingga backend tinggal mengeksekusinya dalam hitungan menit.
-- **Disiplin Dokumentasi Ganda:**
-  - Dokumen RFC hidup di repositori frontend, namun menjadi pedoman tim backend.
-  - *Mitigasi:* Dokumen ditulis dalam format Markdown standar yang dapat dibaca langsung di browser atau diekspor ke Wiki/GitHub Docs.
+- **Keterbukaan Biaya Dependensi:**
+  - Kita **menolak** penggunaan library HTTP berat seperti `axios` (~15 KB) demi mempertahankan bobot JavaScript super-ringan dan skor Google Lighthouse 100/100.
+  - Kita menggunakan **Native Web Fetch API** standar isomorphic (WinterCG) yang built-in di Node.js 22/24 dan browser modern.
+  - *Sisi Gelap / Harga Teknis:* Kita harus menulis sendiri wrapper `apiClient.js` (~35 baris) untuk menangani *timeout abort* dan ekstraksi JSON secara defensif.
+- **Batasan Ruang Lingkup (Scope Isolation):**
+  - Tiket ini fokus membangun fondasi service dan jaring pengaman fallback.
+  - Penyambungan reaktif ke komponen UI (`Products.jsx`) diisolasi ke tiket berikutnya di Roadmap agar pengujian ketahanan jaringan dapat divalidasi secara terpisah.
 
 ---
 
 ## 🏗️ Hierarki Eksekusi Absolut (Bottom-Up Implementation)
 
-### 🧱 Fase 1: Penyusunan Dokumen RFC (`docs/RFC_DATA_CONTRACT_BACKEND.md`)
-* **Tujuan:** Menulis dokumen spesifikasi resmi terlengkap mengadopsi format *Context-Rich Enterprise RFC*.
-* **Bab Dokumen:**
-  1. **Bab 1: Executive Summary, Content Governance, & Non-Goals:**
-     - Menjelaskan rasional *Content Governance vs Content Operations* untuk UMKM Jeruklegi.
-     - Matriks Pemisahan: 7 Seksi Statis (Astro 0 KB JS) vs 3 Domain Dinamis (Laravel CMS).
-     - Bab *Non-Goals*: Menegaskan alasan ilmiah mengapa `/home`, `/about`, dan `/how-to-orders` (Plan) berstatus statis di Astro.
-  2. **Bab 2: Spesifikasi Kontrak 3 Domain Operasional:**
-     - **Domain 1 (Katalog Produk & Spesifikasi):** `GET /api/v1/products`
-       - Skema DTO bersih: `images: string[]` dan `specs: object`.
-     - **Domain 2 (Social Proof & Statistik Dampak):** `GET /api/v1/testimonials`
-       - Skema `statistics` (`value`, `description`) dan `testimonials` (`name`, `location`, `quote`).
-       - Penegasan penghapusan avatar inisial berwarna (*anti-pattern*) demi gaya *Clean Editorial Typography*.
-     - **Domain 3 (Kontak & WhatsApp Checkout):** `GET /api/v1/contact`
-       - Skema `whatsapp_number`, `location`, `email`.
-       - Sentralisasi generator link WhatsApp di sisi klien.
-  3. **Bab 3: Panduan Implementasi Teknis Laravel (Siap Salin):**
-     - Migration: `$table->json('specs')->nullable();`
-     - Model: `casts() => ['specs' => 'array']` di `Product.php`
-     - Resource: Perakitan array di `ProductResource.php`
-  4. **Bab 4: Invariants, Error Handling, & Ketahanan Sistem:**
-     - Garansi non-null `{}` dan array `[]` dari backend.
-     - Fallback visual `"-"` di antarmuka frontend.
-     - Strategi *Graceful Offline Fallback* berbasis `src/constants/data.js`.
+### 🧱 Fase 1: Fondasi Transport Jaringan (`src/services/apiClient.js`)
+* **Tujuan:** Menyediakan fungsi transportasi HTTP generik yang kebal *uncaught exceptions*.
+* **Spesifikasi Teknis:**
+  - Fungsi `apiGet(endpoint, options = {})` berbasis `fetch` native.
+  - Penggunaan `AbortController` dengan batas waktu ketat `timeout = 3000` ms.
+  - Pengembalian format **Safe Result Tuple**: `{ data: T | null, error: Error | null }`.
+  - Resolusi URL dinamis: `import.meta.env.PUBLIC_API_URL` dengan fallback ke `https://sanitasihijau.com/api/v1`, dilengkapi sanitasi *trailing slash*.
+  - Parsing JSON defensif: jika response body bukan JSON valid, kembalikan objek error ramah tanpa *crash*.
 
 ---
 
-### ⚛️ Fase 2: Validasi Keselarasan Kontrak Frontend
-* **Tujuan:** Menjamin keandalan antarmuka frontend terhadap kontrak RFC.
-* **Tindakan:**
-  - Audit silang antara skema JSON RFC dengan struktur data di `src/constants/data.js`.
-  - Memastikan tidak ada properti yang bertentangan atau menyebabkan *undefined error* pada komponen `ProductCard.jsx`, `ProductDetailModal.jsx`, `Testimonials.jsx`, dan `Footer.jsx`.
+### 🧱 Fase 2: Layanan Domain Produk & Graceful Fallback (`src/services/productService.js`)
+* **Tujuan:** Menyediakan abstraksi data produk dengan perlindungan *Defense in Depth* dan *Silent Fallback*.
+* **Spesifikasi Teknis:**
+  - Mengimpor `apiGet` dari `./apiClient` dan `PRODUCTS` dari `../constants/data`.
+  - Fungsi `normalizeProduct(raw)`:
+    * Memastikan `images` selalu berupa `string[]` (minimal array kosong `[]`).
+    * Memastikan `specs` selalu berupa `object` (minimal objek kosong `{}`).
+    * Mempertahankan properti teks inti (`id`, `name`, `price`, `detail`, `order`).
+  - Fungsi `getProducts()`:
+    * Memanggil `apiGet('/products')`.
+    * Jika `error` ada atau data bukan array, catat peringatan di `console.warn` dan **kembalikan `PRODUCTS` lokal**.
+    * Jika sukses, petakan data melalui `normalizeProduct` dan kembalikan array produk bersih.
 
 ---
 
-### 🧩 Fase 3: Validasi Keselarasan Kontrak Backend
-* **Tujuan:** Menjamin kemudahan adopsi bagi pengembang backend.
-* **Tindakan:**
-  - Audit silang dengan model, migrasi, dan rute di `C:/Users/sofya/Documents/JS/eco-enzyme-be`.
-  - Memastikan nama kolom, tipe data biner MySQL 8, dan metode Eloquent pada panduan implementasi 100% valid dan *idiomatic* di Laravel 11/12.
+### 🧱 Fase 3: Konfigurasi Environment & Dokumentasi (`.env.example`)
+* **Tujuan:** Menyediakan template variabel lingkungan resmi proyek.
+* **Spesifikasi Teknis:**
+  - Membuat berkas `.env.example` di root proyek:
+    ```bash
+    # URL Base API Backend Laravel (Astro Client & SSR)
+    # Gunakan http://localhost:8000/api/v1 untuk development dengan backend lokal
+    PUBLIC_API_URL=https://sanitasihijau.com/api/v1
+    ```
 
 ---
 
-### 🛡️ Fase 4: Quality Gate & Verification Matrix
-* **Kriteria Kelulusan Mutlak (Definition of Done):**
-  - [ ] **Linter Pass:** `npm run lint` (`oxlint`) lolos dengan **0 error** dan **0 warning**.
-  - [ ] **Astro Build Pass:** `npm run build` sukses mengompilasi dist tanpa kegagalan sintaks.
-  - [ ] **Completeness Verification:** Berkas `docs/RFC_DATA_CONTRACT_BACKEND.md` memuat 4 bab utama secara lengkap dan jelas.
+### 🧱 Fase 4: Pengujian Ketahanan Offline & Skenario Gangguan
+* **Tujuan:** Memvalidasi secara mekanis bahwa service layer tidak pernah crash dan selalu mengembalikan data fallback saat backend bermasalah.
+* **Skenario Uji (Automated Verification Script):**
+  1. **Uji Kasus Normal (Local Fallback Trigger):** Jalankan skrip node dengan URL palsu / server mati ➔ Pastikan `getProducts()` mengembalikan 4 item produk `PRODUCTS` tanpa error.
+  2. **Uji Kasus Timeout:** Simulasikan delay > 3000 ms ➔ Pastikan request ter-abort rapi dan fallback aktif.
+  3. **Uji Normalizer Defensif:** Masukkan payload rusak (`specs: null`, `images: null`) ➔ Pastikan data dinormalisasi menjadi `{ specs: {}, images: [] }`.
 
 ---
 
-## 📋 Peta Berkas Terdampak (Blast Radius)
-
-| Status Berkas | Jalur Berkas | Keterangan Perubahan |
-| :--- | :--- | :--- |
-| 🆕 **Baru** | `docs/RFC_DATA_CONTRACT_BACKEND.md` | Dokumen resmi RFC Spesifikasi Kontrak Data Backend |
-| 📝 **Modifikasi** | `DEVELOPMENT_ROADMAP.md` | Penambahan item perbaikan kartu testimoni editorial typography |
-| 🔒 **Zero-Touch** | `src/constants/data.js` | Single Source of Truth tetap terjaga (diperbarui di tiket implementasi klien) |
-| 🔒 **Zero-Touch** | `src/components/*` | Komponen visual tidak disentuh pada tiket dokumentasi arsitektur ini |
+### 🧱 Fase 5: Quality Gate & Verifikasi Bundle
+* **Tujuan:** Memastikan kepatuhan linting dan ketiadaan regresi build.
+* **Langkah:**
+  1. Jalankan `npm run lint` (`oxlint`) ➔ Wajib 0 error / 0 warning.
+  2. Jalankan `npm run build` (`astro build`) ➔ Kompilasi statis wajib sukses 100%.
 
 ---
 
-## 🛑 Pintu Masuk Eksekusi Eksklusif
-Sesuai protokol konstitusi, rencana implementasi ini dirancang dengan aman dan tidak akan mengeksekusi kode secara otomatis.
-Pekerjaan implementasi hanya akan dimulai jika pengguna secara eksplisit mengetikkan perintah:
-- `/execute` ➔ Memulai penulisan dokumen `docs/RFC_DATA_CONTRACT_BACKEND.md` dan verifikasi sistem.
+## 🛡️ Jaring Pengaman Uji & Kriteria Kelayakan (Definition of Done)
+- [ ] Berkas `src/services/apiClient.js` terimplementasi dengan Safe Result Tuple dan timeout 3000 ms.
+- [ ] Berkas `src/services/productService.js` terimplementasi dengan fungsi `getProducts()` dan normalizer defensif.
+- [ ] Berkas `.env.example` terdokumentasi dengan rapi.
+- [ ] Pengujian offline fallback terbukti mengembalikan `PRODUCTS` lokal saat simulasi API gagal.
+- [ ] `npm run lint` lulus 100% tanpa error/warning.
+- [ ] `npm run build` lulus 100% tanpa warning.
+- [ ] Kriteria Penolakan PR: Ditolak jika ada dependensi eksternal baru di `package.json` atau jika fungsi service melempar *unhandled exception*.
