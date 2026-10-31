@@ -24,9 +24,9 @@
 - [x] Refaktor Shell `index.html` dan `App.jsx` ke `src/pages/index.astro` dengan pemisahan 8 seksi statis (0 KB JS murni) dan 2 seksi reaktif (`Navbar` & `Products` sebagai React Islands).
 - [x] Pengujian skor Google Lighthouse pasca-migrasi Astro (Target: Performance 98–100, LCP < 1.2 detik).
 - [x] Penyusunan Dokumen Spesifikasi Kontrak Data (RFC / Payload Proposal) untuk diajukan ke tim backend: pengajuan skema JSON `specs` dan relasi array `images`.
-- [ ] Pembangunan Service / API Client Layer di Frontend (penanganan fetch asynchronous, normalisasi data, dan penanganan error jaringan).
-- [ ] Arsitektur Ketahanan Data (*Graceful Offline Fallback*): Komponen otomatis beralih ke data lokal `src/constants/data.js` jika API backend tidak merespons, offline, atau gagal diakses.
-- [ ] Refaktor Komponen Katalog & Modal agar reaktif mengonsumsi data dinamis hasil response API tanpa regresi tata letak.
+- [x] Pembangunan Service / API Client Layer di Frontend (penanganan fetch asynchronous, normalisasi data, dan penanganan error jaringan) (Issue #7).
+- [x] Arsitektur Ketahanan Data (*Graceful Offline Fallback*): Komponen otomatis beralih ke data lokal `src/constants/data.js` jika API backend tidak merespons, offline, atau gagal diakses (Issue #7).
+- [ ] Refaktor Komponen Katalog & Modal agar reaktif mengonsumsi data dinamis hasil response API tanpa regresi tata letak (Issue #9).
 - [ ] Redesain & Refaktor Tampilan Kartu Testimoni: Menghapus avatar inisial berwarna (anti-pattern) dan mengadopsi gaya *Clean Editorial Typography* terinspirasi brand kredibel dunia (Aesop, Patagonia, Sensatia Botanicals) yang elegan dan relevan dengan identitas produk alami Jeruklegi.
 - [ ] Integrasi dinamis data Testimoni dan Angka Dampak Lingkungan dari endpoint API publik backend (`GET /api/v1/testimonials`).
 
