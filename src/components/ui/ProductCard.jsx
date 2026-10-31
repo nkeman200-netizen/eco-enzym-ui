@@ -16,9 +16,35 @@ export default function ProductCard({
   product,
   onSelect,
   fallbackIcon: IconComponent = Droplets,
+  isLoading = false,
 }) {
   const [primaryFailed, setPrimaryFailed] = useState(false);
   const [secondaryFailed, setSecondaryFailed] = useState(false);
+
+  // Early Return Skeleton Loader: Menjamin dimensi 1:1 dan Zero Layout Shift (CLS 0.00)
+  if (isLoading) {
+    return (
+      <div
+        className="bg-[#FDFBF7] rounded-3xl border border-brand-accent/20 p-4 sm:p-5 flex flex-col justify-between h-full animate-pulse select-none"
+        aria-hidden="true"
+      >
+        <div>
+          {/* Wadah Skeleton Gambar: identik 1:1 dengan kontainer foto kartu asli */}
+          <div className="w-full aspect-square rounded-2xl bg-brand-accent/10 border border-brand-accent/15" />
+
+          {/* Balok Skeleton Teks & Metadata */}
+          <div className="mt-4 flex flex-col gap-2">
+            {/* Skeleton Netto */}
+            <div className="h-3 bg-brand-accent/10 rounded w-1/4" />
+            {/* Skeleton Nama Produk */}
+            <div className="h-5 bg-brand-accent/15 rounded-md w-3/4" />
+            {/* Skeleton Harga */}
+            <div className="h-6 bg-brand-accent/15 rounded-lg w-1/2 mt-2" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const {
     name = '',
