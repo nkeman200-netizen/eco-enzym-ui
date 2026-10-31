@@ -2,8 +2,9 @@
 name: project-audit
 description: >-
   SOP Audit Kode (/audit). Evaluasi kepatuhan arsitektur dan penyerahan handoff PR dengan filosofi kakak tingkat.
-forge_version: "1.3.3"
+forge_version: "1.3.5"
 forged_at: "2026-10-25"
+updated_at: "2026-10-29"
 project_name: "Eco-Enzyme Jeruklegi Landing Page"
 ---
 # SOP AUDIT KODE (`/audit`)
@@ -45,4 +46,3 @@ Terima kasih!
   1. Apresiasi keberhasilan fungsional yang sudah dicapai developer.
   2. Jelaskan risiko temuan dengan analogi santai (misal: kebocoran memori diibaratkan keran air yang tidak tertutup rapat).
   3. Berikan opsi solusi perbaikan konkret dengan jaring pengaman: *"Temuan ini wajar banget muncul di fase awal. Mau aku bantu rapikan bagian ini, atau mau kamu coba perbaiki sendiri dulu?"*
-
