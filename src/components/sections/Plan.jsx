@@ -54,7 +54,7 @@ export default function Plan() {
                   <div className="w-20 h-20 rounded-full bg-brand-primary flex items-center justify-center shadow-lg shadow-brand-primary/25">
                     <IconComponent className="w-9 h-9 text-white" />
                   </div>
-                  <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-brand-accent text-white text-xs font-extrabold flex items-center justify-center shadow">
+                  <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-brand-citrus text-white text-xs font-extrabold flex items-center justify-center shadow-md shadow-brand-citrus/30">
                     {item.step}
                   </span>
                 </div>

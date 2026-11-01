@@ -5,7 +5,7 @@ import React from 'react';
  * 
  * @param {Object} props
  * @param {React.ReactNode} props.children
- * @param {'primary' | 'secondary' | 'outline' | 'inverted'} [props.variant='primary']
+ * @param {'primary' | 'secondary' | 'citrus' | 'outline' | 'ghost' | 'inverted'} [props.variant='primary']
  * @param {string} [props.className='']
  * @param {function} [props.onClick]
  * @param {'button' | 'submit' | 'reset'} [props.type='button']
@@ -25,7 +25,9 @@ export default function Button({
   const variantStyles = {
     primary: 'bg-brand-primary text-white hover:bg-brand-primary/90 shadow-sm hover:shadow-md',
     secondary: 'bg-brand-accent text-white hover:bg-brand-accent/90 shadow-sm hover:shadow-md',
+    citrus: 'bg-brand-citrus text-white font-bold hover:bg-brand-citrus-warm hover:text-brand-primary shadow-sm hover:shadow-md',
     outline: 'border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white',
+    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 hover:text-brand-primary border border-gray-300 hover:border-gray-400',
     inverted: 'bg-white text-brand-primary hover:bg-surface-light shadow-sm hover:shadow-md',
   };
 

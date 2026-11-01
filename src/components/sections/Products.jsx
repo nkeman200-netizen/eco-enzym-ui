@@ -118,7 +118,7 @@ export default function Products() {
             onClick={handleScrollPrev}
             disabled={!canScrollLeft}
             aria-label="Geser ke produk sebelumnya"
-            className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer hover:border-brand-primary/40 active:scale-95"
+            className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-brand-citrus/10 flex items-center justify-center text-gray-700 hover:text-brand-citrus disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer hover:border-brand-citrus/40 active:scale-95"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -127,7 +127,7 @@ export default function Products() {
             onClick={handleScrollNext}
             disabled={!canScrollRight}
             aria-label="Geser ke produk berikutnya"
-            className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer hover:border-brand-primary/40 active:scale-95"
+            className="w-10 h-10 rounded-full border border-gray-200 bg-white hover:bg-brand-citrus/10 flex items-center justify-center text-gray-700 hover:text-brand-citrus disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-xs cursor-pointer hover:border-brand-citrus/40 active:scale-95"
           >
             <ChevronRight className="w-5 h-5" />
           </button>

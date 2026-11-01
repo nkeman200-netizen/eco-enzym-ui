@@ -73,10 +73,21 @@ export default function Footer() {
           })}
         </div>
 
-        {/* Garis Pembatas & Copyright */}
-        <div className="border-t border-white/20 pt-8 mt-12 w-full">
-          <p className="text-xs sm:text-sm text-white/80 tracking-wide">
-            &copy; 2026 Program Pengabdian Masyarakat Eco-Enzyme. All rights reserved.
+        {/* Garis Pembatas & Brand Identity */}
+        <div className="border-t border-white/20 pt-8 mt-12 w-full flex flex-col items-center gap-4">
+          <div className="bg-white/95 rounded-2xl px-4 py-2 shadow-sm inline-flex items-center justify-center">
+            <img
+              src="/images/brand/logo-full.webp"
+              alt="Logo Resmi SiDeta - Sanitasi Hijau Jeruklegi"
+              width="200"
+              height="57"
+              className="h-10 sm:h-12 w-auto object-contain"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <p className="text-xs sm:text-sm text-white/90 tracking-wide max-w-xl leading-relaxed">
+            &copy; 2026 SiDeta &mdash; Inovasi Produk Pembersih Ramah Lingkungan Program Pengabdian Masyarakat Sanitasi Hijau Desa Jeruklegi.
           </p>
         </div>
       </div>

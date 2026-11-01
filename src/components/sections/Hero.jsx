@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import Button from '../ui/Button';
-import { Leaf, Droplets } from 'lucide-react';
+import { Droplets, Sparkles } from 'lucide-react';
 
 /**
  * SB7 Element 1 — Hero Section
@@ -16,6 +16,7 @@ export default function Hero() {
 
       {/* Ambient Background Glow */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-pulse pointer-events-none" />
+      <div className="absolute top-20 right-10 w-96 h-96 bg-brand-citrus-warm/15 rounded-full mix-blend-multiply filter blur-[120px] pointer-events-none" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-10">
 
@@ -23,10 +24,10 @@ export default function Hero() {
         <div className="flex flex-col items-start space-y-6">
 
           {/* Badge Organik */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-accent/10 border border-brand-accent/20">
-            <Leaf className="w-4 h-4 text-brand-primary" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-citrus/10 border border-brand-citrus/25 shadow-xs">
+            <Sparkles className="w-4 h-4 text-brand-citrus" />
             <span className="text-sm font-semibold text-brand-primary">
-              100% Organik · Dibuat Langsung oleh Komunitas Lokal
+              100% Organik & Fermentasi Sitrus Alami · Komunitas Jeruklegi
             </span>
           </div>
 
@@ -93,7 +94,8 @@ export default function Hero() {
             <div className="w-24 h-24 bg-brand-accent/20 rounded-full flex items-center justify-center mb-6 shadow-inner border border-white/50">
               <Droplets className="w-12 h-12 text-brand-primary" />
             </div>
-            <div className="bg-white px-6 py-2 rounded-full shadow-sm mb-4 border border-gray-100">
+            <div className="bg-white px-6 py-2 rounded-full shadow-sm mb-4 border border-brand-citrus/30 bg-gradient-to-r from-white to-brand-citrus/10 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-brand-citrus inline-block"></span>
               <span className="text-xs font-bold text-brand-primary uppercase tracking-wider">
                 Sabun & Pembersih Alami
               </span>

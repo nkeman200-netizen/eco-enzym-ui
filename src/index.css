@@ -2,8 +2,10 @@
 @config "../tailwind.config.js";
 
 @theme {
-  --color-brand-primary: #166D3B;
+  --color-brand-primary: #164E2E;
   --color-brand-accent: #7CBE4D;
+  --color-brand-citrus: #F7931E;
+  --color-brand-citrus-warm: #FBB03B;
   --color-surface-light: #F5F5F5;
   --color-text-main: #222222;
   --color-bg-base: #FFFFFF;

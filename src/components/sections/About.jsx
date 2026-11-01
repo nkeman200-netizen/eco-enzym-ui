@@ -23,8 +23,8 @@ export default function About() {
 
       {/* Empati Statement — brand berbicara sebelum menjelaskan diri */}
       <div className="text-center max-w-2xl mx-auto mb-4 space-y-2">
-        <span className="inline-block text-sm font-semibold text-brand-primary uppercase tracking-widest">
-          Kami Mengerti Perasaan Itu
+        <span className="inline-block text-xs font-bold text-brand-citrus uppercase tracking-widest bg-brand-citrus/10 px-3.5 py-1 rounded-full border border-brand-citrus/25">
+          Formula Fermentasi Sitrus & Eco-Enzyme Jeruklegi
         </span>
       </div>
 
@@ -77,7 +77,7 @@ export default function About() {
                 <div className="w-14 h-14 rounded-2xl bg-brand-accent/15 border-2 border-white flex items-center justify-center text-brand-primary shadow-sm group-hover:bg-brand-accent/25 group-hover:scale-110 transition-all duration-300">
                   <IconComponent className="w-7 h-7 text-brand-primary" />
                 </div>
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#FDFBF7] border border-brand-accent/30 text-brand-primary font-bold text-sm">
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-brand-citrus/15 border border-brand-citrus/30 text-brand-primary font-extrabold text-sm group-hover:bg-brand-citrus group-hover:text-white transition-colors">
                   {item.step}
                 </span>
               </div>

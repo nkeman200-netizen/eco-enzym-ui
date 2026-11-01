@@ -7,8 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'brand-primary': '#166D3B',
+        'brand-primary': '#164E2E',
         'brand-accent': '#7CBE4D',
+        'brand-citrus': '#F7931E',
+        'brand-citrus-warm': '#FBB03B',
         'surface-light': '#F5F5F5',
         'text-main': '#222222',
         'bg-base': '#FFFFFF',
