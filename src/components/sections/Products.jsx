@@ -1,5 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Droplets, Wind, Sparkles, FlaskConical, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  Droplets,
+  Wind,
+  Sparkles,
+  FlaskConical,
+  Utensils,
+  Shirt,
+  Hand,
+  Sprout,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
 import SectionWrapper from '../ui/SectionWrapper';
 import ProductCard from '../ui/ProductCard';
 import ProductDetailModal from '../ui/ProductDetailModal';
@@ -24,6 +35,10 @@ const productIcons = {
   'pembersih-lantai': Wind,
   'pembersih-kaca': Sparkles,
   'pembersih-kamar-mandi': FlaskConical,
+  'sabun-cuci-piring': Utensils,
+  'deterjen-cair': Shirt,
+  'sabun-cuci-tangan': Hand,
+  'nutrisi-tanaman': Sprout,
 };
 
 export default function Products() {
