@@ -1,7 +1,7 @@
 ---
-forge_version: "1.3.4"
+forge_version: "1.3.6"
 forged_at: "2026-10-25"
-updated_at: "2026-10-26"
+updated_at: "2026-10-29"
 project_name: "Eco-Enzyme Jeruklegi Landing Page"
 ---
 # MASTER RULES: Eco-Enzyme Jeruklegi Landing Page
@@ -26,6 +26,15 @@ project_name: "Eco-Enzyme Jeruklegi Landing Page"
 ## 3. Hukum Pengujian (Testing)
 - **Tingkat Komitmen:** Pragmatic Linting & Build Verification. Memprioritaskan kecepatan rilis dan efisiensi bundle: verifikasi statis tanpa dependensi test runner berat melalui oxlint (0 error/warning) dan validasi kompilasi bundle produksi Vite/Astro build (exit code 0).
 - **Aturan Praktis:** (Contoh: AI dilarang menulis kode produksi sebelum tes ditulis).
+- **Four-Tier Quality Gate (Khusus Fitur Antarmuka Pengguna/UI):**
+  1. *Tier 1 (Linting):* Oxlint / ESLint 0 error dan 0 warning.
+  2. *Tier 2 (Logic Tests):* Unit/Integration logic test passing 100%.
+  3. *Tier 3 (Production Bundler):* Build produksi sukses dengan Exit Code 0.
+  4. *Tier 4 (Visual Smoke & Actionability Gate):* Verifikasi interaktivitas browser riil via Playwright MCP (anti-backdrop intercept, rasio aspek proporsional, dan targeted crop snapshot Light/Dark mode).
+- **Hukum Anti-Kebutaan Visual & Metrik Geometri (Anti-Visual Blindness Protocol):**
+  * **Metrik Geometri Sebelum Opini:** AI dilarang menyimpulkan keselarasan tampilan hanya dari pencocokan semantik. Rasio wadah wajib selaras dengan rasio asli gambar (`naturalWidth/naturalHeight`) untuk mencegah sayap putih (*pillarbox*).
+  * **Uji Dua Tema Ekstrem (Dual-Theme Bleed):** Verifikasi tangkapan layar elemen pada Light Mode dan Dark Mode untuk mendeteksi balok semen kontras tak diinginkan.
+  * **Penyelamat Laptop Fresh Clone (Graceful Fallback):** Jika lingkungan lokal belum memiliki Playwright / Chromium, AI dilarang membatalkan audit atau memblokir PR; AI wajib beralih ke inspeksi kode statis (*conditional unmount & adaptive bounds*) dengan catatan edukatif ramah.
 
 ## 4. Standar Kode & Kualitas
 - **Ketegasan Audit:** Enterprise Quality Gate dengan peringatan edukatif terstruktur. Memeriksa 5 Dimensi Mutu (Arsitektur, Kebersihan Kode & DRY, Keamanan & Zero Secrets, Performa Core Web Vitals, dan Aksesibilitas WCAG AA).
@@ -40,11 +49,12 @@ project_name: "Eco-Enzyme Jeruklegi Landing Page"
 
 ### 5.1 MCP yang Diotorisasi
 - **Agent-LSP:** Navigasi simbol, pemetaan tipe data, dan pelacakan dependensi lintas komponen secara presisi.
+- **Playwright MCP:** Uji interaksi UI, deteksi backdrop intercept, crop snapshot (Light/Dark mode), dan verifikasi aspect ratio geometri.
 - **MCP GitHub:** Otomasi penerbitan Issue, pelacakan PR, dan pembaruan tiket ketika token akses (PAT) telah terpasang.
 
 ### 5.2 Mandat Penggunaan (Kapan WAJIB Dipanggil)
 - Sebelum mengedit komponen atau data, AI WAJIB membaca file fisik target terlebih dahulu menggunakan `read_file` atau alat LSP yang relevan.
-- Dalam sesi `/audit`, AI WAJIB menjalankan verifikasi riil melalui `terminal` (`npm run lint && npm run build`) dan membaca status git aktual sebelum menyimpulkan kelaikan kode.
+- Dalam sesi `/audit` fitur antarmuka (Frontend/Fullstack), AI WAJIB menjalankan verifikasi riil melalui `terminal` (`npm run lint && npm run build`) dan pengujian interaktif Playwright (atau Fallback Static Audit jika browser belum dipasang).
 - Dilarang membuat kesimpulan berdasarkan asumsi atau memori lama tanpa verifikasi alat fisik.
 
 ### 5.3 Kebijakan Mutasi & Batasan Akses

@@ -9,6 +9,14 @@
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-github"],
       "cwd": "."
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@executeautomation/playwright-mcp-server"],
+      "cwd": ".",
+      "env": {
+        "PLAYWRIGHT_HEADLESS": "true"
+      }
     }
   }
 }

@@ -192,6 +192,102 @@ export const PRODUCTS = [
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Pembersih%20Kamar%20Mandi%20Eco-Enzyme.',
   },
+  {
+    id: 'sabun-cuci-piring',
+    name: 'Sabun Cuci Piring',
+    description: 'Ampuh rontokkan minyak & bau amis tanpa rasa panas di tangan.',
+    benefit: 'Aman untuk botol susu bayi dan peralatan makan anak-anak.',
+    detail: 'Diformulasikan khusus untuk dapur sehat dengan bio-enzim nanas pemecah protein lemak, saponin alami buah lerak, dan ekstrak jeruk nipis segar. Menghasilkan busa lembut mudah bilas tanpa residu licin kimia atau bau sabun pada piring dan gelas. Mengandung gliserin nabati alami menjaga telapak tangan tetap lembut dan tidak kering mengelupas.',
+    price: 'Rp 18.000',
+    images: [
+      '/images/products/sabun-cuci-piring-1.webp',
+      '/images/products/sabun-cuci-piring-2.webp',
+      '/images/products/sabun-cuci-piring-3.webp',
+    ],
+    specs: {
+      netto: '450 ml',
+      packaging: 'Botol Tutup Flip-top Anti-Bocor',
+      suitability: 'Peralatan Makan, Panci, Wajan Antilengket, Botol Susu Bayi, & Wadah Silikon',
+      stock: 'Tersedia (Ready Stock)',
+      certification: 'Food-Grade Contact Safe & 100% Biodegradable',
+      ingredients: 'Enzim fermentasi nanas & jeruk nipis, saponin lerak murni, gliserin kelapa, minyak atsiri jeruk pekat',
+      usage: 'Teteskan secukupnya pada spons basah, remas hingga berbusa, usapkan ke peralatan makan, lalu bilas dengan air mengalir hingga kesat.',
+    },
+    whatsappUrl:
+      'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Sabun%20Cuci%20Piring%20Eco-Enzyme.',
+  },
+  {
+    id: 'deterjen-cair',
+    name: 'Deterjen Cair Pakaian',
+    description: 'Bersihkan noda keringat & pakaian terdalam tanpa pudarkan warna.',
+    benefit: 'Pakaian wangi segar tanpa bau apek jemur di dalam ruangan.',
+    detail: 'Inovasi deterjen pakaian ramah keluarga yang memanfaatkan sinergi enzim protease dan amilase alami eco-enzyme untuk mendegradasi noda darah, keringat, dan saus langsung dari serat kain. Tanpa fosfat yang mencemari sungai dan tanpa pemutih sintetis keras. Busa terkontrol aman untuk mesin cuci front load, top load, maupun cuci tangan. Sangat cocok untuk pakaian bayi dan kulit sensitif.',
+    price: 'Rp 35.000',
+    images: [
+      '/images/products/deterjen-cair-1.webp',
+      '/images/products/deterjen-cair-2.webp',
+      '/images/products/deterjen-cair-3.webp',
+    ],
+    specs: {
+      netto: '1000 ml',
+      packaging: 'Jerigen Botol HDPE dengan Tutup Takar Ergonomis',
+      suitability: 'Pakaian Bayi, Katun, Linen, Sutra, Wol, & Pakaian Olahraga (Dri-fit)',
+      stock: 'Tersedia (Ready Stock)',
+      certification: 'Hipoalergenik, Bebas Fosfat & Pemutih Klorin',
+      ingredients: 'Bio-enzim multi-aktif eco-enzyme, saponin nabati, surfaktan non-ionik kelapa sawit lestari, minyak atsiri lavender',
+      usage: 'Gunakan 30–40 ml (1 tutup botol) untuk 5–7 kg cucian pakaian. Tuang langsung ke laci deterjen mesin cuci atau ember cuci manual.',
+    },
+    whatsappUrl:
+      'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Deterjen%20Cair%20Pakaian%20Eco-Enzyme.',
+  },
+  {
+    id: 'sabun-cuci-tangan',
+    name: 'Sabun Cuci Tangan Busa',
+    description: 'Busa mikro instan selembut awan dengan proteksi antibakteri buah.',
+    benefit: 'Tangan bersih higienis tanpa rasa kering walau sering cuci tangan.',
+    detail: 'Sabun cuci tangan instan dengan botol pompa pembuat busa (foaming pump) yang mengubah cairan enzim menjadi jutaan gelembung busa lembut dalam satu kali tekan. Menjadikan rutinitas cuci tangan menyenangkan bagi si kecil. Diperkaya bio-asam organik eco-enzyme yang menonaktifkan kuman secara alami tanpa triclosan atau alkohol, serta aloe vera untuk kelembapan ekstra.',
+    price: 'Rp 22.000',
+    images: [
+      '/images/products/sabun-cuci-tangan-1.webp',
+      '/images/products/sabun-cuci-tangan-2.webp',
+      '/images/products/sabun-cuci-tangan-3.webp',
+    ],
+    specs: {
+      netto: '250 ml',
+      packaging: 'Botol Pompa Busa Ergonomis (Reusable Foaming Pump)',
+      suitability: 'Wastafel Dapur, Kamar Mandi, Ruang Makan, & Meja Kasir',
+      stock: 'Tersedia (Ready Stock)',
+      certification: 'Hipoalergenik, Antibakteri Alami Non-Triclosan',
+      ingredients: 'Filtrat eco-enzyme murni, saponin lerak cair, sari lidah buaya organik (Aloe Vera), minyak atsiri tea tree & sweet orange',
+      usage: 'Tekan pompa 1 kali untuk mengeluarkan busa kaya pada telapak tangan basah, gosok sela-sela jari selama 20 detik, lalu bilas bersih.',
+    },
+    whatsappUrl:
+      'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Sabun%20Cuci%20Tangan%20Busa%20Eco-Enzyme.',
+  },
+  {
+    id: 'nutrisi-tanaman',
+    name: 'Nutrisi & Bio-Pestisida Tanaman',
+    description: 'Semprotan siap pakai penyubur daun dan pengusir hama kutu daun.',
+    benefit: 'Tanaman rimbun hijau segar tanpa pestisida kimia — pet safe.',
+    detail: 'Formula bio-nutrisi tanaman 2-in-1 siap semprot yang menggabungkan hormon pertumbuhan alami auksin & sitokinin dari fermentasi eco-enzyme buah dengan asam asetat pengusir hama. Merangsang tunas baru, menguatkan akar, dan mengusir kutu putih maupun semut secara biologis tanpa meracuni hewan peliharaan di rumah.',
+    price: 'Rp 20.000',
+    images: [
+      '/images/products/nutrisi-tanaman-1.webp',
+      '/images/products/nutrisi-tanaman-2.webp',
+      '/images/products/nutrisi-tanaman-3.webp',
+    ],
+    specs: {
+      netto: '500 ml',
+      packaging: 'Botol Trigger Spray Mist Halus Anti-Mampet',
+      suitability: 'Tanaman Hias Daun (Indoor/Outdoor), Tanaman Bunga, Sayur Pekarangan, & Kebun Buah',
+      stock: 'Tersedia (Ready Stock)',
+      certification: '100% Organik & Aman Hewan Peliharaan (Pet-Safe)',
+      ingredients: 'Cairan fermentasi eco-enzyme matang mikro-terfiltrasi, asam amino organik tanaman, kalium nabati, ekstrak daun mimba alami',
+      usage: 'Kocok perlahan, semprotkan kabut halus ke permukaan atas dan bawah daun serta media tanam 1–2 kali seminggu pada pagi hari.',
+    },
+    whatsappUrl:
+      'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Nutrisi%20Tanaman%20Eco-Enzyme.',
+  },
 ];
 
 // ─────────────────────────────────────────────────

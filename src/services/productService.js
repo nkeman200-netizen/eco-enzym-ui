@@ -26,9 +26,15 @@ export function normalizeProduct(raw) {
   // Jaminan invariant images: selalu berupa array
   let safeImages = [];
   if (Array.isArray(raw.images)) {
-    safeImages = raw.images.filter(Boolean);
-  } else if (typeof raw.image === 'string' && raw.image.trim() !== '') {
-    safeImages = [raw.image];
+    safeImages = raw.images.map((img) => (typeof img === 'string' ? img : img?.image_url || '')).filter(Boolean);
+  } else {
+    if (raw.image_url) safeImages.push(raw.image_url);
+    if (Array.isArray(raw.detail_images)) {
+      raw.detail_images.forEach((di) => {
+        const url = typeof di === 'string' ? di : di?.image_url;
+        if (url) safeImages.push(url);
+      });
+    }
   }
 
   // Jaminan invariant specs: selalu berupa objek non-null
@@ -36,10 +42,20 @@ export function normalizeProduct(raw) {
     ? raw.specs
     : {};
 
+  // Format harga yang aman (string atau number)
+  let safePrice = raw.price;
+  if (typeof safePrice === 'number') {
+    safePrice = `Rp ${safePrice.toLocaleString('id-ID')}`;
+  } else if (typeof safePrice === 'string' && safePrice.trim() !== '') {
+    safePrice = safePrice.trim();
+  } else {
+    safePrice = 'Rp 0';
+  }
+
   return {
     id: raw.id ?? 0,
     name: raw.name || 'Produk Eco-Enzyme',
-    price: typeof raw.price === 'number' ? raw.price : Number(raw.price) || 0,
+    price: safePrice,
     detail: raw.detail || raw.description || '',
     description: raw.description || '',
     benefit: raw.benefit || '',
@@ -57,30 +73,41 @@ export function normalizeProduct(raw) {
 export async function getProducts() {
   const { data, error } = await apiGet('/products');
 
-  // Jika koneksi gagal, timeout, atau format data bukan array
-  if (error || !Array.isArray(data)) {
+  // Jika koneksi gagal, timeout, atau format data tidak valid
+  if (error || !data) {
     if (error) {
       console.warn(
         `[productService] API backend tidak merespons (${error.message}). Mengaktifkan fallback ke data lokal static.`
       );
-    } else {
-      console.warn(
-        '[productService] Payload API backend tidak sesuai format array. Mengaktifkan fallback ke data lokal static.'
-      );
     }
-
-    // Kembalikan Single Source of Truth lokal yang selalu valid
     return PRODUCTS;
   }
 
-  // Jika remote mengembalikan array kosong, amankan dengan fallback lokal
-  if (data.length === 0) {
+  // Tangani fleksibilitas payload: koleksi seksi Laravel [{ id, products: [...] }] atau flat array produk
+  let productList = [];
+  if (Array.isArray(data)) {
+    if (data.length > 0 && Array.isArray(data[0]?.products)) {
+      // Format koleksi ProductSection Laravel eksisting (eco-enzyme-be)
+      productList = data.flatMap((sec) => sec.products || []);
+    } else {
+      // Format flat array produk murni
+      productList = data;
+    }
+  } else {
+    console.warn(
+      '[productService] Payload API backend tidak sesuai format array. Mengaktifkan fallback ke data lokal static.'
+    );
+    return PRODUCTS;
+  }
+
+  // Jika remote mengembalikan katalog kosong, amankan dengan fallback lokal
+  if (productList.length === 0) {
     console.warn('[productService] Remote API mengembalikan katalog kosong. Menggunakan data lokal static.');
     return PRODUCTS;
   }
 
   // Normalisasi seluruh item produk yang diterima
-  const normalizedProducts = data.map(normalizeProduct).filter(Boolean);
+  const normalizedProducts = productList.map(normalizeProduct).filter(Boolean);
 
   return normalizedProducts.length > 0 ? normalizedProducts : PRODUCTS;
 }

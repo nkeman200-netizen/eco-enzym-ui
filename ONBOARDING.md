@@ -72,6 +72,17 @@ GITHUB_PERSONAL_ACCESS_TOKEN="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 Konfigurasi MCP telah terpasang secara otomatis di `.agents/mcp_config.json`. AI yang beroperasi di repositori ini secara otomatis dapat:
 * Menavigasi simbol kode dan tipe data via `agent-lsp`.
 * Membaca issue dan membantu menyusun draf PR via `@modelcontextprotocol/server-github`.
+* Menguji interaksi UI dan screenshot tema via Playwright MCP.
+
+### C. Pengujian Visual Smoke & Interaktivitas UI (Playwright Setup)
+Untuk mengaktifkan pengujian interaktif browser nyata dan pencegahan layar terkunci (*Tier 4 Visual Smoke Gate* pada `/audit`), jalankan perintah:
+
+```bash
+# Pasang paket pengujian ke devDependencies dan unduh biner peramban Chromium
+npm install -D @playwright/test && npx playwright install chromium
+```
+
+> 💡 **Catatan Ramah Laptop Fresh Clone:** Jika Anda belum menjalankan perintah ini di perangkat lokal, sesi `/audit` tetap berjalan aman dengan mengalihkan pengujian ke analisis kode statis (*Graceful Fallback*) sehingga tidak akan menghambat pengerjaan tugas maupun penerbitan PR Anda.
 
 ---
 
