@@ -31,6 +31,7 @@
 - [ ] Redesain & Refaktor Tampilan Kartu Testimoni: Menghapus avatar inisial berwarna (anti-pattern) dan mengadopsi gaya *Clean Editorial Typography* terinspirasi brand kredibel dunia (Aesop, Patagonia, Sensatia Botanicals) yang elegan dan relevan dengan identitas produk alami Jeruklegi.
 - [ ] Integrasi dinamis data Testimoni dan Angka Dampak Lingkungan dari endpoint API publik backend (`GET /api/v1/testimonials`).
 - [ ] Integrasi Dinamis Kontak Operasional & WhatsApp Checkout (`GET /api/v1/contact`): Mengalirkan data kontak dinamis ke `Footer.jsx` (`location`, `email`, `whatsapp`), serta sentralisasi generator tautan WhatsApp checkout (`src/utils/whatsapp.js`) berbasis `whatsapp_number` aktif dari API untuk transaksi produk (`ProductDetailModal.jsx` & CTA) dengan *graceful offline fallback* ke data lokal `src/constants/data.js`.
+- [ ] Penyempurnaan Data Dummy & Humanize Tipografi Narasi: Memoles copy naratif di `src/constants/data.js` (spesifikasi bahan, aroma, takaran pemakaian, dan cerita komunitas Jeruklegi) agar otentik, membumi, serta bebas dari gaya bahasa kaku korporat/AI-isms, dipadukan dengan kalibrasi ritme tipografi (*typographic hierarchy*, *line-height*, dan *micro-copy*) bergaya editorial alami.
 
 ---
 
