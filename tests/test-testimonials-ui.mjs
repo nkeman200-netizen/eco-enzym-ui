@@ -6,8 +6,29 @@ import { chromium } from '@playwright/test';
 import { TESTIMONIALS } from '../src/constants/data.js';
 
 console.log('================================================================');
-console.log('🧪 TDD SUITE: CLEAN EDITORIAL TESTIMONIALS & SCHEMA CONTRACT (ISSUE #14)');
+console.log('🧪 TDD SUITE: CLEAN EDITORIAL & DYNAMIC TESTIMONIALS (ISSUE #14 & #15)');
 console.log('================================================================\n');
+
+// ─────────────────────────────────────────────────────────────
+// 0. STATIC SOURCE AUDIT: REACTIVITY & SKELETON IN TESTIMONIALS.JSX
+// ─────────────────────────────────────────────────────────────
+console.log('🔍 [SKENARIO 0]: Memeriksa integrasi getTestimonialsData() & Skeleton Loading di Testimonials.jsx...');
+const testimonialsPath = path.join(process.cwd(), 'src/components/sections/Testimonials.jsx');
+const testimonialsSource = fs.readFileSync(testimonialsPath, 'utf8');
+
+assert.ok(
+  testimonialsSource.includes('getTestimonialsData'),
+  '❌ [GAGAL]: Testimonials.jsx wajib mengimpor dan memanggil getTestimonialsData dari testimonialService!'
+);
+assert.ok(
+  testimonialsSource.includes('isActive') && !testimonialsSource.includes('SHOW_TESTIMONIALS'),
+  '❌ [GAGAL]: Visibilitas Testimonials.jsx wajib dikendalikan oleh flag isActive dari payload BE (bukan konstanta statis SHOW_TESTIMONIALS dari data.js)!'
+);
+assert.ok(
+  testimonialsSource.includes('isLoading') && testimonialsSource.includes('animate-pulse'),
+  '❌ [GAGAL]: Testimonials.jsx wajib mengelola state isLoading dan menampilkan Inline Skeleton Shimmer (animate-pulse)!'
+);
+console.log('   ✓ Integrasi service dan Inline Skeleton Shimmer terverifikasi.\n');
 
 // ─────────────────────────────────────────────────────────────
 // 1. UNIT & DATA CONTRACT SPECIFICATION (STRICT RFC COMPLIANCE)
@@ -122,11 +143,14 @@ async function runTestSuite() {
     const testimonialsSection = page.locator('#testimoni');
     await testimonialsSection.scrollIntoViewIfNeeded();
 
+    // Tunggu hidrasi client:visible dan penyelesaian skeleton loading
+    const figures = testimonialsSection.locator('figure');
+    await figures.first().waitFor({ state: 'visible', timeout: 5000 });
+
     // ─────────────────────────────────────────────────────────────
     // SKENARIO 2: Semantik Editorial (<figure>, <blockquote>, <figcaption>)
     // ─────────────────────────────────────────────────────────────
     console.log('🏛️  [SKENARIO 2]: Verifikasi Tag Semantik Editorial (<figure>, <blockquote>)...');
-    const figures = testimonialsSection.locator('figure');
     const figureCount = await figures.count();
     assert.equal(
       figureCount,

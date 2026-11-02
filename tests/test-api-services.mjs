@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
-import { PRODUCTS } from '../src/constants/data.js';
+import { PRODUCTS, TESTIMONIALS, IMPACT_STATS } from '../src/constants/data.js';
 
-// Skenario Uji TDD: Spesifikasi Kontrak Lapisan Service API Client (Issue #7)
+// Skenario Uji TDD: Spesifikasi Kontrak Lapisan Service API Client & Domain Services (Issue #7 & #15)
 console.log('================================================================');
-console.log('🧪 MENJALANKAN TEST SUITE: API CLIENT & PRODUCT SERVICE (TDD)');
+console.log('🧪 MENJALANKAN TEST SUITE: API CLIENT, PRODUCT & TESTIMONIAL SERVICE (TDD)');
 console.log('================================================================\n');
 
 async function runTestSuite() {
@@ -12,8 +12,14 @@ async function runTestSuite() {
   // Impor dinamis untuk menguji keberadaan file modul produksi
   const { apiGet } = await import('../src/services/apiClient.js');
   const { getProducts } = await import('../src/services/productService.js');
+  const {
+    getTestimonialsData,
+    normalizeStatistic,
+    normalizeTestimonial,
+    normalizeTestimonialsPayload,
+  } = await import('../src/services/testimonialService.js');
 
-  console.log('✅ [TEST 1 PASS]: Modul berhasil diimpor.\n');
+  console.log('✅ [TEST 1 PASS]: Seluruh modul service berhasil diimpor.\n');
 
   console.log('🔍 [TEST 2]: Menguji Safe Result Tuple ({ data, error }) pada endpoint invalid/offline...');
   // Panggilan ke server yang tidak ada harus mengembalikan tuple { data: null, error: Error }, BUKAN melempar uncaught exception
@@ -39,6 +45,59 @@ async function runTestSuite() {
     assert.ok(typeof product.specs === 'object' && product.specs !== null, `Produk index ${idx} harus memiliki specs berupa objek non-null`);
   });
   console.log('✅ [TEST 4 PASS]: Seluruh invariant kontrak data terverifikasi aman.\n');
+
+  console.log('🔍 [TEST 5]: Menguji Normalizer Statistik & Testimoni (Mapping description -> label)...');
+  const mappedStat = normalizeStatistic({
+    id: 10,
+    value: '500+ kg',
+    description: 'Limbah kulit jeruk berhasil diolah',
+  });
+  assert.ok(mappedStat, 'normalizeStatistic harus mengembalikan objek valid');
+  assert.equal(mappedStat.label, 'Limbah kulit jeruk berhasil diolah', 'Field description dari backend wajib dipetakan ke label');
+
+  const mappedTesti = normalizeTestimonial({
+    id: 20,
+    name: 'Ibu Kartini',
+    location: 'Cilacap Tengah',
+    quote: 'Sabunnya lembut di tangan.',
+  });
+  assert.ok(mappedTesti, 'normalizeTestimonial harus mengembalikan objek valid');
+  assert.equal('avatarInitial' in mappedTesti, false, 'Objek hasil normalisasi dilarang memuat properti avatarInitial');
+  console.log('✅ [TEST 5 PASS]: Normalizer memetakan field dengan presisi.\n');
+
+  console.log('🔍 [TEST 6]: Menguji Kebijakan Atomic All-or-Fallback Shield...');
+  const partialPayloadA = normalizeTestimonialsPayload({
+    statistics: [{ id: 1, value: '100 kg', description: 'Limbah' }],
+    testimonials: [],
+  });
+  assert.equal(partialPayloadA, null, 'Payload parsial (testimoni kosong) wajib ditolak oleh Atomic Shield');
+
+  const partialPayloadB = normalizeTestimonialsPayload({
+    statistics: [],
+    testimonials: [{ id: 1, name: 'Warga', location: 'Desa', quote: 'Bagus' }],
+  });
+  assert.equal(partialPayloadB, null, 'Payload parsial (statistik kosong) wajib ditolak oleh Atomic Shield');
+
+  const deactivatedByFlag = normalizeTestimonialsPayload({
+    id: 1,
+    title: 'Apa Kata Mereka?',
+    is_active: false,
+    statistics: [],
+    testimonials: [],
+  });
+  assert.ok(deactivatedByFlag, 'Payload dengan is_active: false harus diterima sebagai sinyal nonaktif sah');
+  assert.equal(deactivatedByFlag.isActive, false, 'isActive wajib bernilai false saat is_active: false dari backend');
+
+  const deactivatedByNull = normalizeTestimonialsPayload(null);
+  assert.ok(deactivatedByNull, 'Payload data: null dari backend harus diterima sebagai sinyal nonaktif sah');
+  assert.equal(deactivatedByNull.isActive, false, 'isActive wajib bernilai false saat backend mengembalikan data: null');
+
+  const fallbackTestimonials = await getTestimonialsData();
+  assert.equal(typeof fallbackTestimonials.isActive, 'boolean', 'getTestimonialsData wajib mengembalikan boolean isActive');
+  assert.equal(fallbackTestimonials.isFallback, true, 'Status isFallback wajib bernilai true saat offline');
+  assert.equal(fallbackTestimonials.statistics.length, IMPACT_STATS.length, 'Jumlah statistik fallback wajib identik dengan IMPACT_STATS');
+  assert.equal(fallbackTestimonials.testimonials.length, TESTIMONIALS.length, 'Jumlah testimoni fallback wajib identik dengan TESTIMONIALS');
+  console.log('✅ [TEST 6 PASS]: Atomic All-or-Fallback Shield terbukti menjaga keutuhan seksi Social Proof.\n');
 
   console.log('🎉 SELURUH SKENARIO UJI BERHASIL HIJAU (GREEN)!');
 }
