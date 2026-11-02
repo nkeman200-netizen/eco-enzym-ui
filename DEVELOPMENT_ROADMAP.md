@@ -43,4 +43,5 @@
 - [ ] Penyematan Lisensi Halal BPJPH & Notifikasi BPOM untuk varian kosmetika sabun mandi.
 - [ ] Penggantian data dummy prototipe dengan min. 3 testimoni konsumen riil dan metrik timbangan limbah nyata Jeruklegi.
 - [ ] Optimasi aset final (WebP kompresi squoosh < 150KB per foto) dan deployment produksi ke Cloudflare Pages.
-- [ ] Strategi Pemasaran D2C & Kurasi Kata Kunci Organik (SEO): Merumuskan positioning produk bagi pasar rumah tangga (keamanan balita, aroma terapi jeruk alami, non-SLS) serta mengoptimasi meta tag, Open Graph, dan copywriting 10 seksi SB7 untuk kata kunci bernilai konversi tinggi.
+- [ ] Audit & Optimasi On-Page SEO / Technical Metadata: Mengimplementasikan semantik SEO menyeluruh pada `BaseLayout.astro` dan komponen SB7 (penyempurnaan title tag, meta description ramah keluarga, Open Graph banner, sitemap.xml, robots.txt, penataan hierarki heading H1–H3, atribut alt text deskriptif pada foto produk, serta integrasi Schema.org JSON-LD Structured Data untuk Local Business & Product catalog).
+- [ ] Strategi Pemasaran D2C & Kurasi Kata Kunci Organik (StoryBrand 7 Copywriting): Merumuskan positioning produk bagi pasar rumah tangga (keamanan balita, aroma terapi jeruk alami, non-SLS) serta menyelaraskan copywriting 10 seksi SB7 untuk kata kunci spesifik bernilai konversi tinggi.
