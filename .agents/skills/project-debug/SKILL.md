@@ -72,7 +72,7 @@ Setiap respons `/debug` saat menganalisis bug WAJIB menyajikan 3 bagian ini:
 ```
 
 ### Bagian 2: ⚖️ Spektrum Opsi Perbaikan & Edukasi Trade-Off
-Sajikan minimal 2-3 pendekatan perbaikan yang sah menggunakan **Format Kartu Responsif** (DILARANG menggunakan tabel markdown multi-kolom yang kaku agar keterbacaan di panel chat tetap prima):
+Sajikan minimal 2-3 pendekatan perbaikan yang sah menggunakan **Format Kartu Responsif** (DILARANG menggunakan tabel markdown multi-kolom yang kaku). Judul seluruh kartu wajib netral (DILARANG menyematkan label `*(Rekomendasi)*` di judul kartu agar developer mengevaluasi perbandingan secara objektif tanpa bias awal):
 ```markdown
 #### 🏷️ Opsi 1: [Defensive Patch] *(Tambalan Defensif)*
 * **Spektrum Teknis:**
@@ -83,7 +83,7 @@ Sajikan minimal 2-3 pendekatan perbaikan yang sah menggunakan **Format Kartu Res
   - **Pilih Opsi Ini Jika:** Butuh deploy darurat dalam hitungan menit untuk menahan insiden produksi.
   - **Hindari Opsi Ini Jika:** Beban data besar atau skenario kompleks yang membutuhkan kepastian fondasi.
 
-#### 🏷️ Opsi 2: [Structural Fix] *(Perbaikan Struktural)* *(Rekomendasi)*
+#### 🏷️ Opsi 2: [Structural Fix] *(Perbaikan Struktural)*
 * **Spektrum Teknis:**
   - **Dampak Lokal:** Menutup celah langsung di fondasi/skema.
   - **Akar Arsitektur:** Menyelesaikan akar masalah secara tuntas.
@@ -92,6 +92,10 @@ Sajikan minimal 2-3 pendekatan perbaikan yang sah menggunakan **Format Kartu Res
   - **Pilih Opsi Ini Jika:** Kita ingin fondasi bersih jangka panjang dan bebas regresi.
   - **Hindari Opsi Ini Jika:** Waktu sangat mendesak dan dependensi modul luar belum siap bermigrasi.
 ```
+
+* **💡 Saran & Rekomendasi Arsitek (Deferred Recommendation):**
+  Setelah seluruh opsi dijabarkan, AI menyatakan rekomendasinya di bagian bawah:
+  > *"💡 **Rekomendasi:** Untuk kasus ini, saya cenderung merekomendasikan **Opsi [X]** karena [Alasan objektif]. Namun konsekuensi yang harus kita tanggung adalah [Harga/effort perbaikan]."*
 
 Tutup dengan **Pojok Edukasi Mentor & Jaring Pengaman (Safe Harbor)**:
 > *"💡 **Pelajaran Arsitek:** Bug ini mengajarkan kita pentingnya [Pelajaran Arsitektur: misal Validasi Boundary / Null-Safety / Idempotency]. Menurutmu, mana opsi perbaikan yang paling aman buat kondisi saat ini? (Kalau kamu belum yakin, santai aja, ketik **'Ikut saranmu'**, biar aku bantu selesaikan dengan pendekatan teraman).*"

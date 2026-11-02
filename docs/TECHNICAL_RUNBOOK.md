@@ -191,7 +191,6 @@ Jika tim sudah mendapatkan min. 3 nama konsumen riil dan angka riil timbangan li
        name: 'Ibu Siti Rahmawati',
        location: 'Jeruklegi Wetan',
        quote: 'Lantai dapur yang biasanya berminyak jadi kesat dan tidak licin. Aman untuk cucu saya yang merangkak.',
-       avatarInitial: 'SR',
      },
      // ... min 3 testimoni
    ];
