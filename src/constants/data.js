@@ -1,7 +1,20 @@
 /**
  * Static Data Layer for Eco-Enzyme Landing Page
  * SB7 (StoryBrand 7) Framework — updated September 2026
+ * Brand Identity: SiDeta — Sanitasi Hijau Jeruklegi
  */
+
+// ─────────────────────────────────────────────────
+// Brand Identity & Metadata
+// ─────────────────────────────────────────────────
+export const BRAND_IDENTITY = {
+  name: 'SiDeta',
+  program: 'Sanitasi Hijau',
+  tagline: 'Inovasi Pembersih Ramah Lingkungan Desa Jeruklegi',
+  logoEmblem: '/images/brand/logo-emblem.webp',
+  logoFull: '/images/brand/logo-full.webp',
+};
+
 
 // ─────────────────────────────────────────────────
 // SB7 Element 2 — Problem (3 Lapis Masalah)

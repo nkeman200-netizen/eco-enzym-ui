@@ -1,5 +1,6 @@
 import React from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
+import { Star } from 'lucide-react';
 import { SHOW_TESTIMONIALS, TESTIMONIALS, IMPACT_STATS } from '../../constants/data';
 
 /**
@@ -57,6 +58,13 @@ export default function Testimonials() {
             className="bg-[#FDFBF7] rounded-3xl p-7 border border-brand-accent/15
                        shadow-[0_8px_30px_rgba(124,190,77,0.08)] flex flex-col gap-4"
           >
+            {/* 5 Golden Citrus Stars */}
+            <div className="flex gap-1 text-brand-citrus-warm">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-brand-citrus-warm text-brand-citrus-warm" />
+              ))}
+            </div>
+
             {/* Quote */}
             <p className="text-sm text-gray-700 leading-relaxed italic">
               "{item.quote}"

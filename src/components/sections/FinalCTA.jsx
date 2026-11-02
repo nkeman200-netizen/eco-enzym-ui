@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import Button from '../ui/Button';
+import { Sparkles } from 'lucide-react';
 
 /**
  * SB7 Final CTA Section
@@ -15,6 +16,12 @@ export default function FinalCTA() {
   return (
     <SectionWrapper id="pesan-sekarang" className="bg-brand-accent/10">
       <div className="max-w-2xl mx-auto text-center space-y-6">
+        {/* Micro-badge Brand */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-citrus/15 border border-brand-citrus/30 text-brand-primary text-xs font-bold mb-2">
+          <Sparkles className="w-3.5 h-3.5 text-brand-citrus" />
+          SiDeta &mdash; Gerakan Sanitasi Hijau Jeruklegi
+        </div>
+
         {/* Headline */}
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-text-main tracking-tight">
           Siap Membuat Perbedaan dari{' '}

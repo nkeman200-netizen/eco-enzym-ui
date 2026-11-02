@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Leaf, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 /**
  * Sticky Navbar component with brand logo and smooth anchor links
@@ -22,24 +22,28 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-16 sm:h-20 flex items-center justify-between">
-        {/*
-         * 🏷️ BRAND LOGO:
-         * Saat logo resmi (.svg / .webp / .png) sudah siap:
-         * 1. Simpan file logo di: /public/logo.svg atau /public/logo.png
-         * 2. Ganti blok <div> berisi <Leaf /> di bawah dengan:
-         *    <img src="/logo.svg" alt="Logo Eco-Enzyme Jeruklegi" className="h-9 sm:h-10 w-auto object-contain" />
-         */}
         <a
           href="#hero"
           className="flex items-center gap-2.5 group"
-          aria-label="Eco-Enzyme Beranda"
+          aria-label="SiDeta Beranda"
         >
-          <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all duration-200">
-            <Leaf className="w-5 h-5 transition-transform duration-200 group-hover:rotate-12" />
+          <img
+            src="/images/brand/logo-emblem.webp"
+            alt="Logo SiDeta - Sanitasi Hijau Jeruklegi"
+            width="40"
+            height="40"
+            className="h-10 w-10 aspect-square object-contain transition-transform duration-200 group-hover:scale-105"
+            loading="eager"
+            decoding="async"
+          />
+          <div className="flex items-center gap-2">
+            <span className="font-extrabold text-xl md:text-2xl text-brand-primary tracking-tight">
+              SiDeta
+            </span>
+            <span className="hidden xs:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-brand-citrus/15 text-brand-primary border border-brand-citrus/30">
+              Sanitasi Hijau
+            </span>
           </div>
-          <span className="font-bold text-xl md:text-2xl text-brand-primary tracking-tight">
-            Eco-Enzyme
-          </span>
         </a>
 
         {/* Desktop Navigation Links */}
@@ -48,7 +52,7 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-text-main hover:text-brand-primary transition-colors duration-150 py-1"
+              className="text-sm font-medium text-text-main hover:text-brand-citrus transition-colors duration-150 py-1 relative group"
             >
               {link.name}
             </a>
@@ -77,7 +81,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               onClick={handleLinkClick}
-              className="block px-3 py-2 rounded-lg text-base font-medium text-text-main hover:text-brand-primary hover:bg-surface-light transition-colors"
+              className="block px-3 py-2 rounded-lg text-base font-medium text-text-main hover:text-brand-citrus hover:bg-brand-citrus/5 transition-colors"
             >
               {link.name}
             </a>

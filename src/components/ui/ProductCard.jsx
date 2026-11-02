@@ -62,8 +62,8 @@ export default function ProductCard({
     <div
       onClick={() => onSelect?.(product)}
       className="bg-[#FDFBF7] rounded-3xl border border-brand-accent/20 p-4 sm:p-5 flex flex-col justify-between group
-                 shadow-[0_4px_20px_-4px_rgba(124,190,77,0.12)]
-                 hover:shadow-[0_12px_32px_-4px_rgba(124,190,77,0.24)]
+                 shadow-[0_4px_20px_-4px_rgba(22,78,46,0.08)]
+                 hover:shadow-[0_12px_32px_-4px_rgba(247,147,30,0.18)] hover:border-brand-citrus/40
                  hover:-translate-y-1.5 transition-all duration-300 cursor-pointer select-none h-full"
       role="button"
       tabIndex={0}
@@ -117,11 +117,11 @@ export default function ProductCard({
               {netto}
             </span>
           )}
-          <h3 className="text-base sm:text-lg font-bold text-text-main tracking-tight group-hover:text-brand-primary transition-colors line-clamp-1">
+          <h3 className="text-base sm:text-lg font-bold text-text-main tracking-tight group-hover:text-brand-citrus transition-colors line-clamp-1">
             {name}
           </h3>
           <div className="pt-0.5">
-            <span className="text-base sm:text-lg font-extrabold text-brand-primary">
+            <span className="text-base sm:text-lg font-extrabold text-brand-primary group-hover:text-brand-citrus transition-colors">
               {price}
             </span>
           </div>

@@ -211,6 +211,37 @@ async function runVisualSmoke() {
 
     await mobileContext.close();
 
+    // -------------------------------------------------------------
+    // SKENARIO 3: BRAND IDENTITY & ZERO CLS AUDIT (Navbar & Footer)
+    // -------------------------------------------------------------
+    console.log('🏷️  [SKENARIO 3]: Mengaudit Brand Identity & Zero CLS (Navbar & Footer)...');
+    const brandContext = await browser.newContext({
+      viewport: { width: 1440, height: 900 },
+    });
+    const brandPage = await brandContext.newPage();
+    await brandPage.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
+
+    // 3.1 Verifikasi Navbar Logo Emblem
+    const navbarLogo = brandPage.locator('header img[src*="logo-emblem.webp"]');
+    await navbarLogo.waitFor({ state: 'visible', timeout: 5000 });
+    const navLogoBox = await navbarLogo.boundingBox();
+    assert.ok(navLogoBox, 'Navbar emblem logo wajib ter-render di DOM');
+    const navDiff = Math.abs(navLogoBox.width - navLogoBox.height);
+    console.log(`   📐 Dimensi Emblem Navbar: ${Math.round(navLogoBox.width)}px x ${Math.round(navLogoBox.height)}px (Selisih: ${navDiff.toFixed(2)}px)`);
+    assert.ok(navDiff <= 1.0, 'Emblem logo wajib bujur sangkar presisi 1:1 untuk mencegah CLS');
+
+    // 3.2 Verifikasi Teks Brand SiDeta & Badge Sanitasi Hijau
+    const brandText = await brandPage.locator('header').textContent();
+    assert.ok(brandText.includes('SiDeta'), 'Navbar wajib memuat teks nama brand "SiDeta"');
+    assert.ok(brandText.includes('Sanitasi Hijau'), 'Navbar wajib memuat teks sub-program "Sanitasi Hijau"');
+    console.log('   ✅ [NAVBAR IDENTITY]: Nama SiDeta dan badge Sanitasi Hijau terverifikasi.');
+
+    // 3.3 Verifikasi Footer Full Logo
+    const footerLogo = brandPage.locator('footer img[src*="logo-full.webp"]');
+    await footerLogo.waitFor({ state: 'visible', timeout: 5000 });
+    console.log('   ✅ [FOOTER IDENTITY]: Full logo SiDeta terverifikasi di footer.\n');
+    await brandContext.close();
+
     console.log('================================================================');
     console.log('🎉 TIER 4: SELURUH SKENARIO AUDIT VISUAL SMOKE SUKSES 100%!');
     console.log('================================================================');

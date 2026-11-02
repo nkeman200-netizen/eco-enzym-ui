@@ -45,10 +45,10 @@ export default function SuccessVision() {
             >
               {/* Centang + Ikon */}
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-brand-accent/15 flex items-center justify-center text-brand-primary flex-shrink-0">
+                <div className="w-12 h-12 rounded-2xl bg-brand-citrus/15 flex items-center justify-center text-brand-primary flex-shrink-0">
                   <IconComponent className="w-6 h-6" />
                 </div>
-                <span className="text-brand-primary font-extrabold text-xl">✓</span>
+                <span className="text-brand-citrus font-extrabold text-xl">✓</span>
               </div>
 
               {/* Teks */}

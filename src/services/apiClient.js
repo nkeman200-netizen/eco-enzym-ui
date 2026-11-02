@@ -4,7 +4,7 @@
  * Mengadopsi standar isomorphic Web Fetch API (WinterCG) tanpa dependensi eksternal:
  * - Safe Result Tuple Pattern: Selalu mengembalikan { data, error }, tanpa uncaught throw.
  * - Batas waktu ketat (strict timeout) via AbortController untuk mencegah thread menggantung.
- * - Resolusi alamat URL cerdas: membaca PUBLIC_API_URL dengan fallback resmi ke domain produksi.
+ * - Resolusi alamat URL agnostik: membaca murni dari PUBLIC_API_URL (12-Factor App).
  * - Universal runtime: kompatibel penuh di Node.js 22/24 (Astro SSR/Build) & Browser (React 19 Islands).
  */
 
@@ -13,7 +13,7 @@ const rawEnvUrl =
   (typeof process !== 'undefined' && process.env && process.env.PUBLIC_API_URL) ||
   '';
 
-export const API_BASE_URL = (rawEnvUrl || 'https://sanitasihijau.com/api/v1').replace(/\/+$/, '');
+export const API_BASE_URL = rawEnvUrl.replace(/\/+$/, '');
 
 /**
  * Melakukan HTTP GET request secara defensif.
@@ -29,7 +29,7 @@ export async function apiGet(endpoint, options = {}) {
   const timer = setTimeout(() => controller.abort(), timeout);
 
   const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const targetUrl = `${API_BASE_URL}${cleanEndpoint}`;
+  const targetUrl = API_BASE_URL ? `${API_BASE_URL}${cleanEndpoint}` : cleanEndpoint;
 
   try {
     const response = await fetch(targetUrl, {

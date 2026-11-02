@@ -267,7 +267,7 @@ export default function ProductDetailModal({ product, onClose }) {
                       aria-label={`Lihat ${SLIDE_CAPTIONS[idx] || `foto ${idx + 1}`}`}
                       className={`relative w-14 h-14 rounded-xl overflow-hidden border-2 transition-all cursor-pointer flex items-center justify-center p-1 bg-[#FDFBF7] ${
                         isActive
-                          ? 'border-brand-primary ring-2 ring-brand-primary/30 scale-105 shadow-sm'
+                          ? 'border-brand-citrus ring-2 ring-brand-citrus/40 scale-105 shadow-sm'
                           : 'border-brand-accent/20 opacity-60 hover:opacity-100'
                       }`}
                     >
@@ -298,9 +298,13 @@ export default function ProductDetailModal({ product, onClose }) {
               >
                 {name}
               </h3>
-              <div>
+              <div className="flex items-center gap-3">
                 <span className="text-xl sm:text-2xl font-black text-brand-primary">
                   {price}
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-citrus/15 text-brand-primary border border-brand-citrus/30">
+                  <Sparkles className="w-3 h-3 text-brand-citrus" />
+                  Ekstrak Sitrus Alami
                 </span>
               </div>
             </div>
@@ -331,10 +335,10 @@ export default function ProductDetailModal({ product, onClose }) {
                 className="w-full py-4 flex items-center justify-between text-left group transition-colors cursor-pointer"
                 aria-expanded={expandedSections.specs}
               >
-                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-primary transition-colors">
+                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-citrus transition-colors">
                   Spesifikasi
                 </span>
-                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-primary/10 flex items-center justify-center text-gray-600 group-hover:text-brand-primary transition-colors">
+                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-citrus/15 flex items-center justify-center text-gray-600 group-hover:text-brand-citrus transition-colors">
                   {expandedSections.specs ? (
                     <Minus className="w-4 h-4" />
                   ) : (
@@ -399,10 +403,10 @@ export default function ProductDetailModal({ product, onClose }) {
                 className="w-full py-4 flex items-center justify-between text-left group transition-colors cursor-pointer"
                 aria-expanded={expandedSections.ingredients}
               >
-                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-primary transition-colors">
+                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-citrus transition-colors">
                   Komposisi
                 </span>
-                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-primary/10 flex items-center justify-center text-gray-600 group-hover:text-brand-primary transition-colors">
+                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-citrus/15 flex items-center justify-center text-gray-600 group-hover:text-brand-citrus transition-colors">
                   {expandedSections.ingredients ? (
                     <Minus className="w-4 h-4" />
                   ) : (
@@ -428,10 +432,10 @@ export default function ProductDetailModal({ product, onClose }) {
                 className="w-full py-4 flex items-center justify-between text-left group transition-colors cursor-pointer"
                 aria-expanded={expandedSections.usage}
               >
-                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-primary transition-colors">
+                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-citrus transition-colors">
                   Cara Pakai
                 </span>
-                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-primary/10 flex items-center justify-center text-gray-600 group-hover:text-brand-primary transition-colors">
+                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-citrus/15 flex items-center justify-center text-gray-600 group-hover:text-brand-citrus transition-colors">
                   {expandedSections.usage ? (
                     <Minus className="w-4 h-4" />
                   ) : (
@@ -466,9 +470,9 @@ export default function ProductDetailModal({ product, onClose }) {
           </Button>
 
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={onClose}
-            className="w-full sm:w-auto py-3 px-6 text-sm border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-text-main hover:border-gray-400"
+            className="w-full sm:w-auto py-3 px-6 text-sm"
           >
             Tutup
           </Button>
