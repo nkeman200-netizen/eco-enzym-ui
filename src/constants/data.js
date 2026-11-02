@@ -354,7 +354,6 @@ export const TESTIMONIALS = [
   //   name: '[Nama Pelanggan]',
   //   location: '[Kota / Kelurahan]',
   //   quote: '[Kalimat singkat pengalaman nyata. Maks 2 kalimat.]',
-  //   avatarInitial: '[Inisial Nama]',
   // },
   {
     id: 'testimoni-1',
@@ -362,7 +361,6 @@ export const TESTIMONIALS = [
     location: 'Cilacap',
     quote:
       'Aroma lantainya segar alami tanpa bikin pusing. Yang paling penting, anak balita saya aman merangkak di lantai tanpa khawatir residu zat kimia keras.',
-    avatarInitial: 'ER',
   },
   {
     id: 'testimoni-2',
@@ -370,7 +368,6 @@ export const TESTIMONIALS = [
     location: 'Purwokerto',
     quote:
       'Pupuk cair organiknya sangat membantu menyuburkan aglaonema dan cabai di pekarangan. Tanaman jauh lebih hijau segar dan tanahnya tetap gembur.',
-    avatarInitial: 'BS',
   },
   {
     id: 'testimoni-3',
@@ -378,7 +375,6 @@ export const TESTIMONIALS = [
     location: 'Jeruklegi Kulon',
     quote:
       'Senang sekali limbah kulit buah dapur warga tidak lagi menumpuk sia-sia di tempat sampah, tapi diolah menjadi produk pembersih bermanfaat.',
-    avatarInitial: 'SN',
   },
 ];
 

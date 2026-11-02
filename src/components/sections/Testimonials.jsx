@@ -50,37 +50,36 @@ export default function Testimonials() {
         </div>
       )}
 
-      {/* Kartu Testimoni */}
+      {/* Kartu Testimoni (Editorial Clean Typography) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {TESTIMONIALS.map((item) => (
-          <div
+          <figure
             key={item.id}
             className="bg-[#FDFBF7] rounded-3xl p-7 border border-brand-accent/15
-                       shadow-[0_8px_30px_rgba(124,190,77,0.08)] flex flex-col gap-4"
+                       shadow-[0_8px_30px_rgba(124,190,77,0.08)] flex flex-col gap-5"
           >
             {/* 5 Golden Citrus Stars */}
-            <div className="flex gap-1 text-brand-citrus-warm">
+            <div className="flex gap-1 text-brand-citrus-warm" aria-label="Rating 5 bintang">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-brand-citrus-warm text-brand-citrus-warm" />
               ))}
             </div>
 
             {/* Quote */}
-            <p className="text-sm text-gray-700 leading-relaxed italic">
+            <blockquote className="text-sm sm:text-base text-gray-700 leading-relaxed italic">
               "{item.quote}"
-            </p>
+            </blockquote>
 
-            {/* Identitas */}
-            <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-100">
-              <div className="w-10 h-10 rounded-full bg-brand-primary flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
-                {item.avatarInitial}
-              </div>
-              <div>
-                <span className="block text-sm font-bold text-text-main">{item.name}</span>
-                <span className="block text-xs text-gray-500">{item.location}</span>
-              </div>
-            </div>
-          </div>
+            {/* Identitas Editorial */}
+            <figcaption className="flex items-baseline justify-between gap-2 mt-auto pt-4 border-t border-gray-100">
+              <span className="block text-sm sm:text-base font-bold text-text-main tracking-tight">
+                {item.name}
+              </span>
+              <span className="block text-xs text-gray-500 font-medium flex-shrink-0">
+                {item.location}
+              </span>
+            </figcaption>
+          </figure>
         ))}
       </div>
     </SectionWrapper>

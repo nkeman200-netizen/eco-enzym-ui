@@ -221,7 +221,8 @@ Setelah kebutuhan bisnis di Fase 1 terkunci, barulah di Fase 2 dan 3 AI bertinda
    - AI menyajikan spektrum solusi arsitektur **2 hingga 3 opsi** yang **beragam, sah (*legitimate*), dan relevan** dengan konteks masalah (misal: *Astro Islands Client-Visible vs Client-Load*, atau *In-Memory Batching vs Raw SQL vs Queue Job*). DILARANG memaksakan opsi kaku jika tidak nyambung dengan masalah.
    - **Anti-Dogma Angka 3 & Anti-Strawman:** Jika masalah arsitektur secara alami bersifat dikotomi/pilihan biner industri yang kokoh (misal: *Client State vs URL Search Params*, atau *Standard Modal vs Dedicated Route*), AI **DILARANG KERAS** memaksakan mengarang opsi ke-3 yang artifisial, cacat (*strawman*), atau berlebihan (*over-engineered*) hanya demi memenuhi kuota angka. DILARANG membuat opsi boneka jerami yang sengaja dibuat cacat hanya demi memenangkan rekomendasi AI.
    - Parameter komparasi wajib **SECARA SPESIFIK RELEVAN** dengan isu yang sedang dibahas (contoh: *Beban Kueri*, *Memory Bloat*, *Integritas Data*, *Latensi Request*, atau *Separation of Concerns*).
-   - Sajikan menggunakan **Format Kartu Vertikal** (DILARANG menggunakan tabel Markdown multi-kolom yang terbukti merusak keterbacaan pada panel chat IDE seperti Antigravity):
+   - Sajikan menggunakan **Format Kartu Vertikal** (DILARANG menggunakan tabel Markdown multi-kolom yang terbukti merusak keterbacaan pada panel chat IDE seperti Antigravity).
+   - **Protokol Rekomendasi Tertunda & Netralitas Header (Anti-Anchoring Bias):** AI **DILARANG KERAS** menyematkan tanda bintang (`⭐`), label `[Rekomendasi Utama]`, atau penanda keunggulan apa pun pada judul kartu opsi. Seluruh judul kartu wajib bersih dan netral agar developer membaca perbandingan secara objektif tanpa bias konfirmasi awal:
    ```markdown
    #### 🏷️ Opsi 1: [Nama Pendekatan Arsitektur] *(Kategori Solusi)*
    * **Spektrum Teknis:**
@@ -232,7 +233,7 @@ Setelah kebutuhan bisnis di Fase 1 terkunci, barulah di Fase 2 dan 3 AI bertinda
      - **Pilih Opsi Ini Jika:** [Kondisi nyata proyek di mana opsi ini menang]
      - **Hindari Opsi Ini Jika:** [Skenario di mana opsi ini gagal atau membebani tim]
 
-   #### 🏷️ Opsi 2: [Nama Pendekatan Arsitektur] *(Kategori Solusi)* ⭐ **[Rekomendasi Utama]**
+   #### 🏷️ Opsi 2: [Nama Pendekatan Arsitektur] *(Kategori Solusi)*
    * **Spektrum Teknis:** ...
    * 💡 **Jembatan Logika Mahasiswa:** ...
 
@@ -240,8 +241,9 @@ Setelah kebutuhan bisnis di Fase 1 terkunci, barulah di Fase 2 dan 3 AI bertinda
    * **Spektrum Teknis:** ...
    * 💡 **Jembatan Logika Mahasiswa:** ...
    ```
-3. **💡 Rekomendasi Kakak Senior & Keterbukaan Harga (The Architect's Advice):**
-   Jelaskan mengapa Opsi Rekomendasi paling ideal untuk skala proyek saat ini, namun **WAJIB** sebutkan secara jujur konsekuensi biaya/effort yang harus ditanggung tim.
+3. **💡 Deklarasi Rekomendasi Arsitek & Keterbukaan Harga (Deferred Architect's Advice):**
+   Deklarasi opsi yang direkomendasikan AI **WAJIB DILETAKKAN DI PALING BAWAH** setelah seluruh kartu opsi selesai dipaparkan. Jelaskan secara transparan mengapa opsi tersebut paling ideal untuk skala proyek saat ini, serta **WAJIB** sebutkan secara jujur konsekuensi biaya/effort yang harus ditanggung tim:
+   > *"💡 **Saran & Rekomendasi Arsitek:** Setelah menimbang spektrum opsi di atas, untuk skala proyek dan tim saat ini, saya cenderung menyarankan **Opsi [X]** karena [Alasan objektif kecocokan kebutuhan]. Namun konsekuensi yang harus kita tanggung adalah [Harga/effort yang harus dibayar]."*
 4. **🤝 Pertanyaan Terpandu & Anti-Presumptive Closure (Safe Harbor Gate):**
    AI **DILARANG KERAS** memotong atau mendesak pengesahan sepihak (*"Jika sudah mantap, langsung lanjut ke Topik X"*). AI wajib memberi ruang refleksi dan menyertakan jaring pengaman:
    > *"Menurutmu bagaimana pertimbangan trade-off di atas? Dari opsi tadi, mana yang paling pas buat skala proyek dan kemampuan tim kita? (Kalau kamu belum yakin atau bingung, santai aja ya, ketik aja **'Ikut saranmu'**, nanti biar aku yang siapkan fondasi terbaiknya!)."*
@@ -561,18 +563,20 @@ AI **WAJIB** mengeksekusi 3 langkah penutupan gerbang ini secara berurutan:
    AI menawarkan bantuan pembuatan tiket resmi:
    > *"Draf Tiket Level 3 resmi disahkan. Apakah Anda ingin saya membuatkan Issue resminya ke GitHub menggunakan tool MCP GitHub (`create_issue`) dengan Milestone **'Epik [X]'** sekarang agar Anda tidak perlu copy-paste manual?"*
 
-2. **Refleks Centang Otomatis `DEVELOPMENT_ROADMAP.md` (Physical Roadmap Sync):**
-   Begitu nomor Issue GitHub resmi didapatkan (baik dibuatkan langsung via MCP GitHub maupun disalin manual oleh developer dengan nomor misal `#12`), AI **WAJIB SECARA FISIK MEMPERBARUI `DEVELOPMENT_ROADMAP.md` di root proyek**:
+2. **Refleks Penautan Nomor Issue di `DEVELOPMENT_ROADMAP.md` (Physical Roadmap Linking - Tanpa Centang Selesai):**
+   Begitu nomor Issue GitHub resmi didapatkan (baik dibuatkan langsung via MCP GitHub maupun disalin manual oleh developer dengan nomor misal `#12`), AI **WAJIB MEMPERBARUI `DEVELOPMENT_ROADMAP.md` di root proyek**:
    - Cari sub-poin yang bersesuaian di dalam Epik [X].
-   - Ubah tanda kotak centang dari:
+   - Pertahankan kotak centang TETAP KOSONG (`- [ ]`) karena kode implementasi belum ditulis, dan sematkan tautan nomor tiket:
+     Ubah dari:
      `- [ ] [Nama Sub-Poin Fitur]`
      menjadi:
-     `- [x] [Nama Sub-Poin Fitur] (Issue #[Nomor])`
-   - Ini menandakan secara resmi bahwa sub-poin makro tersebut telah berhasil dimatangkan di Hulu menjadi tiket terukur.
+     `- [ ] [Nama Sub-Poin Fitur] (Issue #[Nomor])`
+   - ⚠️ **HUKUM INTEGRITAS GERBANG (Anti-Premature Completion):** AI **DILARANG KERAS** mengubah kotak centang menjadi `[x]`. Kotak centang `[x]` adalah **HAK PREROGATIF MUTLAK sesi `/audit` di Hilir** setelah kode selesai diimplementasikan, diuji melalui Four-Tier Gate, dan diverifikasi sebelum PR. Memberi centang `[x]` di Hulu adalah cacat semantik fatal (*False Sense of Completion*).
+   - ⚠️ **HUKUM ISOLASI GIT (Git-Free Zone):** AI **DILARANG** melakukan `git add`, `git commit`, atau manipulasi git apa pun di sesi `/edeate` agar tidak mencemari branch fitur aktif (*Branch Contamination*).
 
 3. **Mandat Pemindahan Gerbang (Handover to Gateway 2):**
    AI menutup sesi dengan arahan tegas untuk berpindah ke gerbang hilir:
-   > *"Tiket GitHub Issue #[Nomor] resmi terbit dan `DEVELOPMENT_ROADMAP.md` telah diperbarui dengan tanda centang `[x]`. Pengerjaan kode implementasi DILARANG dilakukan di sesi `/edeate` ini. Silakan buka branch baru dan panggil Gateway 2: `/grill-me #[Nomor]` untuk memulai perancangan arsitektur eksekusi!"*
+   > *"Tiket GitHub Issue #[Nomor] resmi terbit dan ditautkan ke `DEVELOPMENT_ROADMAP.md` (status: `- [ ] (Issue #[Nomor])`). Pengerjaan kode implementasi DILARANG dilakukan di sesi `/edeate` ini. Silakan buka branch baru dan panggil Gateway 2: `/grill-me #[Nomor]` untuk memulai perancangan arsitektur eksekusi!"*
 
 ---
 
@@ -594,5 +598,7 @@ AI **WAJIB** mengeksekusi 3 langkah penutupan gerbang ini secara berurutan:
 | **Tiket Tanpa Invariant** | Tidak ada kontrak yang bisa diuji → Feature Test menjadi formalitas dangkal | AI WAJIB menggali minimal 1-2 invariant absolut sebelum draft disahkan |
 | **Asumsi Tanpa Audit Kode** | AI berbicara dari imajinasi, bukan realita repositori | AI WAJIB menjalankan Pre-Flight Audit (Fase 0) sebelum sesi dimulai |
 | **Langsung Lompat ke Solusi** | Masalah bisnis inti tidak dipahami | AI WAJIB menyelesaikan Pilar Bisnis (Track A) atau Sasaran NFR (Track B) terlebih dahulu |
+| **Premature Roadmap Checkmark** (Mencentang `[x]` di `DEVELOPMENT_ROADMAP.md` saat `/edeate`) | Menimbulkan *False Sense of Completion* dan memicu pencemaran branch Git aktif | AI WAJIB mempertahankan kotak centang kosong `- [ ]` dan hanya menyematkan nomor tiket `(Issue #[Nomor])`. Hak centang `[x]` mutlak milik `/audit` di hilir. |
+| **Recommendation Anchoring Trap** (Menaruh bintang ⭐ atau label `[Rekomendasi]` di judul kartu opsi) | Memicu *Anchoring Bias* & *Halo Effect*: developer mengabaikan opsi lain dan melewatkan analisis trade-off | AI WAJIB menyajikan seluruh judul kartu secara netral dan menunda deklarasi rekomendasi ke bagian paling bawah |
 
 

@@ -165,12 +165,14 @@ async function runHoverAudit() {
     const hoverMetrics = await tutupButton.evaluate((el) => {
       const cs = window.getComputedStyle(el);
       
-      // Helper convert color string to RGB via canvas
+      // Helper convert color string to RGB via canvas (composited against white modal background)
       function getRgbFromColor(colorStr) {
         const canvas = document.createElement('canvas');
         canvas.width = 1;
         canvas.height = 1;
         const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 1, 1);
         ctx.fillStyle = colorStr;
         ctx.fillRect(0, 0, 1, 1);
         const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
