@@ -206,6 +206,9 @@ Endpoint untuk menyajikan bukti sosial (*Social Proof*) berupa metrik timbangan 
 ```json
 {
   "data": {
+    "id": 1,
+    "title": "Mereka Sudah Merasakannya.",
+    "is_active": true,
     "statistics": [
       {
         "id": 1,
@@ -240,6 +243,7 @@ Endpoint untuk menyajikan bukti sosial (*Social Proof*) berupa metrik timbangan 
   }
 }
 ```
+> **Catatan Visibilitas Seksi (`is_active`):** Flag tampil/tidaknya seksi `#testimoni` dikendalikan sepenuhnya oleh payload backend (`data.is_active: true/false`, atau `{"data": null}` ketika seksi dinonaktifkan melalui toggle CMS). Konstanta lokal `SHOW_TESTIMONIALS` di `src/constants/data.js` hanya digunakan oleh `testimonialService.js` sebagai cadangan (*fallback*) saat jaringan offline.
 
 #### Penegasan Desain: Penghapusan Avatar Inisial (Clean Editorial Typography)
 Sesuai hasil wawancara arsitektur, **avatar inisial lingkaran berwarna resmi dihapus dari kontrak data**:

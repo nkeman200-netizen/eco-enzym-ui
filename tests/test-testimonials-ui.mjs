@@ -21,6 +21,10 @@ assert.ok(
   '❌ [GAGAL]: Testimonials.jsx wajib mengimpor dan memanggil getTestimonialsData dari testimonialService!'
 );
 assert.ok(
+  testimonialsSource.includes('isActive') && !testimonialsSource.includes('SHOW_TESTIMONIALS'),
+  '❌ [GAGAL]: Visibilitas Testimonials.jsx wajib dikendalikan oleh flag isActive dari payload BE (bukan konstanta statis SHOW_TESTIMONIALS dari data.js)!'
+);
+assert.ok(
   testimonialsSource.includes('isLoading') && testimonialsSource.includes('animate-pulse'),
   '❌ [GAGAL]: Testimonials.jsx wajib mengelola state isLoading dan menampilkan Inline Skeleton Shimmer (animate-pulse)!'
 );

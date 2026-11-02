@@ -78,7 +78,22 @@ async function runTestSuite() {
   });
   assert.equal(partialPayloadB, null, 'Payload parsial (statistik kosong) wajib ditolak oleh Atomic Shield');
 
+  const deactivatedByFlag = normalizeTestimonialsPayload({
+    id: 1,
+    title: 'Apa Kata Mereka?',
+    is_active: false,
+    statistics: [],
+    testimonials: [],
+  });
+  assert.ok(deactivatedByFlag, 'Payload dengan is_active: false harus diterima sebagai sinyal nonaktif sah');
+  assert.equal(deactivatedByFlag.isActive, false, 'isActive wajib bernilai false saat is_active: false dari backend');
+
+  const deactivatedByNull = normalizeTestimonialsPayload(null);
+  assert.ok(deactivatedByNull, 'Payload data: null dari backend harus diterima sebagai sinyal nonaktif sah');
+  assert.equal(deactivatedByNull.isActive, false, 'isActive wajib bernilai false saat backend mengembalikan data: null');
+
   const fallbackTestimonials = await getTestimonialsData();
+  assert.equal(typeof fallbackTestimonials.isActive, 'boolean', 'getTestimonialsData wajib mengembalikan boolean isActive');
   assert.equal(fallbackTestimonials.isFallback, true, 'Status isFallback wajib bernilai true saat offline');
   assert.equal(fallbackTestimonials.statistics.length, IMPACT_STATS.length, 'Jumlah statistik fallback wajib identik dengan IMPACT_STATS');
   assert.equal(fallbackTestimonials.testimonials.length, TESTIMONIALS.length, 'Jumlah testimoni fallback wajib identik dengan TESTIMONIALS');

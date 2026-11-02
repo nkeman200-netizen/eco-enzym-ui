@@ -4,14 +4,15 @@
  * Mengimplementasikan prinsip Defense-in-Depth & Atomic All-or-Fallback Shield:
  * - Menangani normalisasi payload gabungan dari endpoint Laravel `GET /api/v1/testimonials`.
  * - Memetakan properti `description` dari backend ke `label` di frontend.
+ * - Membaca flag visibilitas seksi (`is_active` / `data: null`) langsung dari payload backend.
  * - Menerapkan Atomic All-or-Fallback Shield: jika API offline, error, atau salah satu dari
  *   koleksi `statistics` maupun `testimonials` bernilai kosong, sistem otomatis mengembalikan
- *   paket data lokal terverifikasi (`IMPACT_STATS` & `TESTIMONIALS`) agar seksi Social Proof
- *   tidak pernah tampil timpang atau kosong.
+ *   paket data lokal terverifikasi (`SHOW_TESTIMONIALS`, `IMPACT_STATS` & `TESTIMONIALS`) agar
+ *   seksi Social Proof tidak pernah tampil timpang atau kosong.
  */
 
 import { apiGet } from './apiClient.js';
-import { IMPACT_STATS, TESTIMONIALS } from '../constants/data.js';
+import { SHOW_TESTIMONIALS, IMPACT_STATS, TESTIMONIALS } from '../constants/data.js';
 
 /**
  * Normalizer defensif untuk entri angka dampak lingkungan (statistik).
@@ -69,15 +70,33 @@ export function normalizeTestimonial(raw) {
 
 /**
  * Memvalidasi dan menormalisasi keseluruhan payload testimoni secara atomik.
- * Menerapkan kebijakan Atomic All-or-Fallback: jika salah satu array kosong,
- * kembalikan `null` agar pemanggil beralih ke fallback lokal utuh.
+ * - Jika backend secara eksplisit menonaktifkan seksi (`rawPayload === null` atau `is_active === false`),
+ *   kembalikan `{ isActive: false, statistics: [], testimonials: [] }`.
+ * - Menerapkan kebijakan Atomic All-or-Fallback: jika seksi aktif namun salah satu array kosong,
+ *   kembalikan `null` agar pemanggil beralih ke fallback lokal utuh.
  *
- * @param {object} rawPayload - Objek data dari `apiGet('/testimonials')`
- * @returns {{ statistics: Array<object>, testimonials: Array<object> } | null}
+ * @param {object | null} rawPayload - Objek data dari `apiGet('/testimonials')`
+ * @returns {{ isActive: boolean, statistics: Array<object>, testimonials: Array<object> } | null}
  */
 export function normalizeTestimonialsPayload(rawPayload) {
-  if (!rawPayload || typeof rawPayload !== 'object') {
+  if (rawPayload === null) {
+    return {
+      isActive: false,
+      statistics: [],
+      testimonials: [],
+    };
+  }
+
+  if (typeof rawPayload !== 'object' || Array.isArray(rawPayload)) {
     return null;
+  }
+
+  if (rawPayload.is_active === false) {
+    return {
+      isActive: false,
+      statistics: [],
+      testimonials: [],
+    };
   }
 
   const rawStats = Array.isArray(rawPayload.statistics) ? rawPayload.statistics : [];
@@ -92,6 +111,7 @@ export function normalizeTestimonialsPayload(rawPayload) {
   }
 
   return {
+    isActive: Boolean(rawPayload.is_active ?? true),
     statistics,
     testimonials,
   };
@@ -100,18 +120,17 @@ export function normalizeTestimonialsPayload(rawPayload) {
 /**
  * Mengambil data statistik dampak dan ulasan pelanggan dengan proteksi kegagalan mutlak.
  *
- * @returns {Promise<{ statistics: Array<object>, testimonials: Array<object>, isFallback: boolean }>}
+ * @returns {Promise<{ isActive: boolean, statistics: Array<object>, testimonials: Array<object>, isFallback: boolean }>}
  */
 export async function getTestimonialsData() {
   const { data, error } = await apiGet('/testimonials');
 
-  if (error || !data) {
-    if (error) {
-      console.warn(
-        `[testimonialService] API backend tidak merespons (${error.message}). Mengaktifkan Atomic Fallback ke data lokal static.`
-      );
-    }
+  if (error) {
+    console.warn(
+      `[testimonialService] API backend tidak merespons (${error.message}). Mengaktifkan Atomic Fallback ke data lokal static.`
+    );
     return {
+      isActive: Boolean(SHOW_TESTIMONIALS),
       statistics: IMPACT_STATS,
       testimonials: TESTIMONIALS,
       isFallback: true,
@@ -125,6 +144,7 @@ export async function getTestimonialsData() {
       '[testimonialService] Payload API backend belum lengkap (statistik/testimoni kosong). Mengaktifkan Atomic Fallback ke data lokal static.'
     );
     return {
+      isActive: Boolean(SHOW_TESTIMONIALS),
       statistics: IMPACT_STATS,
       testimonials: TESTIMONIALS,
       isFallback: true,
@@ -132,6 +152,7 @@ export async function getTestimonialsData() {
   }
 
   return {
+    isActive: normalized.isActive,
     statistics: normalized.statistics,
     testimonials: normalized.testimonials,
     isFallback: false,

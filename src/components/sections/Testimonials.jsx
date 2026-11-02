@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import { Star } from 'lucide-react';
-import { SHOW_TESTIMONIALS, TESTIMONIALS, IMPACT_STATS } from '../../constants/data';
 import { getTestimonialsData } from '../../services/testimonialService';
 
 /**
@@ -9,11 +8,13 @@ import { getTestimonialsData } from '../../services/testimonialService';
  *
  * Mengalirkan data angka dampak lingkungan dan ulasan pelanggan secara dinamis
  * dari endpoint publik `GET /api/v1/testimonials` melalui `testimonialService.js`,
+ * dengan kontrol visibilitas seksi (`is_active`) dari payload backend,
  * dilengkapi Inline Skeleton Loading Shimmer dan Atomic All-or-Fallback Shield.
  */
 export default function Testimonials() {
-  const [stats, setStats] = useState(IMPACT_STATS);
-  const [testimonials, setTestimonials] = useState(TESTIMONIALS);
+  const [isActive, setIsActive] = useState(true);
+  const [stats, setStats] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -22,23 +23,23 @@ export default function Testimonials() {
     async function loadTestimonials() {
       const result = await getTestimonialsData();
       if (isMounted) {
+        setIsActive(result.isActive);
         setStats(result.statistics);
         setTestimonials(result.testimonials);
         setIsLoading(false);
       }
     }
 
-    if (SHOW_TESTIMONIALS) {
-      loadTestimonials();
-    }
+    loadTestimonials();
 
     return () => {
       isMounted = false;
     };
   }, []);
 
-  // Invariant Visibilitas: Jika flag false, short-circuit return null
-  if (!SHOW_TESTIMONIALS || (!isLoading && testimonials.length === 0)) {
+  // Invariant Visibilitas: Dikendalikan oleh flag is_active dari payload Backend
+  // (atau fallback lokal saat offline). Jika nonaktif, short-circuit return null.
+  if (!isActive || (!isLoading && testimonials.length === 0)) {
     return null;
   }
 
