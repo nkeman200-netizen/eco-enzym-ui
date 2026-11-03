@@ -14,7 +14,9 @@ import {
 import SectionWrapper from '../ui/SectionWrapper';
 import ProductCard from '../ui/ProductCard';
 import ProductDetailModal from '../ui/ProductDetailModal';
+import { DEFAULT_WHATSAPP_NUMBER } from '../../constants/data';
 import { getProducts } from '../../services/productService';
+import { getContactData } from '../../services/contactService';
 
 /**
  * SB7 Element 5 — Products Catalog Section
@@ -45,6 +47,7 @@ export default function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [whatsappNumber, setWhatsappNumber] = useState(DEFAULT_WHATSAPP_NUMBER);
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -61,9 +64,13 @@ export default function Products() {
     let isMounted = true;
 
     async function loadProducts() {
-      const data = await getProducts();
+      const [data, contactResult] = await Promise.all([
+        getProducts(),
+        getContactData(),
+      ]);
       if (isMounted) {
         setProducts(data);
+        setWhatsappNumber(contactResult.whatsappNumber);
         setIsLoading(false);
       }
     }
@@ -168,6 +175,7 @@ export default function Products() {
         <ProductDetailModal
           key={selectedProduct.id}
           product={selectedProduct}
+          whatsappNumber={whatsappNumber}
           onClose={() => setSelectedProduct(null)}
         />
       )}

@@ -262,22 +262,31 @@ Endpoint untuk mengalirkan data kontak footer (`Footer.jsx`) dan sumber nomor te
 ```json
 {
   "data": {
+    "id": 1,
+    "title": "Hubungi Kami",
+    "description": "Ingin tahu lebih banyak tentang produk, cara pembuatan, atau peluang kolaborasi?",
+    "is_active": true,
     "location": "Desa Jeruklegi, Jawa Tengah",
     "email": "halo@ecoenzyme-jeruklegi.id",
     "whatsapp": "+62 888 0245 7102",
-    "whatsapp_number": "6288802457102"
+    "items": [
+      { "id": 1, "type": "location", "icon": "map-pin", "label": "Lokasi", "value": "Desa Jeruklegi, Jawa Tengah" },
+      { "id": 2, "type": "email", "icon": "mail", "label": "Email", "value": "halo@ecoenzyme-jeruklegi.id" },
+      { "id": 3, "type": "whatsapp", "icon": "phone", "label": "WhatsApp", "value": "+62 888 0245 7102" }
+    ]
   }
 }
 ```
 
-#### Sentralisasi Generator WhatsApp di Sisi Frontend
+#### Sentralisasi Generator WhatsApp & Visibilitas Parsial di Sisi Frontend
 Frontend mengelola generator perakitan tautan pesan instan terpusat (`src/utils/whatsapp.js`):
-* Backend cukup menyediakan string nomor aktif (`whatsapp_number`).
-* Frontend merakit URL checkout secara kontekstual:
+* Backend cukup menyediakan string nomor aktif di `data.whatsapp` (mis. `"+62 888 0245 7102"` atau `"0888-0245-7102"`) tanpa perlu menambah kolom baru di database.
+* Frontend menyanitasi nomor ke format E.164 (`6288802457102`) melalui `sanitizeWhatsAppNumber()` dan merakit URL checkout secara kontekstual:
   ```javascript
   // Template: https://wa.me/{cleanNumber}?text={encodedText}
-  const url = buildWhatsAppCheckout(product.name, contact.whatsapp_number);
+  const url = buildProductCheckoutUrl(product, contactResult.whatsappNumber);
   ```
+* **Kontrak Visibilitas (`is_active`):** Apabila seksi kontak dinonaktifkan di CMS Backend (`is_active: false` atau `{"data": null}`), `Footer.jsx` menyembunyikan hanya blok informasi kontak namun tetap menampilkan **Logo Resmi SiDeta & Copyright** sebagai penutup halaman, sementara tombol checkout produk jatuh kembali (*fallback*) ke `DEFAULT_WHATSAPP_NUMBER`.
 * **Keuntungan:** Tim pemasaran dapat memperbarui kata-kata sapaan WhatsApp secara lincah tanpa perlu menyentuh database backend.
 
 ---
