@@ -26,14 +26,18 @@ project_name: "Eco-Enzyme Jeruklegi Landing Page"
 ## 3. Hukum Pengujian (Testing)
 - **Tingkat Komitmen:** Pragmatic Linting & Build Verification. Memprioritaskan kecepatan rilis dan efisiensi bundle: verifikasi statis tanpa dependensi test runner berat melalui oxlint (0 error/warning) dan validasi kompilasi bundle produksi Vite/Astro build (exit code 0).
 - **Aturan Praktis:** (Contoh: AI dilarang menulis kode produksi sebelum tes ditulis).
-- **Four-Tier Quality Gate (Khusus Fitur Antarmuka Pengguna/UI):**
+- **Four-Tier Quality Gate & Tri-Track Routing (Khusus Audit):**
   1. *Tier 1 (Linting):* Oxlint / ESLint 0 error dan 0 warning.
   2. *Tier 2 (Logic Tests):* Unit/Integration logic test passing 100%.
   3. *Tier 3 (Production Bundler):* Build produksi sukses dengan Exit Code 0.
-  4. *Tier 4 (Visual Smoke & Actionability Gate):* Verifikasi interaktivitas browser riil via Playwright MCP (anti-backdrop intercept, rasio aspek proporsional, dan targeted crop snapshot Light/Dark mode).
+  4. *Tier 4 (Visual Smoke & Actionability Gate via Playwright MCP):*
+     - **Jalur 1: Pure Backend (Zero UI Footprint):** Otomatis BYPASS Tier 4 (tanpa Playwright, tanpa tangkapan layar).
+     - **Jalur 2: Frontend Refactor / Logic-Only (Zero Visual Delta):** Static verification + Mandat Checklist Verifikasi Manual Manusia (Human-in-the-Loop Smoke Checklist).
+     - **Jalur 3: Active Visual & Interactive UI (Active Visual Delta):** Wajib eksekusi Playwright + Mandat Penjabaran Bukti Visual Fisik (In-Chat Visual Evidence) mencakup multi-viewport (Desktop & Mobile) serta Light/Dark mode dengan observasi tata letak riil.
 - **Hukum Anti-Kebutaan Visual & Metrik Geometri (Anti-Visual Blindness Protocol):**
   * **Metrik Geometri Sebelum Opini:** AI dilarang menyimpulkan keselarasan tampilan hanya dari pencocokan semantik. Rasio wadah wajib selaras dengan rasio asli gambar (`naturalWidth/naturalHeight`) untuk mencegah sayap putih (*pillarbox*).
   * **Uji Dua Tema Ekstrem (Dual-Theme Bleed):** Verifikasi tangkapan layar elemen pada Light Mode dan Dark Mode untuk mendeteksi balok semen kontras tak diinginkan.
+  * **Penjabaran Bukti Nyata di Obrolan:** Pada tiket dengan perubahan visual, AI wajib menyertakan tangkapan layar lokal dan observasi visual konkret di respons audit, bukan sekadar menyatakan exit code 0.
   * **Penyelamat Laptop Fresh Clone (Graceful Fallback):** Jika lingkungan lokal belum memiliki Playwright / Chromium, AI dilarang membatalkan audit atau memblokir PR; AI wajib beralih ke inspeksi kode statis (*conditional unmount & adaptive bounds*) dengan catatan edukatif ramah.
 
 ## 4. Standar Kode & Kualitas

@@ -401,6 +401,44 @@ export const IMPACT_STATS = [
 ];
 
 // ─────────────────────────────────────────────────
+// Navigation Links (Navbar & Footer Single Source of Truth)
+// ─────────────────────────────────────────────────
+export const NAV_LINKS = [
+  { name: 'Beranda', href: '#hero' },
+  { name: 'Tentang Kami', href: '#tentang' },
+  { name: 'Produk', href: '#produk' },
+  { name: 'Cara Pesan', href: '#cara-pesan' },
+  { name: 'Kontak', href: '#kontak' },
+];
+
+// ─────────────────────────────────────────────────
+// Footer Information Links (Konsumen & Edukasi)
+// ─────────────────────────────────────────────────
+export const FOOTER_INFO_LINKS = [
+  { name: 'Pusat Bantuan & FAQ', href: '#kontak', description: 'Tanya jawab seputar produk & pesanan' },
+  { name: 'Panduan Dosis & Pemakaian', href: '#tentang', description: 'Takaran campur air & aplikasi rumah' },
+  { name: 'Standar Kualitas Alami', href: '#tentang', description: 'Proses fermentasi 90 hari & non-kimia' },
+  { name: 'Ketentuan Order & Retur WA', href: '#cara-pesan', description: 'Garansi botol aman sampai tujuan' },
+];
+
+// ─────────────────────────────────────────────────
+// Footer Copywriting & Metadata
+// ─────────────────────────────────────────────────
+export const FOOTER_CONTENT = {
+  missionDescription:
+    'SiDeta adalah wujud nyata hilirisasi riset pengabdian masyarakat Desa Jeruklegi, menghadirkan formula pembersih alami berbasis eco-enzyme yang aman untuk keluarga dan ramah bagi ekosistem air.',
+  commitmentBadge: '100% Fermentasi Alami • Bebas SLS & Paraben',
+  quickLinksTitle: 'Jelajahi',
+  infoLinksTitle: 'Informasi & Bantuan',
+  contactTitle: 'Hubungi Kami',
+  contactSubtitle: 'Ada Pertanyaan? Kami Siap Membantu.',
+  contactDescription:
+    'Ingin tahu lebih banyak tentang produk, cara pembuatan, atau peluang kolaborasi? Jangan ragu untuk menghubungi kami.',
+  copyrightText:
+    'Inovasi Produk Pembersih Ramah Lingkungan Program Pengabdian Masyarakat Sanitasi Hijau Desa Jeruklegi.',
+};
+
+// ─────────────────────────────────────────────────
 // Contact Info (Footer)
 // ─────────────────────────────────────────────────
 export const SHOW_CONTACT = true;

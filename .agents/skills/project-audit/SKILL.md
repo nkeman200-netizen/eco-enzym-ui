@@ -12,14 +12,34 @@ project_name: "Eco-Enzyme Jeruklegi Landing Page"
 
 ## 🔎 PROTOKOL AUDIT KODE (`/audit`)
 Saat perintah `/audit` dikirim:
-1. **Default Behavior & Klasifikasi Domain Otomatis (Smart Blast-Radius Routing):**
-   AI **WAJIB** terlebih dahulu memeriksa jenis berkas yang disentuh pada sesi eksekusi terakhir:
-   - **Jalur Pure Backend:** Hanya menyentuh berkas Controller, Service, Repository, Model, Migration, FormRequest, Policy, Seeder, atau Route API.
-     * AI **DILARANG KERAS** memanggil Playwright atau menuntut visual testing pada tiket ini. Fokus murni pada pencegahan N+1 Query, transaksi atomik database, sanitasi OWASP, otorisasi Policy, dan Feature Test HTTP.
-   - **Jalur Pure Frontend:** Hanya menyentuh komponen UI, layout, styling Tailwind, halaman Astro/React/Vue/Blade, hooks UI, atau aset statis.
-     * AI **WAJIB** mengeksekusi standar **Four-Tier Quality Gate** secara lengkap (termasuk Tier 4: Visual Smoke & Runtime Actionability Gate).
-   - **Jalur Fullstack / Campuran:** Menyentuh layer backend (API/Database) dan frontend (UI).
-     * AI mengaudit kedua layer secara berurutan: verifikasi keselarasan kontrak data/DTO di sisi backend, diikuti eksekusi Tier 4 Visual Smoke Gate pada sisi antarmuka pengguna.
+1. **Default Behavior & Klasifikasi Domain Otomatis (Smart Blast-Radius Tri-Track Routing):**
+   AI **WAJIB** terlebih dahulu memeriksa jenis berkas yang disentuh pada sesi eksekusi terakhir (`git diff --name-only`) dan mengklasifikasikan domain secara cerdas ke dalam 3 Jalur:
+   - **Jalur 1: Pure Backend / Headless (Zero UI Footprint):**
+     * *Kriteria:* Hanya menyentuh berkas Controller, Service, Repository, Model, Migration, FormRequest, Policy, Seeder, Route API, atau skrip backend.
+     * *Kebijakan Pengujian:* AI **DILARANG KERAS** memanggil Playwright atau menuntut visual testing pada tiket ini. Fokus murni pada pencegahan N+1 Query, transaksi atomik database, sanitasi OWASP, otorisasi Policy, dan Feature Test HTTP.
+     * *Pelaporan di Bagian 2:* Status Tier 4 ditulis: `Tier 4 (Visual Smoke): [BYPASS - Pure Backend / Non-Visual]`.
+   - **Jalur 2: Frontend Refactor / Logic-Only (Zero Visual Delta):**
+     * *Kriteria:* Menyentuh berkas di layer frontend (utility function, custom hook, types/interfaces, state store, konfigurasi build, konstanta data, atau refactor logika kalkulasi), TETAPI hasil inspeksi AST/diff membuktikan **tidak ada perubahan tag JSX/HTML, kelas CSS/Tailwind, atau geometri antarmuka pengguna**.
+     * *Kebijakan Pengujian:* AI **TIDAK PERLU** memaksakan tangkapan layar Playwright karena tidak terdapat delta visual (pixel identik 100%).
+     * *Pelaporan di Bagian 2:* Status Tier 4 ditulis: `Tier 4 (Visual Smoke): [STATIC VERIFIED - Zero Visual Delta]`.
+     * *Mandat Panduan Uji Manual Manusia (Human-in-the-Loop Smoke Checklist):* AI **WAJIB** menyajikan checklist langkah verifikasi fungsional konkret agar pengembang/reviewer manusia dapat melakukan uji asap (smoke check) manual di browser:
+       ```markdown
+       #### 📋 Panduan Verifikasi Manual Pengembang (Logic-Only Smoke Checklist):
+       * [ ] Buka rute/halaman target di browser lokal.
+       * [ ] Lakukan interaksi uji fungsional (misal: klik aksi, pengiriman data, manipulasi filter).
+       * [ ] Periksa DevTools Console ➔ pastikan tidak ada warning re-render liar atau error runtime.
+       ```
+   - **Jalur 3: Active Visual & Interactive UI (Active Visual Delta):**
+     * *Kriteria:* Menyentuh komponen antarmuka pengguna, layout halaman (Astro/React/Vue/Blade), styling Tailwind/CSS, responsive breakpoints (`sm:`, `md:`, `lg:`), modal/drawer, form interaktif, atau animasi visual.
+     * *Kebijakan Pengujian:* AI **WAJIB** mengeksekusi standar **Four-Tier Quality Gate** secara lengkap (termasuk Tier 4: Visual Smoke & Runtime Actionability Gate).
+     * *Mandat Penjabaran Bukti Visual Fisik (In-Chat Visual Evidence):* DILARANG KERAS hanya melaporkan status teks "Pass 0 errors". AI **WAJIB MENAMPILKAN DAN MENJABARKAN BUKTI TANGKAPAN LAYAR RIIL** di dalam Bagian 2 laporan audit:
+       1. **Tautan / Render Gambar Lokal:** Menyertakan format tautan media yang dapat dirender/diakses langsung di jendela chat (`[Image: nama-tangkapan-layar.png](#media:<path-lengkap>)` atau sintaks media viewer).
+       2. **Multi-Viewport & State Coverage:** Minimal menyajikan bukti:
+          - Desktop (1440px / 1280px) pada State Normal & State Alternatif (misal: kondisi collapsed, empty state, atau interaksi modal).
+          - Mobile (375px) untuk memvalidasi aliran responsif 1-kolom dan ketiadaan horizontal overflow.
+          - Light Mode dan Dark Mode (jika aplikasi mendukung dual-theme).
+       3. **Observasi Geometri & Aksi:** Penjelasan eksplisit 1–2 kalimat mengenai apa yang dibuktikan oleh tangkapan layar tersebut (misal: verifikasi ketiadaan clipping teks, rasio grid 12 proporsional, atau pembuktian ketiadaan phantom overlay backdrop yang mengunci layar).
+   - **Jalur Campuran / Fullstack:** Mengombinasikan Jalur 1 untuk layer backend, serta Jalur 2 atau Jalur 3 untuk layer frontend sesuai dengan ada atau tidaknya delta visual.
 2. **Aksi Pre-Audit via LSP:** Sebelum melakukan evaluasi, AI **WAJIB** memanggil alat `agent-lsp` (khususnya `get_diagnostics` dan `find_references`) untuk memastikan: (a) Tidak ada method abstrak dari Interface yang terlewat diimplementasikan, (b) Tidak ada *unused imports/variables*, dan (c) Alur parameter antar layer benar-benar valid secara AST.
 3. **Standar Four-Tier Quality Gate (Khusus Tiket dengan Komponen UI):**
    - **Tier 1 (Linting & Static AST):** Linter proyek (Oxlint / ESLint / Biome) 0 error dan 0 warning.

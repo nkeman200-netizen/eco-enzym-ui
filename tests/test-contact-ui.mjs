@@ -110,6 +110,9 @@ async function runTestSuite() {
     // ── Skenario 1A: Offline Fallback & Static CTA Sync ──
     console.log('🌐 [SKENARIO 1A]: Menguji Offline Fallback Footer & Sinkronisasi [data-wa-cta]...');
     const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    await page.route('**/api/v1/contact', async (route) => {
+      await route.abort('failed');
+    });
     await page.goto(baseUrl, { waitUntil: 'networkidle' });
 
     // Pastikan 3 anchor statis [data-wa-cta] ada di halaman (Plan, Stakes, FinalCTA)

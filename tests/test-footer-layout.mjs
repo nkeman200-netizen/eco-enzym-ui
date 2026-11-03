@@ -166,6 +166,10 @@ async function runTestSuite() {
     assert.equal(await subFooter.isVisible(), true, 'Sub-Footer bar di bawah garis pembatas wajib terlihat');
     const backToTop = subFooter.locator('a[href="#hero"]');
     assert.equal(await backToTop.isVisible(), true, 'Tautan Kembali ke Atas (href="#hero") wajib terlihat');
+    
+    const screenshotsDir = path.join(process.cwd(), 'tests', 'screenshots');
+    fs.mkdirSync(screenshotsDir, { recursive: true });
+    await footer.screenshot({ path: path.join(screenshotsDir, 'footer-desktop-normal.png') });
 
     // ── Skenario 1B: Adaptive Grid Collapse Saat Kontak Dinonaktifkan (data: null) ──
     console.log('🌐 [SKENARIO 1B]: Menguji Adaptive Grid Collapse saat Kontak Nonaktif...');
@@ -199,6 +203,8 @@ async function runTestSuite() {
     assert.equal(await inactFooter.locator('img[alt*="Logo Resmi SiDeta"]').isVisible(), true);
     assert.ok((await inactFooter.locator('ul[data-footer-nav] a').count()) >= 5);
     assert.ok((await inactFooter.locator('ul[data-footer-info] a').count()) >= 4);
+    
+    await inactFooter.screenshot({ path: path.join(screenshotsDir, 'footer-desktop-collapsed.png') });
 
     // ── Skenario 1C: Responsive Mobile (375px) & Tablet (768px) ──
     console.log('📱 [SKENARIO 1C]: Menguji Stabilitas Tata Letak di Resolusi Mobile (375px) & Tablet (768px)...');
@@ -207,12 +213,14 @@ async function runTestSuite() {
     const mobFooter = pageMobile.locator('footer#kontak');
     await mobFooter.scrollIntoViewIfNeeded();
     assert.equal(await mobFooter.locator('img[alt*="Logo Resmi SiDeta"]').isVisible(), true);
+    await mobFooter.screenshot({ path: path.join(screenshotsDir, 'footer-mobile.png') });
 
     const pageTablet = await browser.newPage({ viewport: { width: 768, height: 1024 } });
     await pageTablet.goto(baseUrl, { waitUntil: 'networkidle' });
     const tabFooter = pageTablet.locator('footer#kontak');
     await tabFooter.scrollIntoViewIfNeeded();
     assert.equal(await tabFooter.locator('img[alt*="Logo Resmi SiDeta"]').isVisible(), true);
+    await tabFooter.screenshot({ path: path.join(screenshotsDir, 'footer-tablet.png') });
 
     console.log('   ✓ Seluruh pengujian E2E Desktop 4-Kolom, Adaptive Collapse, dan Mobile/Tablet LULUS!\n');
     console.log('🎉 SUITE PENGUJIAN FOOTER LAYOUT (ISSUE #21) RESMI DIVERIFIKASI!');
