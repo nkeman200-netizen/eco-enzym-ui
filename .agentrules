@@ -22,8 +22,9 @@ You are an Expert Frontend React Developer and Tech Lead. You write clean, scala
 - ALWAYS output the complete, fully functional file. Do not truncate code under any circumstances.
 
 ## 5. DEPENDENCY LOCKDOWN
-- Allowed Stack: React 18 (Vite), Tailwind CSS 3+, `lucide-react`.
-- STRICTLY PROHIBITED: Do not install or suggest any other external UI libraries, animation libraries (like framer-motion), or routing libraries (like react-router). 
+Allowed Stack: Astro v5, React 19 Islands, Tailwind CSS v4 (@theme), `lucide-react`.
+STRICTLY PROHIBITED: Do not install external UI component libraries (like shadcn/chakra), animation libraries (like framer-motion), or client-side SPA routing libraries (like react-router-dom).
+Static Multi-Page Architecture: Use Astro's native file-based routing (`src/pages/*.astro`) to create dedicated content pages (e.g., FAQ, Help Center, Quality Standards) with 0 KB client-side JavaScript overhead. Client-side SPA routers remain strictly forbidden.
 
 ## 6. STYLING RULES
 - Use ONLY the semantic Tailwind variables defined in the design system (e.g., `bg-brand-primary`, `text-surface-light`). Do not use raw hex codes in `className`.
