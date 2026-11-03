@@ -1,6 +1,8 @@
 import React from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import Button from '../ui/Button';
+import { DEFAULT_WHATSAPP_NUMBER } from '../../constants/data';
+import { buildWhatsAppUrl } from '../../utils/whatsapp';
 
 /**
  * SB7 Element 6 — Stakes Section (Avoid Failure)
@@ -9,8 +11,10 @@ import Button from '../ui/Button';
  * Diletakkan sebelum Success Vision agar halaman berakhir pada nada positif.
  */
 
-const WHATSAPP_MAIN =
-  'https://wa.me/6288802457102?text=Halo,%20saya%20ingin%20tahu%20lebih%20lanjut%20tentang%20produk%20Eco-Enzyme.';
+const WHATSAPP_MAIN = buildWhatsAppUrl(
+  DEFAULT_WHATSAPP_NUMBER,
+  'Halo, saya ingin tahu lebih lanjut tentang produk Eco-Enzyme.'
+);
 
 export default function Stakes() {
   return (
@@ -43,7 +47,7 @@ export default function Stakes() {
 
         {/* CTA */}
         <div>
-          <a href={WHATSAPP_MAIN} target="_blank" rel="noopener noreferrer">
+          <a href={WHATSAPP_MAIN} data-wa-cta target="_blank" rel="noopener noreferrer">
             <Button
               variant="inverted"
               className="text-base px-10 py-4 shadow-lg"

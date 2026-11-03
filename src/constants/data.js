@@ -403,6 +403,9 @@ export const IMPACT_STATS = [
 // ─────────────────────────────────────────────────
 // Contact Info (Footer)
 // ─────────────────────────────────────────────────
+export const SHOW_CONTACT = true;
+export const DEFAULT_WHATSAPP_NUMBER = '6288802457102';
+
 export const CONTACT_INFO = [
   {
     type: 'location',

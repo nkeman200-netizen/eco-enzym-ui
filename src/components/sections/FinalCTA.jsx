@@ -2,6 +2,8 @@ import React from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import Button from '../ui/Button';
 import { Sparkles } from 'lucide-react';
+import { DEFAULT_WHATSAPP_NUMBER } from '../../constants/data';
+import { buildWhatsAppUrl } from '../../utils/whatsapp';
 
 /**
  * SB7 Final CTA Section
@@ -9,8 +11,10 @@ import { Sparkles } from 'lucide-react';
  * Tujuan: tangkap pengunjung yang sudah membaca semua tapi belum klik tombol manapun.
  */
 
-const WHATSAPP_MAIN =
-  'https://wa.me/6288802457102?text=Halo,%20saya%20ingin%20pesan%20produk%20Eco-Enzyme.';
+const WHATSAPP_MAIN = buildWhatsAppUrl(
+  DEFAULT_WHATSAPP_NUMBER,
+  'Halo, saya ingin pesan produk Eco-Enzyme.'
+);
 
 export default function FinalCTA() {
   return (
@@ -36,7 +40,7 @@ export default function FinalCTA() {
 
         {/* Direct CTA */}
         <div className="pt-2">
-          <a href={WHATSAPP_MAIN} target="_blank" rel="noopener noreferrer">
+          <a href={WHATSAPP_MAIN} data-wa-cta target="_blank" rel="noopener noreferrer">
             <Button
               variant="primary"
               className="text-base sm:text-lg px-10 sm:px-14 py-4 shadow-xl shadow-brand-primary/25"

@@ -1,5 +1,11 @@
 import assert from 'node:assert/strict';
-import { PRODUCTS, TESTIMONIALS, IMPACT_STATS } from '../src/constants/data.js';
+import {
+  PRODUCTS,
+  TESTIMONIALS,
+  IMPACT_STATS,
+  CONTACT_INFO,
+  DEFAULT_WHATSAPP_NUMBER,
+} from '../src/constants/data.js';
 
 // Skenario Uji TDD: Spesifikasi Kontrak Lapisan Service API Client & Domain Services (Issue #7 & #15)
 console.log('================================================================');
@@ -18,6 +24,16 @@ async function runTestSuite() {
     normalizeTestimonial,
     normalizeTestimonialsPayload,
   } = await import('../src/services/testimonialService.js');
+  const {
+    sanitizeWhatsAppNumber,
+    buildWhatsAppUrl,
+    buildProductCheckoutUrl,
+  } = await import('../src/utils/whatsapp.js');
+  const {
+    getContactData,
+    normalizeContactPayload,
+    resetContactCache,
+  } = await import('../src/services/contactService.js');
 
   console.log('✅ [TEST 1 PASS]: Seluruh modul service berhasil diimpor.\n');
 
@@ -98,6 +114,80 @@ async function runTestSuite() {
   assert.equal(fallbackTestimonials.statistics.length, IMPACT_STATS.length, 'Jumlah statistik fallback wajib identik dengan IMPACT_STATS');
   assert.equal(fallbackTestimonials.testimonials.length, TESTIMONIALS.length, 'Jumlah testimoni fallback wajib identik dengan TESTIMONIALS');
   console.log('✅ [TEST 6 PASS]: Atomic All-or-Fallback Shield terbukti menjaga keutuhan seksi Social Proof.\n');
+
+  console.log('🔍 [TEST 7]: Menguji Sanitasi Nomor E.164 & Builder Tautan WhatsApp (whatsapp.js)...');
+  assert.equal(
+    sanitizeWhatsAppNumber('+62 888-0245-7102'),
+    '6288802457102',
+    'Format dengan +62, spasi, dan tanda hubung wajib dibersihkan menjadi 6288802457102'
+  );
+  assert.equal(
+    sanitizeWhatsAppNumber('0812 3456 7890'),
+    '6281234567890',
+    'Format awalan 08 wajib dikonversi menjadi 628'
+  );
+  assert.equal(
+    sanitizeWhatsAppNumber('85711223344'),
+    '6285711223344',
+    'Format awalan 8 wajib dikonversi menjadi 628'
+  );
+  assert.equal(
+    sanitizeWhatsAppNumber('belum-ada-nomor'),
+    DEFAULT_WHATSAPP_NUMBER,
+    'Input rusak/non-digit wajib jatuh ke DEFAULT_WHATSAPP_NUMBER'
+  );
+  assert.equal(
+    sanitizeWhatsAppNumber(''),
+    DEFAULT_WHATSAPP_NUMBER,
+    'Input string kosong wajib jatuh ke DEFAULT_WHATSAPP_NUMBER'
+  );
+
+  const plainWaUrl = buildWhatsAppUrl('0812-3456-7890');
+  assert.equal(plainWaUrl, 'https://wa.me/6281234567890');
+
+  const productWaUrl = buildProductCheckoutUrl(
+    { name: 'Sabun Mandi Alami', netto: '90 gr', price: 'Rp 15.000' },
+    '+62 812 3456 7890'
+  );
+  assert.ok(
+    productWaUrl.startsWith('https://wa.me/6281234567890?text='),
+    'URL checkout produk wajib menggunakan nomor E.164 hasil sanitasi'
+  );
+  assert.ok(
+    decodeURIComponent(productWaUrl).includes('Sabun Mandi Alami (90 gr) seharga Rp 15.000'),
+    'Pesan checkout produk wajib memuat nama, netto, dan harga produk'
+  );
+  console.log('✅ [TEST 7 PASS]: Utilitas sanitasi E.164 & builder WhatsApp berfungsi akurat.\n');
+
+  console.log('🔍 [TEST 8]: Menguji Normalizer Kontak, Visibilitas Parsial (is_active), & Deduplikasi Promise...');
+  const validContact = normalizeContactPayload({
+    id: 1,
+    title: 'Hubungi Kami',
+    is_active: true,
+    location: 'Jeruklegi Wetan, Cilacap',
+    email: 'admin@sideta.id',
+    whatsapp: '+62 811 2233 4455',
+  });
+  assert.ok(validContact, 'Payload kontak valid harus mengembalikan objek terstandarisasi');
+  assert.equal(validContact.isActive, true);
+  assert.equal(validContact.whatsappNumber, '6281122334455');
+  assert.equal(validContact.contactItems.length, 3, 'Harus menghasilkan 3 slot kontak utama');
+  assert.equal(validContact.contactItems[2].value, '+62 811 2233 4455', 'Teks tampilan WA di Footer harus tetap ramah baca');
+  assert.equal(validContact.contactItems[2].href, 'https://wa.me/6281122334455', 'Href WA di Footer harus E.164 bersih');
+
+  const inactiveByNull = normalizeContactPayload(null);
+  assert.equal(inactiveByNull.isActive, false, 'data: null wajib menghasilkan isActive: false');
+  assert.equal(inactiveByNull.whatsappNumber, DEFAULT_WHATSAPP_NUMBER, 'Saat kontak nonaktif, nomor kasir tetap fallback ke default');
+
+  const inactiveByFlag = normalizeContactPayload({ is_active: false });
+  assert.equal(inactiveByFlag.isActive, false, 'is_active: false wajib menghasilkan isActive: false');
+
+  resetContactCache();
+  const [callA, callB] = await Promise.all([getContactData(), getContactData()]);
+  assert.strictEqual(callA, callB, 'Pemanggilan paralel getContactData() wajib berbagi referensi hasil promise yang sama');
+  assert.equal(callA.isFallback, true, 'Saat offline, getContactData() wajib mengaktifkan fallback CONTACT_INFO');
+  assert.equal(callA.contactItems.length, CONTACT_INFO.length);
+  console.log('✅ [TEST 8 PASS]: Normalizer kontak, flag visibilitas, & deduplikasi promise terverifikasi.\n');
 
   console.log('🎉 SELURUH SKENARIO UJI BERHASIL HIJAU (GREEN)!');
 }

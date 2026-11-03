@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import Button from './Button';
+import { buildProductCheckoutUrl } from '../../utils/whatsapp';
 
 /**
  * Ikon default fallback per produk (sesuai katalog Products.jsx)
@@ -45,7 +46,7 @@ const SLIDE_CAPTIONS = [
  * - Spesifikasi fisik lengkap (Netto, Kemasan, Komposisi Alami, Cara Pakai)
  * - Direct Contextual WhatsApp CTA
  */
-export default function ProductDetailModal({ product, onClose }) {
+export default function ProductDetailModal({ product, onClose, whatsappNumber }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [failedImages, setFailedImages] = useState({});
   const [expandedSections, setExpandedSections] = useState({
@@ -146,9 +147,7 @@ export default function ProductDetailModal({ product, onClose }) {
   };
 
   // Buat pesan WhatsApp kontekstual spesifik
-  const orderUrl = `https://wa.me/6288802457102?text=${encodeURIComponent(
-    `Halo, saya tertarik pesan ${name} (${netto}) seharga ${price} Eco-Enzyme Jeruklegi.`
-  )}`;
+  const orderUrl = buildProductCheckoutUrl({ name, netto, price }, whatsappNumber);
 
   const handleOrder = () => {
     window.open(orderUrl, '_blank', 'noopener,noreferrer');
