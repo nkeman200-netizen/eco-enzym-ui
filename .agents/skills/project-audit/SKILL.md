@@ -67,7 +67,16 @@ Saat perintah `/audit` dikirim:
 5. **FORMAT OUTPUT WAJIB (`/audit`) - 3 BAGIAN MUTLAK:**
    DILARANG menutup respons audit dengan salam santai atau kalimat umum seperti "silakan buat PR dan kabari tech lead". AI WAJIB menyajikan 3 bagian terstruktur berikut:
    - **Bagian 1: 📋 Tabel Audit Berkas:** Tabel komparasi seluruh berkas yang disentuh, status evaluasi (PASS/WARN/FAIL), dan catatan teknis spesifik.
-   - **Bagian 2: 🛡️ Evaluasi Dimensi Arsitektur & Four-Tier Gate Status:** Ringkasan status kelayakan setiap poin kritis di atas, termasuk ringkasan Four-Tier Quality Gate (Lint, Test, Build, Visual Smoke).
+   - **Bagian 2: 🛡️ Evaluasi Dimensi Arsitektur & Four-Tier Gate Status:**
+     Ringkasan status kelayakan setiap poin kritis di atas, diikuti status Four-Tier Quality Gate yang disesuaikan dengan Tri-Track Routing:
+     * *Tier 1 (Linting):* PASS/FAIL (Laporan 0 error/0 warning).
+     * *Tier 2 (Logic Tests):* PASS/FAIL (Hasil unit/feature test).
+     * *Tier 3 (Production Bundler):* PASS/FAIL (Exit code build produksi).
+     * *Tier 4 (Visual Smoke & Actionability):*
+       - Jika **Jalur 1 (Pure Backend):** `[BYPASS - Pure Backend / Non-Visual]` *(Catatan: Tiket murni layer data/API tanpa antarmuka).*
+       - Jika **Jalur 2 (Frontend Logic-Only):** `[STATIC VERIFIED - Zero Visual Delta]` disertai **📋 Panduan Verifikasi Manual Pengembang (Human-in-the-Loop Smoke Checklist)**.
+       - Jika **Jalur 3 (Active Visual UI):** `[PASS]` disertai **🖼️ Galeri Bukti Visual & Observasi Runtime (Visual Smoke Evidence)** yang memuat tautan gambar lokal, tangkapan layar multi-viewport (Desktop, Mobile, Light/Dark mode), serta analisis ketiadaan layout shift / phantom overlay.
+       - Jika **Fallback Terjadi:** `[FALLBACK - Static Inspection]` dengan ringkasan inspeksi conditional unmount dan adaptive bounds.
    - **Bagian 3: 📬 Action Hook & Paket Penyerahan Tiket (Handoff Package):**
      * *Sinkronisasi Dokumen Roadmap (Roadmap Alignment Gate):* AI **WAJIB** secara otomatis memperbarui file `DEVELOPMENT_ROADMAP.md` di root proyek dengan mencentang item checklist (`- [x]`) yang berhasil diselesaikan oleh tiket ini. Dokumen roadmap adalah *North Star* proyek yang wajib selalu mencerminkan progres nyata di lapangan sebelum penyerahan PR.
      * *Langkah Git & Push:* Perintah terminal siap salin yang mencakup keseluruhan alur Git (`git add .`, `git commit -m "..."` sesuai standar Conventional Commits, lalu `git push -u origin <branch>`).
