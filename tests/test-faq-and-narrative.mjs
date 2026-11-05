@@ -158,7 +158,7 @@ async function runTestSuite() {
     const infoCount = await footerInfoLinks.count();
     assert.ok(infoCount >= 4, `Footer wajib memiliki minimal 4 tautan informasi (ditemukan: ${infoCount})`);
 
-    const faqTargetLink = footerInfoLinks.locator('[href*="#faq"]');
+    const faqTargetLink = page.locator('footer#kontak ul[data-footer-info] a[href*="#faq"]');
     assert.ok(
       (await faqTargetLink.count()) >= 1,
       'Tautan informasi konsumen di Footer wajib mengarah ke seksi #faq'
@@ -181,12 +181,20 @@ async function runTestSuite() {
     fs.mkdirSync(screenshotsDir, { recursive: true });
 
     // Desktop Screenshot
+    await page.evaluate(() => {
+      const header = document.querySelector('header');
+      if (header) header.style.position = 'static';
+    });
     await faqSection.scrollIntoViewIfNeeded();
     await faqSection.screenshot({ path: path.join(screenshotsDir, 'faq-desktop.png') });
 
     // Mobile Viewport (375x667)
     const pageMobile = await browser.newPage({ viewport: { width: 375, height: 667 } });
     await pageMobile.goto(baseUrl, { waitUntil: 'networkidle' });
+    await pageMobile.evaluate(() => {
+      const header = document.querySelector('header');
+      if (header) header.style.position = 'static';
+    });
     const mobileFaq = pageMobile.locator('section#faq');
     await mobileFaq.scrollIntoViewIfNeeded();
     assert.equal(await mobileFaq.isVisible(), true, 'Seksi #faq wajib terlihat di layar mobile (375px)');

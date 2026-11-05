@@ -24,21 +24,21 @@ export const PROBLEM_CARDS = [
     id: 'external',
     title: 'Limbah yang Terus Menumpuk',
     description:
-      'Sisa sayur, kulit buah, ampas dapur — setiap hari ada saja. Dan setiap hari kita buang begitu saja ke TPA, tanpa tahu apa jadinya nanti.',
+      'Kulit jeruk, sisa buah, dan ampas dapur setiap hari terbuang sia-sia ke tempat sampah. Di Desa Jeruklegi, kami memilih untuk tidak lagi membiarkannya mencemari tanah dan saluran air kita.',
     iconName: 'Trash2',
   },
   {
     id: 'internal',
-    title: 'Rasa Bersalah yang Diam-diam Ada',
+    title: 'Khawatir Formula Kimia Keras',
     description:
-      'Kamu tahu produk kimia itu keras. Kamu ingin pilihan yang lebih aman untuk anak-anak. Tapi yang alami sering terasa mahal atau sulit dipercaya.',
+      'Sebagai orang tua, kita sering cemas melihat si kecil bermain di lantai yang baru saja dipel dengan pembersih kimia berbau menyengat. Kita ingin rumah yang bersih, tapi juga aman bagi pernapasan keluarga.',
     iconName: 'Heart',
   },
   {
     id: 'philosophical',
-    title: 'Seharusnya Ada Cara yang Lebih Baik',
+    title: 'Seharusnya Bersih Itu Alami & Terjangkau',
     description:
-      'Tidak seharusnya memilih antara "bersih" dan "ramah lingkungan" jadi sesuatu yang sulit dijangkau. Setiap keluarga berhak atas keduanya.',
+      'Merawat rumah dan menjaga bumi tidak seharusnya terasa rumit apalagi mahal. Setiap keluarga berhak atas pembersih yang jujur, aman di kulit, dan lahir dari gotong royong warga desa.',
     iconName: 'Scale',
   },
 ];
@@ -49,30 +49,30 @@ export const PROBLEM_CARDS = [
 export const EDUCATION_STEPS = [
   {
     step: 1,
-    title: 'Limbah Organik',
+    title: 'Pilah dari Dapur Warga',
     description:
-      'Sisa sayur dan buah dari dapur warga dikumpulkan dengan teliti — tidak ada yang terbuang sia-sia.',
+      'Kulit jeruk manis dan sisa buah segar dikumpulkan langsung dari dapur warga Desa Jeruklegi dengan penuh ketelitian.',
     iconName: 'Apple',
   },
   {
     step: 2,
-    title: 'Inovasi Proses',
+    title: 'Fermentasi Sabar 90 Hari',
     description:
-      'Fermentasi alami berlangsung tanpa bahan kimia, menjaga semua kebaikan enzim tetap aktif.',
+      'Difermentasi secara alami bersama molase tebu murni selama 3 bulan tanpa pemutih, pengawet, atau pewangi kimia sintetis.',
     iconName: 'FlaskConical',
   },
   {
     step: 3,
-    title: 'Produk Bernilai',
+    title: 'Kebaikan Enzim Murni',
     description:
-      'Diolah menjadi sabun batang dan pembersih higienis yang siap merawat rumahmu.',
+      'Disaring higienis menjadi cairan pembersih serbaguna dan sabun mandi lembut yang kaya manfaat antiseptik alami.',
     iconName: 'Sparkles',
   },
   {
     step: 4,
-    title: 'Lingkungan Lestari',
+    title: 'Aliran Air Tetap Bersih',
     description:
-      'Setiap pembelianmu mengurangi satu tumpukan limbah yang seharusnya berakhir di TPA.',
+      'Air sisa bilasan cucianmu justru membantu mengurai bakteri di saluran pembuangan dan menjaga kelestarian ekosistem tanah.',
     iconName: 'Leaf',
   },
 ];
@@ -83,23 +83,23 @@ export const EDUCATION_STEPS = [
 export const PLAN_STEPS = [
   {
     step: 1,
-    title: 'Pilih Produkmu',
+    title: 'Pilih Kebutuhan Rumahmu',
     description:
-      'Lihat katalog kami dan pilih produk yang paling kamu butuhkan saat ini.',
+      'Temukan varian sabun mandi lembut atau cairan pembersih lantai alami yang paling cocok untuk keluargamu.',
     iconName: 'ShoppingBag',
   },
   {
     step: 2,
-    title: 'Hubungi via WhatsApp',
+    title: 'Sapa Kami di WhatsApp',
     description:
-      'Klik tombol pesan, dan tim kami akan merespons dalam waktu singkat.',
+      'Cukup satu ketukan untuk terhubung dengan pengurus komunitas Jeruklegi. Tanya takaran atau konsultasi dulu dengan ramah.',
     iconName: 'MessageCircle',
   },
   {
     step: 3,
-    title: 'Terima di Tanganmu',
+    title: 'Pesanan Tiba dengan Hangat',
     description:
-      'Produk segar langsung dari dapur komunitas Jeruklegi, siap merawat rumahmu.',
+      'Produk dikemas rapi dan aman, siap menemani hari-harimu merawat rumah dengan sentuhan alami Desa Jeruklegi.',
     iconName: 'PackageCheck',
   },
 ];
@@ -415,10 +415,10 @@ export const NAV_LINKS = [
 // Footer Information Links (Konsumen & Edukasi)
 // ─────────────────────────────────────────────────
 export const FOOTER_INFO_LINKS = [
-  { name: 'Pusat Bantuan & FAQ', href: '#kontak', description: 'Tanya jawab seputar produk & pesanan' },
-  { name: 'Panduan Dosis & Pemakaian', href: '#tentang', description: 'Takaran campur air & aplikasi rumah' },
+  { name: 'Pusat Bantuan & FAQ', href: '#faq', description: 'Tanya jawab seputar produk & pesanan' },
+  { name: 'Panduan Dosis & Pemakaian', href: '#faq', description: 'Takaran campur air & aplikasi rumah' },
   { name: 'Standar Kualitas Alami', href: '#tentang', description: 'Proses fermentasi 90 hari & non-kimia' },
-  { name: 'Ketentuan Order & Retur WA', href: '#cara-pesan', description: 'Garansi botol aman sampai tujuan' },
+  { name: 'Ketentuan Order & Retur WA', href: '#faq', description: 'Garansi botol aman sampai tujuan' },
 ];
 
 // ─────────────────────────────────────────────────
@@ -437,6 +437,40 @@ export const FOOTER_CONTENT = {
   copyrightText:
     'Inovasi Produk Pembersih Ramah Lingkungan Program Pengabdian Masyarakat Sanitasi Hijau Desa Jeruklegi.',
 };
+
+// ─────────────────────────────────────────────────
+// Frequently Asked Questions (FAQ) Data
+// ─────────────────────────────────────────────────
+export const FAQ_ITEMS = [
+  {
+    id: 'takaran-dosis',
+    category: 'Dosis & Pemakaian',
+    question: 'Bagaimana takaran campur air untuk pembersih lantai dan serbaguna?',
+    answer:
+      'Untuk mengepel lantai harian, cukup tuangkan 1–2 tutup botol (sekitar 20–30 ml) cairan SiDeta ke dalam 5 liter air bersih. Untuk membersihkan noda minyak dapur, kerak meja, atau kaca jendela, campurkan dengan rasio 1:10 di botol semprot, semprotkan langsung ke permukaan, lalu usap dengan lap bersih. Tidak perlu dibilas lagi dan tidak meninggalkan rasa licin lengket.',
+  },
+  {
+    id: 'keamanan-keluarga',
+    category: 'Keamanan Anak & Kulit',
+    question: 'Apakah aman jika terkena kulit sensitif anak atau terjilat hewan peliharaan?',
+    answer:
+      'Sangat aman. Formula SiDeta 100% berbasis fermentasi asam organik alami buah dan gula tebu tanpa senyawa SLS, paraben, pemutih klorin, atau pewangi sintetis keras. Permukaan lantai yang sudah kering sepenuhnya ramah bagi balita yang sedang aktif merangkak serta anabul kesayangan yang sering menjilat lantai rumah.',
+  },
+  {
+    id: 'masa-simpan',
+    category: 'Penyimpanan & Mutu',
+    question: 'Berapa lama masa simpan produk dan bagaimana cara menyimpannya?',
+    answer:
+      'Produk SiDeta memiliki masa simpan aktif hingga 12 bulan sejak botol dibuka. Cukup simpan di tempat yang sejuk dan kering pada suhu ruang, serta hindari paparan sinar matahari terik langsung. Karena merupakan produk enzim aktif tanpa pengawet kimia artifisial, aroma segar citrus alami akan tetap terjaga optimal.',
+  },
+  {
+    id: 'garansi-pemesanan',
+    category: 'Pemesanan & Garansi',
+    question: 'Bagaimana ketentuan pemesanan dan garansi jika botol bocor atau rusak di jalan?',
+    answer:
+      'Setiap botol dikemas dengan segel ganda dan pelindung kardus tebal ramah lingkungan. Jika paket pesananmu mengalami kebocoran atau kerusakan akibat perjalanan ekspedisi, cukup kirimkan foto atau video singkat unboxing ke WhatsApp admin kami. Tim komunitas Jeruklegi akan langsung mengirimkan botol pengganti baru tanpa biaya tambahan.',
+  },
+];
 
 // ─────────────────────────────────────────────────
 // Contact Info (Footer)
