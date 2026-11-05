@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { NAV_LINKS } from '../../constants/data.js';
 
 /**
  * Sticky Navbar component with brand logo and smooth anchor links
  */
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
-  const navLinks = [
-    { name: 'Beranda', href: '#hero' },
-    { name: 'Tentang Kami', href: '#tentang' },
-    { name: 'Produk', href: '#produk' },
-    { name: 'Cara Pesan', href: '#cara-pesan' },
-    { name: 'Kontak', href: '#kontak' },
-  ];
 
   const handleLinkClick = () => {
     setIsOpen(false);
@@ -48,7 +41,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8" aria-label="Navigasi Utama">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -76,7 +69,7 @@ export default function Navbar() {
       {/* Mobile Dropdown Menu */}
       {isOpen && (
         <div className="md:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-6 space-y-3 shadow-lg animate-in fade-in slide-in-from-top-2">
-          {navLinks.map((link) => (
+          {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
