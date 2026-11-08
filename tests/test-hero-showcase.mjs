@@ -31,12 +31,8 @@ assert.ok(
   '❌ [GAGAL]: Hero.jsx wajib mengimpor dan mengonsumsi data terpusat `HERO_SHOWCASE` dari constants!'
 );
 assert.ok(
-  heroSource.includes('loading="eager"') && heroSource.includes('fetchpriority="high"'),
-  '❌ [GAGAL]: Hero.jsx wajib menyematkan atribut performa LCP `loading="eager"` dan `fetchpriority="high"` pada foto produk fisik!'
-);
-assert.ok(
-  heroSource.includes('data-hero-product'),
-  '❌ [GAGAL]: Hero.jsx wajib menyematkan atribut `data-hero-product` pada elemen gambar showcase produk!'
+  heroSource.includes('data-hero-showcase'),
+  '❌ [GAGAL]: Hero.jsx wajib menyematkan atribut `data-hero-showcase` pada kartu utama Hero!'
 );
 
 const astroPagePath = path.join(process.cwd(), 'src/pages/index.astro');
@@ -104,38 +100,30 @@ async function runTestSuite() {
   const browser = await chromium.launch({ headless: true });
 
   try {
-    // ── Skenario 1: Verifikasi Gambar Produk Fisik & Performa LCP di #hero ──
-    console.log('🌐 [SKENARIO 1]: Menguji Keberadaan Foto Produk Fisik & Atribut LCP di Seksi #hero...');
+    // ── Skenario 1: Verifikasi Kartu Compact Glassmorphism & Proporsi Above-the-Fold ──
+    console.log('🌐 [SKENARIO 1]: Menguji Kartu Compact Glassmorphism & Visibilitas CTA Tanpa Scroll...');
     const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
     await page.goto(baseUrl, { waitUntil: 'networkidle' });
 
     const heroSection = page.locator('section#hero');
     assert.equal(await heroSection.isVisible(), true, 'Seksi <section id="hero"> wajib terlihat');
 
-    const heroImg = heroSection.locator('img[data-hero-product]');
-    assert.equal(await heroImg.count(), 1, 'Wajib terdapat tepat 1 gambar utama [data-hero-product] di Hero');
-    assert.equal(await heroImg.isVisible(), true, 'Gambar produk fisik di Hero wajib terlihat');
+    const showcaseCard = heroSection.locator('[data-hero-showcase]');
+    assert.equal(await showcaseCard.count(), 1, 'Wajib terdapat tepat 1 kartu [data-hero-showcase] di Hero');
+    assert.equal(await showcaseCard.isVisible(), true, 'Kartu [data-hero-showcase] wajib terlihat');
 
-    const imgProps = await heroImg.evaluate((el) => ({
-      src: el.getAttribute('src'),
-      alt: el.getAttribute('alt'),
-      loading: el.getAttribute('loading'),
-      fetchpriority: el.getAttribute('fetchpriority'),
-      naturalWidth: el.naturalWidth,
-      naturalHeight: el.naturalHeight,
-    }));
+    const desktopBox = await heroSection.boundingBox();
+    assert.ok(
+      desktopBox.height <= 680,
+      `Tinggi seksi Hero Desktop wajib proporsional dan kompak (<= 680px, ditemukan: ${desktopBox.height}px)`
+    );
 
+    const primaryCta = heroSection.locator('a[href="#produk"]');
+    const primaryCtaBox = await primaryCta.boundingBox();
     assert.ok(
-      imgProps.src && imgProps.src.endsWith('.webp'),
-      `Gambar Hero wajib menggunakan format .webp (ditemukan: ${imgProps.src})`
+      primaryCtaBox.y + primaryCtaBox.height <= 800,
+      'Tombol CTA Utama wajib terlihat utuh di layar pertama Desktop (1280x800) tanpa scroll!'
     );
-    assert.ok(
-      imgProps.alt && imgProps.alt.length >= 15,
-      'Gambar Hero wajib memiliki alt text deskriptif untuk SEO & aksesibilitas'
-    );
-    assert.equal(imgProps.loading, 'eager', 'Gambar Hero wajib memiliki loading="eager"');
-    assert.equal(imgProps.fetchpriority, 'high', 'Gambar Hero wajib memiliki fetchpriority="high"');
-    assert.ok(imgProps.naturalWidth > 0, 'Gambar Hero wajib berhasil dimuat (naturalWidth > 0)');
 
     // ── Skenario 2: Verifikasi SB7 Grunt Test Callouts (Harga & Klaim Keamanan) ──
     console.log('🌐 [SKENARIO 2]: Menguji Elemen SB7 Grunt Test (Label Harga & Manfaat Keamanan)...');
@@ -173,6 +161,13 @@ async function runTestSuite() {
       () => document.documentElement.scrollWidth > window.innerWidth
     );
     assert.equal(mobileOverflow, false, 'Tidak boleh ada horizontal overflow pada Mobile (375px)');
+
+    const mobilePrimaryCta = pageMobile.locator('section#hero a[href="#produk"]');
+    const mobileCtaBox = await mobilePrimaryCta.boundingBox();
+    assert.ok(
+      mobileCtaBox.y + mobileCtaBox.height <= 812,
+      `Tombol CTA Utama di Mobile (375x812) wajib langsung terlihat di layar pertama tanpa scroll (y bottom: ${mobileCtaBox.y + mobileCtaBox.height}px)!`
+    );
 
     await pageMobile.evaluate(() => {
       const header = document.querySelector('header');

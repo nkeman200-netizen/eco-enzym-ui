@@ -21,13 +21,10 @@ export const BRAND_IDENTITY = {
 export const HERO_SHOWCASE = {
   badgeText: 'Sabun & Pembersih Alami',
   priceTag: 'Mulai Rp 15.000',
-  title: 'Pembersih Lantai & Sabun Eco-Enzyme',
+  title: 'Fermentasi Alami Berkualitas',
   subtitle:
-    'Formula higienis ramah bumi hasil fermentasi 90 hari limbah buah segar warga Desa Jeruklegi.',
+    'Formula higienis ramah bumi hasil pengolahan limbah organik warga Jeruklegi',
   highlightBenefit: 'Aman untuk Balita & Kulit Sensitif',
-  image: '/images/products/pembersih-lantai-1.webp',
-  imageAlt:
-    'Produk Fisik Pembersih Lantai dan Sabun Alami Eco-Enzyme SiDeta Desa Jeruklegi',
 };
 
 
@@ -297,7 +294,7 @@ export const PRODUCTS = [
     name: 'Nutrisi & Bio-Pestisida Tanaman',
     description: 'Semprotan siap pakai penyubur daun dan pengusir hama kutu daun.',
     benefit: 'Tanaman rimbun hijau segar tanpa pestisida kimia — pet safe.',
-    detail: 'Formula bio-nutrisi tanaman 2-in-1 siap semprot yang menggabungkan hormon pertumbuhan alami auksin & sitokinin dari fermentasi eco-enzyme buah dengan asam asetat pengusir hama. Merangsang tunas baru, menguatkan akar, dan mengusir kutu putih maupun semut secara biologis tanpa meracuni hewan peliharaan di rumah.',
+    detail: 'Formula bio-nutrisi tanaman 2-in-1 siap semprot yang menggubungkan hormon pertumbuhan alami auksin & sitokinin dari fermentasi eco-enzyme buah dengan asam asetat pengusir hama. Merangsang tunas baru, menguatkan akar, dan mengusir kutu putih maupun semut secara biologis tanpa meracuni hewan peliharaan di rumah.',
     price: 'Rp 20.000',
     images: [
       '/images/products/nutrisi-tanaman-1.webp',
@@ -516,4 +513,3 @@ export const CONTACT_INFO = [
     iconName: 'Phone',
   },
 ];
-
