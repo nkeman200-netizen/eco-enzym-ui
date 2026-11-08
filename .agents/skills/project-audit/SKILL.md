@@ -34,11 +34,11 @@ Saat perintah `/audit` dikirim:
      * *Kebijakan Pengujian:* AI **WAJIB** mengeksekusi standar **Four-Tier Quality Gate** secara lengkap (termasuk Tier 4: Visual Smoke & Runtime Actionability Gate).
      * *Mandat Penjabaran Bukti Visual Fisik (In-Chat Visual Evidence):* DILARANG KERAS hanya melaporkan status teks "Pass 0 errors". AI **WAJIB MENAMPILKAN DAN MENJABARKAN BUKTI TANGKAPAN LAYAR RIIL** di dalam Bagian 2 laporan audit:
        1. **Tautan / Render Gambar Lokal:** Menyertakan format tautan media yang dapat dirender/diakses langsung di jendela chat (`[Image: nama-tangkapan-layar.png](#media:<path-lengkap>)` atau sintaks media viewer).
-       2. **Multi-Viewport & State Coverage:** Minimal menyajikan bukti:
-          - Desktop (1440px / 1280px) pada State Normal & State Alternatif (misal: kondisi collapsed, empty state, atau interaksi modal).
-          - Mobile (375px) untuk memvalidasi aliran responsif 1-kolom dan ketiadaan horizontal overflow.
-          - Light Mode dan Dark Mode (jika aplikasi mendukung dual-theme).
-       3. **Observasi Geometri & Aksi:** Penjelasan eksplisit 1–2 kalimat mengenai apa yang dibuktikan oleh tangkapan layar tersebut (misal: verifikasi ketiadaan clipping teks, rasio grid 12 proporsional, atau pembuktian ketiadaan phantom overlay backdrop yang mengunci layar).
+       2. **Multi-Viewport Real-World Coverage (Viewport-First, Bukan Element-Isolated):** Minimal menyajikan bukti `page.screenshot({ fullPage: false })` pada:
+          - **Desktop Real Inner-Viewport (`1280 × 680` atau `1366 × 680`):** Merepresentasikan tinggi ruang baca bersih laptop nyata setelah dipotong Chrome Tab/Address/Bookmarks Bar (~110px) dan Taskbar, pada State Normal & State Alternatif.
+          - **Mobile Real Viewport (`375 × 667`):** Memvalidasi aliran responsif 1-kolom dan ketiadaan horizontal overflow.
+          - **Light Mode dan Dark Mode** (jika aplikasi mendukung dual-theme).
+       3. **Observasi Geometri & Aksi:** Penjelasan eksplisit 1–2 kalimat mengenai apa yang dibuktikan oleh tangkapan layar tersebut (misal: tombol CTA utuh di dalam fold `680px`, tidak ada tabrakan dengan sticky navbar, rasio grid 12 proporsional, dan ketiadaan phantom overlay).
    - **Jalur Campuran / Fullstack:** Mengombinasikan Jalur 1 untuk layer backend, serta Jalur 2 atau Jalur 3 untuk layer frontend sesuai dengan ada atau tidaknya delta visual.
 2. **Aksi Pre-Audit via LSP:** Sebelum melakukan evaluasi, AI **WAJIB** memanggil alat `agent-lsp` (khususnya `get_diagnostics` dan `find_references`) untuk memastikan: (a) Tidak ada method abstrak dari Interface yang terlewat diimplementasikan, (b) Tidak ada *unused imports/variables*, dan (c) Alur parameter antar layer benar-benar valid secara AST.
 3. **Standar Four-Tier Quality Gate (Khusus Tiket dengan Komponen UI):**
@@ -46,9 +46,15 @@ Saat perintah `/audit` dikirim:
    - **Tier 2 (Logic & Unit Tests):** Pengujian unit & integrasi logika (Vitest / Jest) lolos 100%.
    - **Tier 3 (Production Bundler Sanity):** Build produksi (`npm run build` / `vite build` / `astro check`) tuntas dengan Exit Code 0 tanpa broken imports.
    - **Tier 4 (Visual Smoke & Runtime Actionability Gate via Playwright MCP):**
-     * **Deteksi Intercept & Phantom Overlay:** Uji interaksi klik riil pada tombol/input menggunakan Playwright. Jika elemen terhalang *phantom backdrop* (`fixed inset-0` tak kasat mata atau pointer events intercept), Playwright otomatis membunyikan alarm kegagalan untuk membasmi bug layar terkunci.
-     * **Audit Rasio Aspek & Hug-Content Bounds:** Validasi bahwa kontainer media/gambar tidak mengunci dimensi bujur sangkar kaku jika aset berupa poster vertikal (rasio 3:4 / A4), untuk mencegah sayap kosong (*pillarbox*).
-     * **Targeted Crop Snapshot (Dual-Theme Bleed Audit):** Ambil tangkapan layar spesifik per-node komponen pada resolusi mobile (375px) dan desktop (1440px) dalam mode terang (**Light Mode**) dan mode gelap (**Dark Mode**) untuk memastikan ketiadaan balok semen kontras di tema gelap.
+     * **Pilar 1 — Hukum Viewport-First Screenshot (Haram `element.screenshot()` sebagai Bukti Utama):**
+       AI **DILARANG KERAS** mengisolasi tangkapan layar hanya pada node DOM tunggal (`await section.screenshot()`) untuk membuktikan kelayakan tata letak, karena membutakan pengujian terhadap terpotongnya elemen oleh tepi bawah layar atau bocornya seksi bawah ke atas. Bukti utama **WAJIB** menggunakan `await page.screenshot({ fullPage: false })` (potret satu jendela browser utuh). `element.screenshot()` hanya boleh dipakai sebagai lampiran sekunder untuk mikro-komponen (ikon/badge).
+     * **Pilar 2 — Standar Real-World Laptop Inner-Viewport (`1280 × 680`) & Above-the-Fold Math:**
+       Pengujian desktop wajib menggunakan ukuran ruang baca bersih laptop nyata (`width: 1280, height: 680` atau `1366 × 680`, BUKAN `800px/900px` yang mengabaikan tinggi Address/Bookmarks Bar browser). Untuk seksi pembuka (*Hero*), skrip tes wajib memvalidasi secara matematis bahwa elemen aksi utama (*CTA Button*) tidak terpotong tepi bawah layar (`ctaBox.bottom <= window.innerHeight`) dan proporsi seksi mengisi *first fold* secara harmonis.
+     * **Pilar 3 — Zero Test-Tampering Law (Haram Manipulasi CSS/DOM di Dalam Skrip Tes):**
+       AI **DILARANG KERAS** menyuntikkan manipulasi DOM/CSS produksi di dalam skrip pengujian (seperti `header.style.position = 'static'`, `display = 'none'`, atau mengubah `padding/overflow` via `page.evaluate()`) demi mempercantik tangkapan layar. Tes wajib memotret kondisi 100% murni sebagaimana dilihat manusia di browser.
+     * **Pilar 4 — Real Anchor-Click & Sticky Header Collision Gate:**
+       Jika halaman memiliki *Sticky/Fixed Navbar*, skrip tes **WAJIB** menyimulasikan klik nyata pada tautan navigasi (`await page.click('header a[href^="#"]')`) dan memverifikasi secara matematis bahwa judul/konten atas seksi target tidak tertelan di balik *Sticky Navbar* (`sectionBox.top >= headerBox.bottom` atau memiliki *scroll-margin / padding* yang presisi).
+     * **Deteksi Intercept, Rasio Aspek & Dual-Theme Bleed:** Uji interaksi klik riil pada tombol/input (memastikan tidak terhalang *phantom backdrop* `fixed inset-0`), validasi kontainer gambar adaptif *Hug-Content*, serta verifikasi Light Mode dan Dark Mode.
      * **🛡️ Protokol Graceful Degradation (Laptop Fresh Clone / Low-End Safe):**
        Jika lingkungan lokal belum menginstal Playwright MCP atau belum mengunduh browser Chromium (misal developer junior baru melakukan clone di laptop baru):
        - AI **DILARANG KERAS** membatalkan audit atau menandai status `FAIL`.

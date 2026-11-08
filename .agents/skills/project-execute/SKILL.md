@@ -43,6 +43,10 @@ Hasilkan kode standar Enterprise kelas dunia dengan bimbingan arsitektur yang me
          <img className="max-h-64 sm:max-h-72 w-auto max-w-full rounded-xl object-contain" ... />
        </div>
        ```
+3. **Hukum Pre-Flight Parent Wrapper & Vertical Budget Audit (Anti-Pendulum Over-Correction):**
+   - Sebelum memodifikasi tinggi seksi (`min-h-*`, `py-*`), *scroll-margin* (`scroll-mt-*`), atau tata letak *First Fold / Hero*:
+     * AI **WAJIB** terlebih dahulu memeriksa komponen pembungkus induk (*Parent Wrapper* seperti `SectionWrapper.jsx` atau aturan global `@apply py-16 md:py-24` di `index.css`) serta tinggi *Sticky Navbar* (`h-20` / `80px`).
+     * AI **WAJIB** menghitung anggaran ruang vertikal terhadap **Real-World Laptop Inner-Viewport (`1280 × 680`)** di atas kertas (`Tinggi Sticky Navbar + Padding Wrapper + Tinggi Konten <= 680px`) agar tidak terjadi *double-padding*, tombol CTA terpotong di bawah layar, atau *over-correction* ekstrem saat melakukan revisi.
 
 1. **Separation of Concerns (SoC):** Isolasi data teks, produk, dan tautan di `src/constants/data.js`. Dilarang meng-hardcode data mentah di dalam tubuh JSX komponen.
 2. **Pemisahan Komponen Atomik vs Seksi:** Komponen kecil reusable berada di `src/components/ui/`, sedangkan blok tata letak SB7 berada di `src/components/sections/`.

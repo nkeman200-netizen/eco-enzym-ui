@@ -16,7 +16,7 @@ export default function Faq() {
   );
 
   return (
-    <SectionWrapper id="faq" className="bg-[#FDFBF7] scroll-mt-24">
+    <SectionWrapper id="faq" className="bg-[#FDFBF7]">
       {/* Header Seksi */}
       <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 space-y-3">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold">
