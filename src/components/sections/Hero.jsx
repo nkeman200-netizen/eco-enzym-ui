@@ -1,31 +1,32 @@
 import React from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import Button from '../ui/Button';
-import { Droplets, Sparkles } from 'lucide-react';
+import { Droplets, Sparkles, ShieldCheck } from 'lucide-react';
+import { HERO_SHOWCASE } from '../../constants/data';
 
 /**
  * SB7 Element 1 — Hero Section
  * Perkenalkan hero (pelanggan), singgung masalah, tawarkan jalan keluar.
- * Tujuan: tangkap perhatian dalam 3 detik & berikan dua jalur: siap beli vs ingin tahu dulu.
+ * Tujuan: tangkap perhatian dalam 3 detik (The Grunt Test) & berikan dua jalur: siap beli vs ingin tahu dulu.
+ * Proporsi dikunci kompak (Single-Viewport Above-the-Fold Budget) agar CTA terlihat utuh tanpa scroll.
  */
 
 export default function Hero() {
   return (
-    // bg-[#FDFBF7] memberikan kesan hangat (off-white), bukan putih steril klinik
-    <SectionWrapper id="hero" className="bg-[#FDFBF7] overflow-hidden relative">
-
+    <SectionWrapper
+      id="hero"
+      className="bg-surface-light overflow-hidden relative"
+    >
       {/* Ambient Background Glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-pulse pointer-events-none" />
-      <div className="absolute top-20 right-10 w-96 h-96 bg-brand-citrus-warm/15 rounded-full mix-blend-multiply filter blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse pointer-events-none" />
+      <div className="absolute top-20 right-10 w-96 h-96 bg-brand-citrus-warm/15 rounded-full mix-blend-multiply filter blur-3xl pointer-events-none" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-10">
-
         {/* KOLOM KIRI: Tipografi & Teks */}
         <div className="flex flex-col items-start space-y-6">
-
           {/* Badge Organik */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-citrus/10 border border-brand-citrus/25 shadow-xs">
-            <Sparkles className="w-4 h-4 text-brand-citrus" />
+            <Sparkles className="w-4 h-4 text-brand-citrus shrink-0" />
             <span className="text-sm font-semibold text-brand-primary">
               100% Organik & Fermentasi Sitrus Alami · Komunitas Jeruklegi
             </span>
@@ -49,7 +50,10 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             {/* Direct CTA — untuk yang sudah siap */}
             <a href="#produk">
-              <Button variant="primary" className="text-base px-8 py-4 shadow-xl shadow-brand-primary/20">
+              <Button
+                variant="primary"
+                className="text-base px-8 py-4 border-2 border-transparent shadow-xl shadow-brand-primary/20"
+              >
                 Pesan via WhatsApp →
               </Button>
             </a>
@@ -65,50 +69,52 @@ export default function Hero() {
 
         {/* KOLOM KANAN: Visual Centerpiece (Glassmorphism) */}
         <div className="relative w-full max-w-lg mx-auto lg:ml-auto mt-10 lg:mt-0">
-
           {/* Blob Shadow — ilusi kedalaman */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-brand-accent/30 to-brand-primary/20 rounded-[3rem] blur-2xl opacity-60" />
+          <div className="absolute -inset-4 bg-gradient-to-r from-brand-accent/30 to-brand-primary/20 rounded-[3rem] blur-2xl opacity-60 pointer-events-none" />
 
           {/*
-           * 📸 PLACEHOLDER FOTO — HERO (Visual Utama Halaman)
-           *
-           * Saran foto:
-           *   Foto flat-lay atau still-life produk unggulan (misal sabun batang + pembersih lantai)
-           *   diletakkan di atas permukaan kayu/kain linen berwarna krem/natural.
-           *   Tambahkan elemen pendukung: daun segar, irisan jeruk/lemon, atau bunga kecil
-           *   untuk memperkuat kesan "organik dari alam".
-           *
-           * Teknis foto:
-           *   - Rasio: 1:1 (square) agar pas mengisi card
-           *   - Pencahayaan: natural light (jendela) dari samping, hindari flash langsung
-           *   - Background: putih bersih atau krem agar tidak bersaing dengan card glassmorphism
-           *   - Resolusi minimal: 800×800px
-           *
-           * Cara implementasi:
-           *   Ganti seluruh konten card ini dengan:
-           *   <img src="/images/hero-product.webp" alt="Produk Eco-Enzyme" className="w-full h-full object-cover rounded-[2.5rem]" />
+           * 📸 CATATAN DIVISI MEDIA:
+           * Saat aset foto studio "Styled Still-Life" sudah siap (lihat SOP di
+           * docs/plan/media-division-product-photography-guide.md), kartu emblem ini
+           * dapat diganti dengan foto produk berlabel resmi SiDeta rasio 1:1.
            */}
-
-          {/* Card Utama (Glassmorphism & Micro-interactions) */}
-          <div className="relative aspect-square bg-white/70 backdrop-blur-xl border-2 border-white rounded-[2.5rem] shadow-2xl p-8 flex flex-col items-center justify-center transform hover:scale-[1.02] transition-all duration-500">
+          <div
+            data-hero-showcase
+            className="relative aspect-square bg-white/70 backdrop-blur-xl border-2 border-white rounded-[2.5rem] shadow-2xl p-8 flex flex-col items-center justify-center text-center transform hover:scale-[1.02] transition-all duration-500"
+          >
+            {/* Emblem Ikon Tetesan Enzim */}
             <div className="w-24 h-24 bg-brand-accent/20 rounded-full flex items-center justify-center mb-6 shadow-inner border border-white/50">
               <Droplets className="w-12 h-12 text-brand-primary" />
             </div>
+
+            {/* Pill Kategori Produk */}
             <div className="bg-white px-6 py-2 rounded-full shadow-sm mb-4 border border-brand-citrus/30 bg-gradient-to-r from-white to-brand-citrus/10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-citrus inline-block"></span>
+              <span className="w-2 h-2 rounded-full bg-brand-citrus inline-block shrink-0" />
               <span className="text-xs font-bold text-brand-primary uppercase tracking-wider">
-                Sabun & Pembersih Alami
+                {HERO_SHOWCASE.badgeText}
               </span>
             </div>
+
+            {/* Judul & Narasi Ringkas */}
             <h3 className="text-2xl font-extrabold text-text-main text-center tracking-tight">
-              Fermentasi Alami Berkualitas
+              {HERO_SHOWCASE.title}
             </h3>
             <p className="text-sm text-gray-500 text-center mt-3 max-w-xs leading-relaxed">
-              Formula higienis ramah bumi hasil pengolahan limbah organik warga Jeruklegi
+              {HERO_SHOWCASE.subtitle}
             </p>
+
+            {/* Baris Floating Pill SB7 Grunt Test (Keamanan & Harga Terjangkau) */}
+            <div className="mt-6 pt-5 border-t border-brand-accent/15 w-full flex flex-wrap items-center justify-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-brand-accent/10 text-brand-primary text-xs font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5 text-brand-accent shrink-0" />
+                {HERO_SHOWCASE.highlightBenefit}
+              </span>
+              <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-brand-primary text-white text-xs font-bold shadow-xs">
+                {HERO_SHOWCASE.priceTag}
+              </span>
+            </div>
           </div>
         </div>
-
       </div>
     </SectionWrapper>
   );
