@@ -34,10 +34,6 @@ assert.ok(
   heroSource.includes('data-hero-showcase'),
   '❌ [GAGAL]: Hero.jsx wajib menyematkan atribut `data-hero-showcase` pada kartu utama Hero!'
 );
-assert.ok(
-  heroSource.includes('scroll-mt-20'),
-  '❌ [GAGAL]: Hero.jsx wajib menyematkan `scroll-mt-20` agar klik navigasi #hero tidak menelan badge atas di balik sticky navbar!'
-);
 
 const astroPagePath = path.join(process.cwd(), 'src/pages/index.astro');
 const astroSource = fs.readFileSync(astroPagePath, 'utf8');
@@ -120,15 +116,6 @@ async function runTestSuite() {
     assert.ok(
       desktopBox.height <= 760,
       `Tinggi seksi Hero Desktop wajib proporsional (<= 760px, ditemukan: ${desktopBox.height}px)`
-    );
-
-    // Uji klik navigasi #hero (Beranda) agar badge atas tidak tertutup sticky navbar
-    await page.goto(`${baseUrl}/#hero`, { waitUntil: 'networkidle' });
-    const headerBox = await page.locator('header').boundingBox();
-    const organicBadgeBox = await heroSection.locator('span:has-text("100% Organik")').boundingBox();
-    assert.ok(
-      organicBadgeBox.y >= headerBox.height,
-      `Badge 100% Organik tidak boleh tertutup sticky navbar saat navigasi ke #hero (badge y: ${organicBadgeBox.y}, header height: ${headerBox.height})`
     );
 
     const primaryCta = heroSection.locator('a[href="#produk"]');

@@ -15,7 +15,7 @@ export default function Hero() {
   return (
     <SectionWrapper
       id="hero"
-      className="bg-surface-light scroll-mt-20 overflow-hidden relative"
+      className="bg-surface-light overflow-hidden relative"
     >
       {/* Ambient Background Glow */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse pointer-events-none" />
