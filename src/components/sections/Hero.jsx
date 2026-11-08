@@ -1,28 +1,25 @@
 import React from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import Button from '../ui/Button';
-import { Droplets, Sparkles } from 'lucide-react';
+import { Sparkles, ShieldCheck } from 'lucide-react';
+import { HERO_SHOWCASE } from '../../constants/data';
 
 /**
  * SB7 Element 1 — Hero Section
  * Perkenalkan hero (pelanggan), singgung masalah, tawarkan jalan keluar.
- * Tujuan: tangkap perhatian dalam 3 detik & berikan dua jalur: siap beli vs ingin tahu dulu.
+ * Tujuan: tangkap perhatian dalam 3 detik (The Grunt Test) & berikan dua jalur: siap beli vs ingin tahu dulu.
  */
 
 export default function Hero() {
   return (
-    // bg-[#FDFBF7] memberikan kesan hangat (off-white), bukan putih steril klinik
-    <SectionWrapper id="hero" className="bg-[#FDFBF7] overflow-hidden relative">
-
+    <SectionWrapper id="hero" className="bg-surface-light overflow-hidden relative">
       {/* Ambient Background Glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-pulse pointer-events-none" />
-      <div className="absolute top-20 right-10 w-96 h-96 bg-brand-citrus-warm/15 rounded-full mix-blend-multiply filter blur-[120px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-accent/10 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-pulse pointer-events-none" />
+      <div className="absolute top-20 right-10 w-96 h-96 bg-brand-citrus-warm/15 rounded-full mix-blend-multiply filter blur-3xl pointer-events-none" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center relative z-10">
-
         {/* KOLOM KIRI: Tipografi & Teks */}
         <div className="flex flex-col items-start space-y-6">
-
           {/* Badge Organik */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-citrus/10 border border-brand-citrus/25 shadow-xs">
             <Sparkles className="w-4 h-4 text-brand-citrus" />
@@ -32,7 +29,7 @@ export default function Hero() {
           </div>
 
           {/* Headline — berbicara ke hero (pelanggan), bukan ke brand */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-text-main leading-[1.15] sm:leading-[1.1] tracking-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-text-main leading-tight tracking-tight">
             Sisa Dapur Kamu <br />
             <span className="text-brand-primary">Bisa Jadi Lebih</span> <br />
             dari Sekadar Sampah.
@@ -46,69 +43,73 @@ export default function Hero() {
           </p>
 
           {/* CTA: Direct + Transitional */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-3 pt-2">
             {/* Direct CTA — untuk yang sudah siap */}
-            <a href="#produk">
-              <Button variant="primary" className="text-base px-8 py-4 shadow-xl shadow-brand-primary/20">
+            <a href="#produk" className="w-full sm:w-auto">
+              <Button variant="primary" className="w-full sm:w-auto justify-center text-base px-8 py-4 shadow-xl shadow-brand-primary/20">
                 Pesan via WhatsApp →
               </Button>
             </a>
 
             {/* Transitional CTA — untuk yang ingin tahu dulu */}
-            <a href="#masalah">
-              <Button variant="outline" className="text-base px-8 py-4">
+            <a href="#masalah" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto justify-center text-base px-8 py-4">
                 Lihat Cara Kerjanya
               </Button>
             </a>
           </div>
         </div>
 
-        {/* KOLOM KANAN: Visual Centerpiece (Glassmorphism) */}
-        <div className="relative w-full max-w-lg mx-auto lg:ml-auto mt-10 lg:mt-0">
-
+        {/* KOLOM KANAN: Visual Centerpiece (SB7 Grunt Test — Produk Fisik Nyata) */}
+        <div className="relative w-full max-w-lg mx-auto lg:ml-auto mt-6 lg:mt-0">
           {/* Blob Shadow — ilusi kedalaman */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-brand-accent/30 to-brand-primary/20 rounded-[3rem] blur-2xl opacity-60" />
+          <div className="absolute -inset-4 bg-gradient-to-r from-brand-accent/30 to-brand-primary/20 rounded-3xl blur-2xl opacity-60 pointer-events-none" />
 
-          {/*
-           * 📸 PLACEHOLDER FOTO — HERO (Visual Utama Halaman)
-           *
-           * Saran foto:
-           *   Foto flat-lay atau still-life produk unggulan (misal sabun batang + pembersih lantai)
-           *   diletakkan di atas permukaan kayu/kain linen berwarna krem/natural.
-           *   Tambahkan elemen pendukung: daun segar, irisan jeruk/lemon, atau bunga kecil
-           *   untuk memperkuat kesan "organik dari alam".
-           *
-           * Teknis foto:
-           *   - Rasio: 1:1 (square) agar pas mengisi card
-           *   - Pencahayaan: natural light (jendela) dari samping, hindari flash langsung
-           *   - Background: putih bersih atau krem agar tidak bersaing dengan card glassmorphism
-           *   - Resolusi minimal: 800×800px
-           *
-           * Cara implementasi:
-           *   Ganti seluruh konten card ini dengan:
-           *   <img src="/images/hero-product.webp" alt="Produk Eco-Enzyme" className="w-full h-full object-cover rounded-[2.5rem]" />
-           */}
+          {/* Card Utama (Glassmorphism & Physical Product Showcase — Flex Structured) */}
+          <div className="relative bg-white/90 backdrop-blur-xl border-2 border-white rounded-3xl shadow-2xl p-5 sm:p-6 flex flex-col justify-between gap-4 group">
+            {/* Top Bar: Kategori & Harga Terjangkau (Zero Collision dengan Foto) */}
+            <div className="flex items-center justify-between gap-2 z-10">
+              <div className="bg-surface-light px-3.5 py-1.5 rounded-full border border-brand-citrus/30 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-brand-citrus inline-block shrink-0" />
+                <span className="text-xs font-bold text-brand-primary uppercase tracking-wider">
+                  {HERO_SHOWCASE.badgeText}
+                </span>
+              </div>
 
-          {/* Card Utama (Glassmorphism & Micro-interactions) */}
-          <div className="relative aspect-square bg-white/70 backdrop-blur-xl border-2 border-white rounded-[2.5rem] shadow-2xl p-8 flex flex-col items-center justify-center transform hover:scale-[1.02] transition-all duration-500">
-            <div className="w-24 h-24 bg-brand-accent/20 rounded-full flex items-center justify-center mb-6 shadow-inner border border-white/50">
-              <Droplets className="w-12 h-12 text-brand-primary" />
+              <div className="bg-brand-primary text-white px-3.5 py-1.5 rounded-full shadow-sm text-xs font-bold tracking-wide shrink-0">
+                {HERO_SHOWCASE.priceTag}
+              </div>
             </div>
-            <div className="bg-white px-6 py-2 rounded-full shadow-sm mb-4 border border-brand-citrus/30 bg-gradient-to-r from-white to-brand-citrus/10 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-brand-citrus inline-block"></span>
-              <span className="text-xs font-bold text-brand-primary uppercase tracking-wider">
-                Sabun & Pembersih Alami
-              </span>
+
+            {/* Area Panggung Foto Produk Fisik Utama (LCP Optimized & CLS 0.00) */}
+            <div className="relative w-full aspect-square rounded-2xl bg-white border border-brand-accent/15 flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+              <img
+                data-hero-product
+                src={HERO_SHOWCASE.image}
+                alt={HERO_SHOWCASE.imageAlt}
+                loading="eager"
+                fetchpriority="high"
+                width="600"
+                height="600"
+                className="w-full h-full object-contain object-center transform group-hover:scale-105 transition-transform duration-700"
+              />
             </div>
-            <h3 className="text-2xl font-extrabold text-text-main text-center tracking-tight">
-              Fermentasi Alami Berkualitas
-            </h3>
-            <p className="text-sm text-gray-500 text-center mt-3 max-w-xs leading-relaxed">
-              Formula higienis ramah bumi hasil pengolahan limbah organik warga Jeruklegi
-            </p>
+
+            {/* Bottom Info Card (Value Proposition & Safety Claim) */}
+            <div className="bg-surface-light/90 rounded-2xl p-4 border border-brand-accent/20">
+              <div className="flex items-center gap-1.5 text-brand-primary text-xs font-bold mb-1">
+                <ShieldCheck className="w-4 h-4 text-brand-accent shrink-0" />
+                <span>{HERO_SHOWCASE.highlightBenefit}</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-extrabold text-text-main tracking-tight leading-snug">
+                {HERO_SHOWCASE.title}
+              </h3>
+              <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                {HERO_SHOWCASE.subtitle}
+              </p>
+            </div>
           </div>
         </div>
-
       </div>
     </SectionWrapper>
   );

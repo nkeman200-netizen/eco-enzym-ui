@@ -15,6 +15,21 @@ export const BRAND_IDENTITY = {
   logoFull: '/images/brand/logo-full.webp',
 };
 
+// ─────────────────────────────────────────────────
+// SB7 Element 1 — Hero Showcase (The Grunt Test)
+// ─────────────────────────────────────────────────
+export const HERO_SHOWCASE = {
+  badgeText: 'Sabun & Pembersih Alami',
+  priceTag: 'Mulai Rp 15.000',
+  title: 'Pembersih Lantai & Sabun Eco-Enzyme',
+  subtitle:
+    'Formula higienis ramah bumi hasil fermentasi 90 hari limbah buah segar warga Desa Jeruklegi.',
+  highlightBenefit: 'Aman untuk Balita & Kulit Sensitif',
+  image: '/images/products/pembersih-lantai-1.webp',
+  imageAlt:
+    'Produk Fisik Pembersih Lantai dan Sabun Alami Eco-Enzyme SiDeta Desa Jeruklegi',
+};
+
 
 // ─────────────────────────────────────────────────
 // SB7 Element 2 — Problem (3 Lapis Masalah)
