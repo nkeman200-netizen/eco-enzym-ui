@@ -21,7 +21,7 @@ export const SITE_URL = 'https://sanitasihijau.com';
 
 export const DEFAULT_SEO_META = {
   title:
-    'SiDeta (Sanitasi Hijau) — Sabun & Pembersih Alami Eco-Enzyme Desa Jeruklegi Cilacap',
+    'SiDeta — Sabun & Pembersih Alami Eco-Enzyme',
   description:
     'Rangkaian sabun mandi non-SLS dan cairan pembersih lantai ramah lingkungan dari fermentasi Eco-Enzyme warga Desa Jeruklegi, Cilacap. Lembut di tangan, bebas residu kimia keras, dan aman untuk lantai tempat bayi merangkak.',
   keywords:
