@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import Button from './Button';
 import { buildProductCheckoutUrl } from '../../utils/whatsapp';
+import { buildProductImageAlt } from '../../utils/seoSchema';
 
 /**
  * Ikon default fallback per produk (sesuai katalog Products.jsx)
@@ -201,7 +202,7 @@ export default function ProductDetailModal({ product, onClose, whatsappNumber })
                       {!hasFailed ? (
                         <img
                           src={imgUrl}
-                          alt={`${name} - foto ${idx + 1}`}
+                          alt={buildProductImageAlt(product, idx, SLIDE_CAPTIONS[idx])}
                           onError={() => handleImageError(imgUrl)}
                           className="w-full h-full object-cover"
                         />

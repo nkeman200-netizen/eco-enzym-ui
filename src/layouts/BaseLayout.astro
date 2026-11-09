@@ -1,15 +1,42 @@
 ---
 import '../index.css';
+import { FAQ_ITEMS } from '../constants/data';
+import { getProducts } from '../services/productService';
+import { getContactData } from '../services/contactService';
+import {
+  SITE_URL,
+  DEFAULT_SEO_META,
+  toAbsoluteUrl,
+  buildSeoJsonLd,
+} from '../utils/seoSchema';
 
 interface Props {
   title?: string;
   description?: string;
+  canonicalPath?: string;
 }
 
 const {
-  title = "SiDeta — Pembersih Alami & Sanitasi Hijau Jeruklegi",
-  description = "SiDeta Eco-Enzyme Jeruklegi — Produk pembersih alami serbaguna hasil olahan limbah organik dapur warga komunitas desa Jeruklegi. Bersih, aman untuk keluarga, dan ramah lingkungan.",
+  title = DEFAULT_SEO_META.title,
+  description = DEFAULT_SEO_META.description,
+  canonicalPath = Astro.url?.pathname || '/',
 } = Astro.props;
+
+const canonicalUrl = toAbsoluteUrl(canonicalPath, SITE_URL);
+const ogImageUrl = toAbsoluteUrl('/images/brand/logo-full.webp', SITE_URL);
+
+// Build-Time API-First Fetch dengan Graceful Offline Fallback ke src/constants/data.js
+const [products, contactData] = await Promise.all([
+  getProducts(),
+  getContactData(),
+]);
+
+const jsonLdGraph = buildSeoJsonLd({
+  products,
+  contactData,
+  faqItems: FAQ_ITEMS,
+  siteUrl: SITE_URL,
+});
 ---
 
 <!doctype html>
@@ -18,23 +45,35 @@ const {
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/webp" href="/images/brand/logo-emblem.webp" />
+    <link rel="canonical" href={canonicalUrl} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#164E2E" />
     <meta name="description" content={description} />
-    <meta name="keywords" content="eco enzyme, pembersih alami, jeruklegi, sabun organik, ramah lingkungan, limbah dapur" />
-    <meta property="og:title" content="SiDeta Jeruklegi — Inovasi Pembersih Alami & Sanitasi Hijau" />
-    <meta
-      property="og:description"
-      content="Ubah sisa dapur menjadi pembersih higienis serbaguna. Dibuat langsung dengan fermentasi alami oleh warga Jeruklegi."
-    />
-    <meta property="og:image" content="/images/brand/logo-full.webp" />
+    <meta name="keywords" content={DEFAULT_SEO_META.keywords} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="SiDeta — Sanitasi Hijau Jeruklegi" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- Preload Critical Fonts untuk Optimasi LCP & Eliminasi FOUT -->
     <link rel="preload" href="/fonts/PlusJakartaSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
     <link rel="preload" href="/fonts/PlusJakartaSans-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 
     <title>{title}</title>
+
+    <!-- Schema.org JSON-LD Structured Data (Build-Time API-First + Live DOM Sync) -->
+    <script
+      type="application/ld+json"
+      id="seo-json-ld"
+      set:html={JSON.stringify(jsonLdGraph)}
+    />
   </head>
   <body class="min-h-screen bg-bg-base font-sans text-text-main font-normal relative">
     <slot />

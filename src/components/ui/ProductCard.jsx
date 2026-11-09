@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Droplets } from 'lucide-react';
+import { buildProductImageAlt } from '../../utils/seoSchema';
 
 /**
  * ProductCard component
@@ -87,7 +88,7 @@ export default function ProductCard({
               {/* Foto Utama */}
               <img
                 src={images[0]}
-                alt={name}
+                alt={buildProductImageAlt(product, 0)}
                 onError={() => setPrimaryFailed(true)}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
@@ -96,7 +97,7 @@ export default function ProductCard({
               {hasSecondaryImage && (
                 <img
                   src={images[1]}
-                  alt={`${name} - tampilan kedua`}
+                  alt={buildProductImageAlt(product, 1)}
                   onError={() => setSecondaryFailed(true)}
                   className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out group-hover:scale-105"
                 />

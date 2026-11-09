@@ -46,9 +46,9 @@ export default function Faq() {
                 <span className="text-[11px] font-bold uppercase tracking-wider text-brand-citrus">
                   {item.category}
                 </span>
-                <span className="text-base sm:text-lg font-bold text-text-main group-hover:text-brand-primary transition-colors">
+                <h3 className="text-base sm:text-lg font-bold text-text-main group-hover:text-brand-primary transition-colors m-0">
                   {item.question}
-                </span>
+                </h3>
               </div>
               <div className="w-8 h-8 rounded-full bg-[#FDFBF7] border border-brand-accent/20 flex items-center justify-center flex-shrink-0 group-hover:bg-brand-primary/10 transition-colors">
                 <ChevronDown className="w-4 h-4 text-brand-primary transition-transform duration-300 group-open:rotate-180" />
@@ -64,9 +64,9 @@ export default function Faq() {
       {/* Fast Help WhatsApp Callout */}
       <div className="mt-10 sm:mt-14 max-w-3xl mx-auto p-6 sm:p-7 rounded-2xl bg-white border border-brand-accent/25 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
         <div className="space-y-1">
-          <h4 className="text-base font-bold text-text-main">
+          <h3 className="text-base font-bold text-text-main">
             Masih punya pertanyaan takaran atau pesanan khusus?
-          </h4>
+          </h3>
           <p className="text-xs sm:text-sm text-gray-500">
             Pengurus komunitas Jeruklegi siap menjawab dan memandu dengan hangat.
           </p>

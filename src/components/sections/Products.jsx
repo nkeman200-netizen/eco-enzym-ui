@@ -17,6 +17,7 @@ import ProductDetailModal from '../ui/ProductDetailModal';
 import { DEFAULT_WHATSAPP_NUMBER } from '../../constants/data';
 import { getProducts } from '../../services/productService';
 import { getContactData } from '../../services/contactService';
+import { syncSeoJsonLdInDom } from '../../utils/seoSchema';
 
 /**
  * SB7 Element 5 — Products Catalog Section
@@ -71,6 +72,10 @@ export default function Products() {
       if (isMounted) {
         setProducts(data);
         setWhatsappNumber(contactResult.whatsappNumber);
+        syncSeoJsonLdInDom({
+          products: data,
+          contactData: contactResult,
+        });
         setIsLoading(false);
       }
     }
