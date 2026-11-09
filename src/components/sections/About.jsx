@@ -48,9 +48,9 @@ export default function About() {
           <ShieldCheck className="w-6 h-6" />
         </div>
         <div>
-          <h4 className="text-sm font-bold text-text-main">
+          <h3 className="text-sm font-bold text-text-main">
             Didampingi Program Pengabdian Akademis & Teruji Aman
-          </h4>
+          </h3>
           <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">
             Formula fermentasi diproduksi dengan panduan standar mutu higienitas, bebas dari klorin, SLS, paraben, dan residu kimia sintetis berbahaya.
           </p>
