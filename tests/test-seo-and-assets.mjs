@@ -74,6 +74,10 @@ assert.ok(
   DEFAULT_SEO_META?.title && DEFAULT_SEO_META?.description && DEFAULT_SEO_META?.keywords,
   '❌ [RED]: DEFAULT_SEO_META wajib memuat title, description, dan keywords D2C!'
 );
+assert.ok(
+  DEFAULT_SEO_META.title.length <= 60,
+  `❌ [RED]: DEFAULT_SEO_META.title terlalu panjang (${DEFAULT_SEO_META.title.length} kar), batas aman SERP <= 60 karakter!`
+);
 
 // 2A. Uji toAbsoluteUrl (Hibrida: Path Relatif Lokal vs URL Penuh Backend)
 assert.equal(
@@ -140,6 +144,10 @@ const jsonLd = buildSeoJsonLd({
 
 const serialized = JSON.stringify(jsonLd);
 const parsed = JSON.parse(serialized);
+assert.ok(
+  !serialized.includes('undefined'),
+  '❌ [RED]: Serialisasi JSON-LD tidak boleh mengandung string "undefined"!'
+);
 assert.equal(parsed['@context'], 'https://schema.org');
 assert.ok(Array.isArray(parsed['@graph']), '❌ [RED]: JSON-LD wajib menggunakan struktur @graph array!');
 
@@ -151,6 +159,11 @@ assert.ok(localBusinessNode, '❌ [RED]: @graph wajib memuat node LocalBusiness!
 assert.ok(
   localBusinessNode.image?.startsWith('https://'),
   '❌ [RED]: LocalBusiness.image wajib berupa URL absolut https://!'
+);
+const localBusinessImageRel = localBusinessNode.image.replace(SITE_URL, '');
+assert.ok(
+  fs.existsSync(path.join(process.cwd(), 'public', localBusinessImageRel)),
+  `❌ [RED]: Berkas LocalBusiness.image (${localBusinessImageRel}) wajib tersedia di public/!`
 );
 
 assert.ok(itemListNode, '❌ [RED]: @graph wajib memuat node ItemList katalog produk!');
@@ -208,6 +221,26 @@ console.log('🔍 [SKENARIO 3]: Memeriksa BaseLayout.astro, Heading H1-H3, dan i
 const baseLayoutPath = path.join(process.cwd(), 'src/layouts/BaseLayout.astro');
 const baseLayoutSource = fs.readFileSync(baseLayoutPath, 'utf8');
 
+assert.ok(
+  baseLayoutSource.includes('href="/favicon-96x96.png"') &&
+    baseLayoutSource.includes('href="/favicon.ico"') &&
+    baseLayoutSource.includes('href="/apple-touch-icon.png"'),
+  '❌ [RED]: BaseLayout.astro wajib mendaftarkan favicon-96x96.png, favicon.ico, dan apple-touch-icon.png!'
+);
+assert.ok(
+  !baseLayoutSource.includes('rel="icon" type="image/webp"'),
+  '❌ [RED]: BaseLayout.astro tidak boleh memakai type="image/webp" untuk favicon karena Google Search tidak mendukung WebP favicon!'
+);
+for (const iconFile of ['public/favicon-96x96.png', 'public/favicon.ico', 'public/apple-touch-icon.png', 'public/favicon.svg']) {
+  assert.ok(
+    fs.existsSync(path.join(process.cwd(), iconFile)),
+    `❌ [RED]: Aset favicon ${iconFile} wajib tersedia di disk!`
+  );
+}
+assert.ok(
+  fs.statSync(path.join(process.cwd(), 'public/favicon-96x96.png')).size > 0,
+  '❌ [RED]: public/favicon-96x96.png tidak boleh kosong!'
+);
 assert.ok(
   baseLayoutSource.includes('rel="canonical"'),
   '❌ [RED]: BaseLayout.astro wajib menyertakan <link rel="canonical" ... />!'

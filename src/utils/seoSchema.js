@@ -20,8 +20,7 @@ import {
 export const SITE_URL = 'https://sanitasihijau.com';
 
 export const DEFAULT_SEO_META = {
-  title:
-    'SiDeta (Sanitasi Hijau) — Sabun & Pembersih Alami Eco-Enzyme Desa Jeruklegi Cilacap',
+  title: 'SiDeta — Sabun & Pembersih Alami Eco-Enzyme',
   description:
     'Rangkaian sabun mandi non-SLS dan cairan pembersih lantai ramah lingkungan dari fermentasi Eco-Enzyme warga Desa Jeruklegi, Cilacap. Lembut di tangan, bebas residu kimia keras, dan aman untuk lantai tempat bayi merangkak.',
   keywords:
@@ -155,11 +154,11 @@ export function buildSeoJsonLd(params = {}) {
   const localBusinessNode = {
     '@type': 'LocalBusiness',
     '@id': `${toAbsoluteUrl('/', siteUrl)}#organization`,
-    name: `${BRAND_IDENTITY.name} (${BRAND_IDENTITY.tagline}) — ${BRAND_IDENTITY.origin}`,
+    name: `${BRAND_IDENTITY.name} (${BRAND_IDENTITY.program}) — ${BRAND_IDENTITY.tagline}`,
     description: DEFAULT_SEO_META.description,
     url: toAbsoluteUrl('/', siteUrl),
     logo: toAbsoluteUrl(BRAND_IDENTITY.logoFull, siteUrl),
-    image: toAbsoluteUrl('/og-banner.webp', siteUrl),
+    image: toAbsoluteUrl(BRAND_IDENTITY.logoFull, siteUrl),
     telephone: formattedPhone,
     email: emailItem?.value || 'info@sanitasihijau.com',
     priceRange: 'Rp10.000 - Rp20.000',
@@ -180,7 +179,7 @@ export function buildSeoJsonLd(params = {}) {
       const firstImage =
         Array.isArray(product?.images) && product.images.length > 0
           ? toAbsoluteUrl(product.images[0], siteUrl)
-          : toAbsoluteUrl('/og-banner.webp', siteUrl);
+          : toAbsoluteUrl(BRAND_IDENTITY.logoFull, siteUrl);
 
       const descriptionText =
         product?.detail ||
