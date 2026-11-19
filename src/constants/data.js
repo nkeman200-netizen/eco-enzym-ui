@@ -125,23 +125,14 @@ export const PRODUCTS = [
     name: 'Sabun Batang',
     description: 'Lembut di kulit, wangi alami dari enzim buah.',
     benefit: 'Aman untuk kulit sensitif anak-anak.',
-    detail: 'Sabun batang alami berbahan dasar eco-enzyme fermentasi buah. Bebas SLS, paraben, dan bahan kimia sintetis keras. Menjaga kelembapan kulit alami dan ramah bagi lingkungan.',
+    detail:
+      'Sabun batang alami (100 gr) berbahan dasar fermentasi eco-enzyme kulit buah sitrus dan minyak kelapa murni.\n\nBebas SLS, paraben, dan bahan kimia sintetis keras sehingga aman untuk kulit sensitif anak-anak maupun balita. Menjaga kelembapan kulit alami dan ramah lingkungan dengan kemasan kertas kraft daur ulang tanpa plastik.\n\nCara Pakai: Busakan dengan air pada telapak tangan atau spons, usapkan lembut ke seluruh tubuh atau tangan, lalu bilas hingga bersih.',
     price: 'Rp 15.000',
     images: [
       '/images/products/sabun-batang-1.webp',
       '/images/products/sabun-batang-2.webp',
       '/images/products/sabun-batang-3.webp',
     ],
-    specs: {
-      netto: '100 gr',
-      packaging: 'Kertas Kraft Daur Ulang (Zero Plastic)',
-      shape: 'Batang Padat (Cetakan Bunga, Daun, & Hexagonal)',
-      suitability: 'Semua Jenis Kulit (Termasuk Kulit Sensitif & Anak-anak)',
-      stock: 'Tersedia (Ready Stock)',
-      certification: '100% Organik & Biodegradable',
-      ingredients: 'Fermentasi eco-enzyme kulit buah citrus, minyak kelapa murni, sari lerak alami',
-      usage: 'Busakan dengan air pada telapak tangan atau spons, usapkan ke kulit tubuh/tangan, bilas hingga bersih.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Sabun%20Batang%20Eco-Enzyme.',
   },
@@ -150,22 +141,14 @@ export const PRODUCTS = [
     name: 'Pembersih Lantai',
     description: 'Lantai kesat, bersih dari noda, bebas bau kimia menyengat.',
     benefit: 'Aman jika tersentuh anak-anak yang sedang merangkak.',
-    detail: 'Cairan pembersih lantai konsentrat dengan enzim aktif yang melarutkan kotoran dan lemak tanpa meninggalkan residu licin atau beracun. Membuat lantai higienis dan harum segar.',
+    detail:
+      'Cairan pembersih lantai konsentrat (500 ml) dengan bio-enzim aktif nanas dan jeruk yang melarutkan kotoran serta lemak membandel.\n\nBebas dari bahan kimia beracun sehingga lantai cepat kesat tanpa residu licin, aman bagi anak-anak yang bermain atau merangkak di lantai. Cocok untuk lantai keramik, granit, marmer, hingga parket kayu dengan keharuman minyak atsiri serai alami yang menyegarkan.\n\nCara Pakai: Larutkan 1 tutup botol ke dalam 3–5 liter air bersih, pel lantai seperti biasa tanpa perlu dibilas ulang.',
     price: 'Rp 25.000',
     images: [
       '/images/products/pembersih-lantai-1.webp',
       '/images/products/pembersih-lantai-2.webp',
       '/images/products/pembersih-lantai-3.webp',
     ],
-    specs: {
-      netto: '500 ml',
-      packaging: 'Botol Daur Ulang Segel Aman',
-      suitability: 'Lantai Keramik, Granit, Marmer, Vinil, & Parket Kayu',
-      stock: 'Tersedia (Ready Stock)',
-      certification: 'Formula Ramah Lingkungan (Standar PKRT Rumah Tangga)',
-      ingredients: 'Ekstrak fermentasi eco-enzyme nanas & jeruk, air sulasi murni, minyak atsiri serai alami',
-      usage: 'Larutkan 1 tutup botol ke dalam 3–5 liter air bersih untuk mengepel lantai tanpa perlu dibilas lagi.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Pembersih%20Lantai%20Eco-Enzyme.',
   },
@@ -174,22 +157,14 @@ export const PRODUCTS = [
     name: 'Pembersih Kaca',
     description: 'Kaca bening tanpa residu dan lapisan kimia.',
     benefit: 'Cukup semprotkan, lap sekali — selesai.',
-    detail: 'Formula pembersih kaca ramah lingkungan yang cepat menguap tanpa meninggalkan goresan kabur (streak-free). Efektif menghilangkan debu, sidik jari, dan noda cipratan air.',
+    detail:
+      'Formula pembersih kaca ramah lingkungan (250 ml) dalam botol spray ergonomis yang cepat menguap tanpa meninggalkan goresan kabur (streak-free).\n\nEfektif membersihkan debu, noda sidik jari, dan cipratan air pada kaca jendela, cermin rias, meja kaca, maupun permukaan akrilik. Bebas amonia keras dengan aroma segar minyak atsiri lemon alami.\n\nCara Pakai: Semprotkan secukupnya pada permukaan kaca dari jarak 15–20 cm, lalu usap dengan kain mikrofiber bersih hingga jernih berkilau.',
     price: 'Rp 20.000',
     images: [
       '/images/products/pembersih-kaca-1.webp',
       '/images/products/pembersih-kaca-2.webp',
       '/images/products/pembersih-kaca-3.webp',
     ],
-    specs: {
-      netto: '250 ml',
-      packaging: 'Botol Spray Ergonomis',
-      suitability: 'Kaca Jendela, Cermin Rias, Meja Kaca, & Permukaan Akrilik',
-      stock: 'Tersedia (Ready Stock)',
-      certification: 'Bebas Amonia & Bahan Kimia Keras',
-      ingredients: 'Cairan fermentasi eco-enzyme terfiltrasi mikro, asam asetat alami buah, minyak atsiri lemon',
-      usage: 'Semprotkan secukupnya pada permukaan kaca dari jarak 15–20 cm, lalu usap dengan kain mikrofiber bersih.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Pembersih%20Kaca%20Eco-Enzyme.',
   },
@@ -198,22 +173,14 @@ export const PRODUCTS = [
     name: 'Pembersih Kamar Mandi',
     description: 'Angkat kerak membandel dengan kekuatan enzim alami.',
     benefit: 'Tidak menyengat di hidung, tidak perlu masker.',
-    detail: 'Pembersih sanitasi kuat berbahan asam organik alami hasil fermentasi eco-enzyme. Mampu mengikis endapan kerak air, sabun, dan lumut tanpa merusak nat keramik atau mengiritasi pernapasan.',
+    detail:
+      'Pembersih sanitasi kuat (500 ml) berbasis asam organik alami hasil fermentasi eco-enzyme buah segar Desa Jeruklegi.\n\nDirancang khusus untuk mengikis endapan kerak air, residu sabun, dan lumut pada keramik, kloset, dan wastafel tanpa merusak nat semen keramik. Formulanya lembut pada sistem pernapasan tanpa uap kimia menyengat, serta aman bagi saluran pembuangan septik tank.\n\nCara Pakai: Tuangkan langsung pada area berkerak, diamkan 5–10 menit agar enzim bekerja melunakkan kerak, sikat perlahan, lalu bilas dengan air bersih.',
     price: 'Rp 25.000',
     images: [
       '/images/products/pembersih-kamar-mandi-1.webp',
       '/images/products/pembersih-kamar-mandi-2.webp',
       '/images/products/pembersih-kamar-mandi-3.webp',
     ],
-    specs: {
-      netto: '500 ml',
-      packaging: 'Botol Tutup Fliptop Anti-Tumpah',
-      suitability: 'Keramik Kamar Mandi, Kloset, Wastafel, & Nat Lantai',
-      stock: 'Tersedia (Ready Stock)',
-      certification: 'Asam Organik Fermentasi Aman Saluran Pembuangan',
-      ingredients: 'Ekstrak fermentasi eco-enzyme pekat asam organik tinggi, minyak kelapa saponifikasi',
-      usage: 'Tuangkan langsung pada kerak keramik/kloset, diamkan 5–10 menit agar enzim melunakkan kerak, sikat perlahan lalu bilas.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Pembersih%20Kamar%20Mandi%20Eco-Enzyme.',
   },
@@ -222,22 +189,14 @@ export const PRODUCTS = [
     name: 'Sabun Cuci Piring',
     description: 'Ampuh rontokkan minyak & bau amis tanpa rasa panas di tangan.',
     benefit: 'Aman untuk botol susu bayi dan peralatan makan anak-anak.',
-    detail: 'Diformulasikan khusus untuk dapur sehat dengan bio-enzim nanas pemecah protein lemak, saponin alami buah lerak, dan ekstrak jeruk nipis segar. Menghasilkan busa lembut mudah bilas tanpa residu licin kimia atau bau sabun pada piring dan gelas. Mengandung gliserin nabati alami menjaga telapak tangan tetap lembut dan tidak kering mengelupas.',
+    detail:
+      'Diformulasikan khusus untuk dapur sehat (450 ml) dengan bio-enzim nanas pemecah protein lemak, saponin alami buah lerak, dan ekstrak jeruk nipis segar.\n\nMenghasilkan busa lembut mudah bilas tanpa residu licin kimia atau bau sabun pada piring dan gelas. Mengandung gliserin nabati alami menjaga telapak tangan tetap lembut dan tidak kering mengelupas.\n\nCara Pakai: Teteskan secukupnya pada spons basah, remas hingga berbusa, usapkan ke peralatan makan, lalu bilas dengan air mengalir hingga kesat.',
     price: 'Rp 18.000',
     images: [
       '/images/products/sabun-cuci-piring-1.webp',
       '/images/products/sabun-cuci-piring-2.webp',
       '/images/products/sabun-cuci-piring-3.webp',
     ],
-    specs: {
-      netto: '450 ml',
-      packaging: 'Botol Tutup Flip-top Anti-Bocor',
-      suitability: 'Peralatan Makan, Panci, Wajan Antilengket, Botol Susu Bayi, & Wadah Silikon',
-      stock: 'Tersedia (Ready Stock)',
-      certification: 'Food-Grade Contact Safe & 100% Biodegradable',
-      ingredients: 'Enzim fermentasi nanas & jeruk nipis, saponin lerak murni, gliserin kelapa, minyak atsiri jeruk pekat',
-      usage: 'Teteskan secukupnya pada spons basah, remas hingga berbusa, usapkan ke peralatan makan, lalu bilas dengan air mengalir hingga kesat.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Sabun%20Cuci%20Piring%20Eco-Enzyme.',
   },
@@ -246,22 +205,14 @@ export const PRODUCTS = [
     name: 'Deterjen Cair Pakaian',
     description: 'Bersihkan noda keringat & pakaian terdalam tanpa pudarkan warna.',
     benefit: 'Pakaian wangi segar tanpa bau apek jemur di dalam ruangan.',
-    detail: 'Inovasi deterjen pakaian ramah keluarga yang memanfaatkan sinergi enzim protease dan amilase alami eco-enzyme untuk mendegradasi noda darah, keringat, dan saus langsung dari serat kain. Tanpa fosfat yang mencemari sungai dan tanpa pemutih sintetis keras. Busa terkontrol aman untuk mesin cuci front load, top load, maupun cuci tangan. Sangat cocok untuk pakaian bayi dan kulit sensitif.',
+    detail:
+      'Inovasi deterjen pakaian ramah keluarga (1000 ml) yang memanfaatkan sinergi enzim protease dan amilase alami eco-enzyme untuk mendegradasi noda darah, keringat, dan saus langsung dari serat kain.\n\nTanpa fosfat yang mencemari sungai dan tanpa pemutih sintetis keras. Busa terkontrol aman untuk mesin cuci front load, top load, maupun cuci tangan. Sangat cocok untuk pakaian bayi dan kulit sensitif.\n\nCara Pakai: Gunakan 30–40 ml (1 tutup botol) untuk 5–7 kg cucian pakaian. Tuang langsung ke laci deterjen mesin cuci atau ember cuci manual.',
     price: 'Rp 35.000',
     images: [
       '/images/products/deterjen-cair-1.webp',
       '/images/products/deterjen-cair-2.webp',
       '/images/products/deterjen-cair-3.webp',
     ],
-    specs: {
-      netto: '1000 ml',
-      packaging: 'Jerigen Botol HDPE dengan Tutup Takar Ergonomis',
-      suitability: 'Pakaian Bayi, Katun, Linen, Sutra, Wol, & Pakaian Olahraga (Dri-fit)',
-      stock: 'Tersedia (Ready Stock)',
-      certification: 'Hipoalergenik, Bebas Fosfat & Pemutih Klorin',
-      ingredients: 'Bio-enzim multi-aktif eco-enzyme, saponin nabati, surfaktan non-ionik kelapa sawit lestari, minyak atsiri lavender',
-      usage: 'Gunakan 30–40 ml (1 tutup botol) untuk 5–7 kg cucian pakaian. Tuang langsung ke laci deterjen mesin cuci atau ember cuci manual.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Deterjen%20Cair%20Pakaian%20Eco-Enzyme.',
   },
@@ -270,22 +221,14 @@ export const PRODUCTS = [
     name: 'Sabun Cuci Tangan Busa',
     description: 'Busa mikro instan selembut awan dengan proteksi antibakteri buah.',
     benefit: 'Tangan bersih higienis tanpa rasa kering walau sering cuci tangan.',
-    detail: 'Sabun cuci tangan instan dengan botol pompa pembuat busa (foaming pump) yang mengubah cairan enzim menjadi jutaan gelembung busa lembut dalam satu kali tekan. Menjadikan rutinitas cuci tangan menyenangkan bagi si kecil. Diperkaya bio-asam organik eco-enzyme yang menonaktifkan kuman secara alami tanpa triclosan atau alkohol, serta aloe vera untuk kelembapan ekstra.',
+    detail:
+      'Sabun cuci tangan instan (250 ml) dengan botol pompa pembuat busa (foaming pump) yang mengubah cairan enzim menjadi jutaan gelembung busa lembut dalam satu kali tekan.\n\nMenjadikan rutinitas cuci tangan menyenangkan bagi si kecil. Diperkaya bio-asam organik eco-enzyme yang menonaktifkan kuman secara alami tanpa triclosan atau alkohol, serta aloe vera untuk kelembapan ekstra.\n\nCara Pakai: Tekan pompa 1 kali untuk mengeluarkan busa kaya pada telapak tangan basah, gosok sela-sela jari selama 20 detik, lalu bilas bersih.',
     price: 'Rp 22.000',
     images: [
       '/images/products/sabun-cuci-tangan-1.webp',
       '/images/products/sabun-cuci-tangan-2.webp',
       '/images/products/sabun-cuci-tangan-3.webp',
     ],
-    specs: {
-      netto: '250 ml',
-      packaging: 'Botol Pompa Busa Ergonomis (Reusable Foaming Pump)',
-      suitability: 'Wastafel Dapur, Kamar Mandi, Ruang Makan, & Meja Kasir',
-      stock: 'Tersedia (Ready Stock)',
-      certification: 'Hipoalergenik, Antibakteri Alami Non-Triclosan',
-      ingredients: 'Filtrat eco-enzyme murni, saponin lerak cair, sari lidah buaya organik (Aloe Vera), minyak atsiri tea tree & sweet orange',
-      usage: 'Tekan pompa 1 kali untuk mengeluarkan busa kaya pada telapak tangan basah, gosok sela-sela jari selama 20 detik, lalu bilas bersih.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Sabun%20Cuci%20Tangan%20Busa%20Eco-Enzyme.',
   },
@@ -294,22 +237,14 @@ export const PRODUCTS = [
     name: 'Nutrisi & Bio-Pestisida Tanaman',
     description: 'Semprotan siap pakai penyubur daun dan pengusir hama kutu daun.',
     benefit: 'Tanaman rimbun hijau segar tanpa pestisida kimia — pet safe.',
-    detail: 'Formula bio-nutrisi tanaman 2-in-1 siap semprot yang menggubungkan hormon pertumbuhan alami auksin & sitokinin dari fermentasi eco-enzyme buah dengan asam asetat pengusir hama. Merangsang tunas baru, menguatkan akar, dan mengusir kutu putih maupun semut secara biologis tanpa meracuni hewan peliharaan di rumah.',
+    detail:
+      'Formula bio-nutrisi tanaman 2-in-1 siap semprot (500 ml) yang menggabungkan hormon pertumbuhan alami auksin & sitokinin dari fermentasi eco-enzyme buah dengan asam asetat pengusir hama.\n\nMerangsang tunas baru, menguatkan akar, dan mengusir kutu putih maupun semut secara biologis tanpa meracuni hewan peliharaan di rumah.\n\nCara Pakai: Kocok perlahan, semprotkan kabut halus ke permukaan atas dan bawah daun serta media tanam 1–2 kali seminggu pada pagi hari.',
     price: 'Rp 20.000',
     images: [
       '/images/products/nutrisi-tanaman-1.webp',
       '/images/products/nutrisi-tanaman-2.webp',
       '/images/products/nutrisi-tanaman-3.webp',
     ],
-    specs: {
-      netto: '500 ml',
-      packaging: 'Botol Trigger Spray Mist Halus Anti-Mampet',
-      suitability: 'Tanaman Hias Daun (Indoor/Outdoor), Tanaman Bunga, Sayur Pekarangan, & Kebun Buah',
-      stock: 'Tersedia (Ready Stock)',
-      certification: '100% Organik & Aman Hewan Peliharaan (Pet-Safe)',
-      ingredients: 'Cairan fermentasi eco-enzyme matang mikro-terfiltrasi, asam amino organik tanaman, kalium nabati, ekstrak daun mimba alami',
-      usage: 'Kocok perlahan, semprotkan kabut halus ke permukaan atas dan bawah daun serta media tanam 1–2 kali seminggu pada pagi hari.',
-    },
     whatsappUrl:
       'https://wa.me/6288802457102?text=Halo,%20saya%20tertarik%20pesan%20Nutrisi%20Tanaman%20Eco-Enzyme.',
   },
