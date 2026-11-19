@@ -86,8 +86,11 @@ export function extractNumericPrice(rawPrice) {
  * @returns {string} URL Schema.org InStock atau OutOfStock
  */
 export function resolveSchemaAvailability(stockText = '') {
+  if (stockText === false) {
+    return 'https://schema.org/OutOfStock';
+  }
   const normalized = String(stockText || '').toLowerCase();
-  if (normalized.includes('habis') || normalized.includes('kosong')) {
+  if (normalized.includes('habis') || normalized.includes('kosong') || normalized === 'false') {
     return 'https://schema.org/OutOfStock';
   }
   return 'https://schema.org/InStock';
@@ -204,7 +207,9 @@ export function buildSeoJsonLd(params = {}) {
             url: `${toAbsoluteUrl('/', siteUrl)}#produk`,
             priceCurrency: 'IDR',
             price: extractNumericPrice(product?.price),
-            availability: resolveSchemaAvailability(product?.specs?.stock),
+            availability: resolveSchemaAvailability(
+              product?.is_active === false ? 'habis' : product?.specs?.stock
+            ),
           },
         },
       };

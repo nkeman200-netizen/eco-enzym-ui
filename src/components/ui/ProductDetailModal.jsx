@@ -3,8 +3,8 @@ import { createPortal } from 'react-dom';
 import {
   X,
   MessageCircle,
-  Plus,
-  Minus,
+  ChevronDown,
+  ChevronUp,
   ChevronLeft,
   ChevronRight,
   Droplets,
@@ -50,11 +50,7 @@ const SLIDE_CAPTIONS = [
 export default function ProductDetailModal({ product, onClose, whatsappNumber }) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [failedImages, setFailedImages] = useState({});
-  const [expandedSections, setExpandedSections] = useState({
-    specs: false,
-    ingredients: false,
-    usage: false,
-  });
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const galleryRef = useRef(null);
 
   // Defensive destructuring data produk
@@ -64,28 +60,10 @@ export default function ProductDetailModal({ product, onClose, whatsappNumber })
     detail = '',
     price = '',
     images = [],
-    specs = {},
   } = product || {};
 
-  const {
-    netto = 'Sesuai Kemasan',
-    packaging = 'Kemasan Ramah Lingkungan',
-    shape = '',
-    suitability = '',
-    stock = 'Tersedia',
-    certification = '',
-    ingredients = 'Fermentasi Eco-Enzyme & Bahan Alami',
-    usage = 'Gunakan sesuai kebutuhan rumah tangga.',
-  } = specs || {};
-
+  const isLongText = typeof detail === 'string' && detail.length > 160;
   const IconComponent = productIcons[id] || Droplets;
-
-  const toggleSection = (sectionKey) => {
-    setExpandedSections((prev) => ({
-      ...prev,
-      [sectionKey]: !prev[sectionKey],
-    }));
-  };
   const slideList = images.length > 0 ? images : ['placeholder-1'];
 
   // Lock body scroll saat modal aktif & dengarkan tombol Escape
@@ -148,7 +126,7 @@ export default function ProductDetailModal({ product, onClose, whatsappNumber })
   };
 
   // Buat pesan WhatsApp kontekstual spesifik
-  const orderUrl = buildProductCheckoutUrl({ name, netto, price }, whatsappNumber);
+  const orderUrl = buildProductCheckoutUrl(product, whatsappNumber);
 
   const handleOrder = () => {
     window.open(orderUrl, '_blank', 'noopener,noreferrer');
@@ -298,160 +276,56 @@ export default function ProductDetailModal({ product, onClose, whatsappNumber })
               >
                 {name}
               </h3>
-              <div className="flex items-center gap-3">
-                <span className="text-xl sm:text-2xl font-black text-brand-primary">
-                  {price}
-                </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-brand-citrus/15 text-brand-primary border border-brand-citrus/30">
-                  <Sparkles className="w-3 h-3 text-brand-citrus" />
-                  Ekstrak Sitrus Alami
-                </span>
-              </div>
+              <span className="text-xl sm:text-2xl font-black text-brand-primary">
+                {price}
+              </span>
             </div>
-
-            {/* Deskripsi & Khasiat (Narasi Utama Persuasi - Terbuka Langsung) */}
-            {detail && (
-              <div className="pt-1">
-                <h4 className="text-xs uppercase tracking-wider font-bold text-gray-400 mb-1.5">
-                  Deskripsi & Khasiat
-                </h4>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  {detail}
-                </p>
-              </div>
-            )}
           </div>
 
           {/* ────────────────────────────────────────────────────────── */}
-          {/* ACCORDION COLLAPSIBLE: SPESIFIKASI, KOMPOSISI, CARA PAKAI   */}
-          {/* (Pola Progressive Disclosure ala Sensatia Botanicals)       */}
+          {/* KONTEN DESKRIPSI TUNGGAL (SHOPEE-STYLE PROGRESSIVE DISCLOSURE) */}
           {/* ────────────────────────────────────────────────────────── */}
-          <div className="divide-y divide-gray-100 border-b border-gray-100">
-            {/* 1. Collapsible: Spesifikasi Produk */}
-            <div>
-              <button
-                type="button"
-                onClick={() => toggleSection('specs')}
-                className="w-full py-4 flex items-center justify-between text-left group transition-colors cursor-pointer"
-                aria-expanded={expandedSections.specs}
+          <div className="pt-2 space-y-2">
+            <h4 className="text-xs uppercase tracking-wider font-bold text-gray-400">
+              Deskripsi
+            </h4>
+
+            <div className="relative">
+              <p
+                id="product-detail-description"
+                className={`text-sm text-gray-700 leading-relaxed whitespace-pre-line ${
+                  !isDescriptionExpanded && isLongText ? 'line-clamp-4 overflow-hidden' : ''
+                }`}
               >
-                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-citrus transition-colors">
-                  Spesifikasi
-                </span>
-                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-citrus/15 flex items-center justify-center text-gray-600 group-hover:text-brand-citrus transition-colors">
-                  {expandedSections.specs ? (
-                    <Minus className="w-4 h-4" />
-                  ) : (
-                    <Plus className="w-4 h-4" />
-                  )}
-                </span>
-              </button>
+                {detail}
+              </p>
 
-              {expandedSections.specs && (
-                <div className="pb-4 pt-1 space-y-2.5 text-xs sm:text-sm animate-fade-in">
-                  <div className="flex justify-between py-1.5 border-b border-gray-50">
-                    <span className="text-gray-500 font-medium">Isi Bersih (Netto)</span>
-                    <span className="font-semibold text-text-main text-right">{netto}</span>
-                  </div>
-
-                  <div className="flex justify-between py-1.5 border-b border-gray-50">
-                    <span className="text-gray-500 font-medium">Bentuk Kemasan</span>
-                    <span className="font-semibold text-text-main text-right">{packaging}</span>
-                  </div>
-
-                  {/* Bentuk Produk / Cetakan Handcrafted (Opsional) */}
-                  {shape && (
-                    <div className="flex justify-between py-1.5 border-b border-gray-50 gap-4">
-                      <span className="text-gray-500 font-medium">Bentuk Produk</span>
-                      <span className="font-semibold text-text-main text-right">{shape}</span>
-                    </div>
-                  )}
-
-                  {/* Jenis Kulit / Kesesuaian Permukaan */}
-                  {suitability && (
-                    <div className="flex justify-between py-1.5 border-b border-gray-50 gap-4">
-                      <span className="text-gray-500 font-medium">
-                        {id === 'sabun-batang' ? 'Jenis Kulit' : 'Kesesuaian Permukaan'}
-                      </span>
-                      <span className="font-semibold text-text-main text-right">{suitability}</span>
-                    </div>
-                  )}
-
-                  <div className="flex justify-between py-1.5 border-b border-gray-50">
-                    <span className="text-gray-500 font-medium">Ketersediaan Stok</span>
-                    <span className="font-semibold text-brand-primary text-right flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-brand-primary inline-block"></span>
-                      {stock}
-                    </span>
-                  </div>
-
-                  {certification && (
-                    <div className="flex justify-between py-1.5 gap-4">
-                      <span className="text-gray-500 font-medium">Standar Mutu</span>
-                      <span className="font-semibold text-text-main text-right">{certification}</span>
-                    </div>
-                  )}
-                </div>
+              {/* Gradient Fade Overlay saat teks terpotong */}
+              {!isDescriptionExpanded && isLongText && (
+                <div
+                  className="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-white to-transparent pointer-events-none"
+                  aria-hidden="true"
+                />
               )}
             </div>
 
-            {/* 2. Collapsible: Komposisi Bahan */}
-            <div>
+            {/* Tombol Toggle Baca Selengkapnya / Tutup Sebagian */}
+            {isLongText && (
               <button
                 type="button"
-                onClick={() => toggleSection('ingredients')}
-                className="w-full py-4 flex items-center justify-between text-left group transition-colors cursor-pointer"
-                aria-expanded={expandedSections.ingredients}
+                onClick={() => setIsDescriptionExpanded((prev) => !prev)}
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-brand-primary hover:text-brand-citrus py-1.5 transition-colors cursor-pointer group"
+                aria-expanded={isDescriptionExpanded}
+                aria-controls="product-detail-description"
               >
-                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-citrus transition-colors">
-                  Komposisi
-                </span>
-                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-citrus/15 flex items-center justify-center text-gray-600 group-hover:text-brand-citrus transition-colors">
-                  {expandedSections.ingredients ? (
-                    <Minus className="w-4 h-4" />
-                  ) : (
-                    <Plus className="w-4 h-4" />
-                  )}
-                </span>
+                <span>{isDescriptionExpanded ? 'Tutup Sebagian' : 'Lihat Selengkapnya'}</span>
+                {isDescriptionExpanded ? (
+                  <ChevronUp className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+                )}
               </button>
-
-              {expandedSections.ingredients && (
-                <div className="pb-4 pt-1 animate-fade-in">
-                  <p className="text-xs sm:text-sm text-gray-700 leading-relaxed bg-[#FDFBF7] p-3.5 rounded-2xl border border-brand-accent/15">
-                    {ingredients}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* 3. Collapsible: Cara Pakai */}
-            <div>
-              <button
-                type="button"
-                onClick={() => toggleSection('usage')}
-                className="w-full py-4 flex items-center justify-between text-left group transition-colors cursor-pointer"
-                aria-expanded={expandedSections.usage}
-              >
-                <span className="text-sm sm:text-base font-bold text-text-main group-hover:text-brand-citrus transition-colors">
-                  Cara Pakai
-                </span>
-                <span className="w-7 h-7 rounded-full bg-gray-100 group-hover:bg-brand-citrus/15 flex items-center justify-center text-gray-600 group-hover:text-brand-citrus transition-colors">
-                  {expandedSections.usage ? (
-                    <Minus className="w-4 h-4" />
-                  ) : (
-                    <Plus className="w-4 h-4" />
-                  )}
-                </span>
-              </button>
-
-              {expandedSections.usage && (
-                <div className="pb-4 pt-1 animate-fade-in">
-                  <p className="text-xs sm:text-sm text-gray-700 leading-relaxed bg-[#FDFBF7] p-3.5 rounded-2xl border border-brand-accent/15">
-                    {usage}
-                  </p>
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
 

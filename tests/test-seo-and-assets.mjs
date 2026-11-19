@@ -108,7 +108,7 @@ const primaryAlt = buildProductImageAlt(sampleFixtureProduct, 0);
 assert.ok(
   primaryAlt.includes(sampleFixtureProduct.name) &&
     primaryAlt.includes('SiDeta Eco-Enzyme') &&
-    primaryAlt.includes(sampleFixtureProduct.specs.netto),
+    (sampleFixtureProduct.specs?.netto ? primaryAlt.includes(sampleFixtureProduct.specs.netto) : true),
   `❌ [RED]: Programmatic alt utama kurang deskriptif: "${primaryAlt}"`
 );
 

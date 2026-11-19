@@ -67,10 +67,11 @@ export function buildWhatsAppUrl(rawNumber, message = '') {
  */
 export function buildProductCheckoutUrl(product = {}, rawNumber = DEFAULT_WHATSAPP_NUMBER) {
   const name = product?.name || 'Produk Eco-Enzyme';
-  const netto = product?.netto || product?.specs?.netto || 'Standar';
+  const nettoVal = product?.netto || product?.specs?.netto;
+  const nettoSuffix = nettoVal ? ` (${nettoVal})` : '';
   const price = product?.price || 'Rp 0';
 
-  const message = `Halo, saya tertarik pesan ${name} (${netto}) seharga ${price} Eco-Enzyme Jeruklegi.`;
+  const message = `Halo, saya tertarik pesan ${name}${nettoSuffix} seharga ${price} Eco-Enzyme Jeruklegi.`;
   return buildWhatsAppUrl(rawNumber, message);
 }
 

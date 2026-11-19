@@ -37,10 +37,15 @@ export function normalizeProduct(raw) {
     }
   }
 
-  // Jaminan invariant specs: selalu berupa objek non-null
-  const safeSpecs = raw.specs && typeof raw.specs === 'object' && !Array.isArray(raw.specs)
-    ? raw.specs
-    : {};
+  // Jaminan invariant detail: selalu string bersih tanpa line-break liar, dengan fallback aman
+  let safeDetail = '';
+  if (typeof raw.detail === 'string' && raw.detail.trim() !== '') {
+    safeDetail = raw.detail.replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  } else if (typeof raw.description === 'string' && raw.description.trim() !== '') {
+    safeDetail = raw.description.replace(/\r\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  } else {
+    safeDetail = 'Produk olahan fermentasi alami Eco-Enzyme ramah lingkungan khas Desa Jeruklegi.';
+  }
 
   // Format harga yang aman (string atau number)
   let safePrice = raw.price;
@@ -56,12 +61,11 @@ export function normalizeProduct(raw) {
     id: raw.id ?? 0,
     name: raw.name || 'Produk Eco-Enzyme',
     price: safePrice,
-    detail: raw.detail || raw.description || '',
+    detail: safeDetail,
     description: raw.description || '',
     benefit: raw.benefit || '',
     order: raw.order ?? 0,
     images: safeImages,
-    specs: safeSpecs,
   };
 }
 

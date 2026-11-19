@@ -55,10 +55,11 @@ async function runTestSuite() {
   assert.equal(fallbackProducts[0].name, PRODUCTS[0].name, 'Nama produk pertama harus cocok dengan data lokal');
   console.log('✅ [TEST 3 PASS]: Graceful Offline Fallback terbukti mengamankan 0% White-Screen.\n');
 
-  console.log('🔍 [TEST 4]: Menguji Invariant Normalizer Defensif (specs: object, images: array)...');
+  console.log('🔍 [TEST 4]: Menguji Invariant Normalizer Defensif (detail: string, images: array, bebas specs)...');
   fallbackProducts.forEach((product, idx) => {
     assert.ok(Array.isArray(product.images), `Produk index ${idx} harus memiliki images berupa array`);
-    assert.ok(typeof product.specs === 'object' && product.specs !== null, `Produk index ${idx} harus memiliki specs berupa objek non-null`);
+    assert.ok(typeof product.detail === 'string' && product.detail.trim().length > 0, `Produk index ${idx} harus memiliki detail berupa string non-kosong`);
+    assert.equal(product.specs, undefined, `Produk index ${idx} harus bebas dari properti specs (Issue #30)`);
   });
   console.log('✅ [TEST 4 PASS]: Seluruh invariant kontrak data terverifikasi aman.\n');
 
