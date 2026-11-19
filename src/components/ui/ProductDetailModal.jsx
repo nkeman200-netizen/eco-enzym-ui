@@ -162,7 +162,7 @@ export default function ProductDetailModal({ product, onClose, whatsappNumber })
           {/* GALERI FOTO CSS SCROLL-SNAP & THUMBNAIL PREVIEW            */}
           {/* ────────────────────────────────────────────────────────── */}
           <div className="space-y-3">
-            <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden bg-gradient-to-br from-brand-accent/10 to-[#F5F0E8] border border-brand-accent/15 group">
+            <div className="relative w-full max-w-[420px] aspect-square mx-auto rounded-2xl overflow-hidden bg-gradient-to-br from-brand-accent/10 to-[#F5F0E8] border border-brand-accent/15 group">
               {/* Slider Kontainer Native CSS Scroll-Snap */}
               <div
                 ref={galleryRef}
